@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class RegisterRequest {
 
-    private String id;
+    private String loginId;
     private String password;
     private String nickname;
     private Integer age;

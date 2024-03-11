@@ -3,9 +3,9 @@ package com.kkirikkiri.domain.member.service;
 import com.kkirikkiri.domain.member.dto.RegisterRequest;
 import com.kkirikkiri.domain.member.entity.Member;
 import com.kkirikkiri.domain.member.repository.MemberRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Transactional
@@ -16,7 +16,7 @@ public class MemberService {
 
     public Long registerMember(RegisterRequest registerRequest){
         Member member = Member.builder()
-                .id(registerRequest.getId())
+                .loginId(registerRequest.getLoginId())
                 .password(registerRequest.getPassword())
                 .nickname(registerRequest.getNickname())
                 .age(registerRequest.getAge())
@@ -25,8 +25,15 @@ public class MemberService {
                 .build();
         memberRepository.save(member);
 
-        return member.getIdx();
+        return member.getId();
     }
+
+    @Transactional(readOnly = true)
+    public Member findByLoginId(String loginId) {
+        return memberRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+    }
+
 
 
 }
