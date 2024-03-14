@@ -1,5 +1,6 @@
 package com.kkirikkiri.domain.member.entity;
 
+import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import com.kkirikkiri.domain.member.entity.enums.EnglishLevel;
@@ -35,6 +36,7 @@ public class Member {
     private Integer age;
 
     @Column(nullable = false)
+    @Enumerated(STRING)
     private EnglishLevel level;
 
     @Column
