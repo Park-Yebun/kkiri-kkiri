@@ -4,12 +4,10 @@ import com.kkirikkiri.domain.member.dto.LoginRequest;
 import com.kkirikkiri.domain.member.dto.MemberInfo;
 import com.kkirikkiri.domain.member.dto.RegisterRequest;
 import com.kkirikkiri.domain.member.entity.Member;
-import com.kkirikkiri.domain.member.entity.enums.EnglishLevel;
 import com.kkirikkiri.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Objects;
 import java.util.Optional;
 
