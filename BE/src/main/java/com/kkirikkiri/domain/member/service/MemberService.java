@@ -8,6 +8,8 @@ import com.kkirikkiri.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -18,7 +20,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public Long registerMember(RegisterRequest registerRequest){
+    public Long registerMember(RegisterRequest registerRequest) {
 
         Optional<Member> checkMember = memberRepository.findByLoginId(registerRequest.getLoginId());
         if (checkMember.isPresent()) {
@@ -57,5 +59,20 @@ public class MemberService {
     }
 
 
+    public MemberInfo getMember(Long memberId) {
+        Optional<Member> optionalMember = memberRepository.findById(memberId);
 
+        Member member = optionalMember.get();
+
+        MemberInfo memberInfo = MemberInfo.builder()
+                    .id(member.getId())
+                    .loginId(member.getLoginId())
+                    .nickname(member.getNickname())
+                    .age(member.getAge())
+                    .level(member.getLevel())
+                    .thumbnail(member.getThumbnail())
+                    .build();
+
+        return memberInfo;
+    }
 }
