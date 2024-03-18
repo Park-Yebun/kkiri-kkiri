@@ -1,11 +1,13 @@
 package com.kkirikkiri.domain.member.controller;
 
+import ch.qos.logback.classic.Logger;
 import com.kkirikkiri.domain.member.dto.LoginRequest;
 import com.kkirikkiri.domain.member.dto.MemberInfo;
 import com.kkirikkiri.domain.member.dto.RegisterRequest;
 import com.kkirikkiri.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +20,9 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<Long> registerMember (
+    public ResponseEntity<Long> registerMember(
             @RequestBody RegisterRequest registerRequest
-            ) {
+    ) {
 
         return ResponseEntity.ok(memberService.registerMember(registerRequest));
     }
@@ -48,8 +50,28 @@ public class MemberController {
 //                .build();
         return ResponseEntity.ok(memberService.login(loginRequest));
 
+
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getMember(@PathVariable() long id) {
+        try {
+            MemberInfo memberInfo = memberService.getMember(id);
+            if (memberInfo != null)
+                return new ResponseEntity<MemberInfo>(memberInfo, HttpStatus.OK);
+            else
+                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return exceptionHandling(e);
 
+        }
+    }
+
+    private ResponseEntity<String> exceptionHandling(Exception e) {
+        // 예외 처리 로직을 구현하세요
+        // 여기에는 예외에 대한 적절한 처리를 수행하는 코드가 들어갑니다.
+        return new ResponseEntity<String>("Error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 }
+
