@@ -6,5 +6,8 @@ import lombok.Builder;
 
 @Builder
 public record MemberInfo(
-        String loginId, String nickname, String thumbnail, Integer age, EnglishLevel level) {
+        Long id, String loginId, String nickname, String thumbnail, Integer age, EnglishLevel level) {
 }
+
+
+
