@@ -22,10 +22,8 @@ public class MemberService {
 
     public Long registerMember(RegisterRequest registerRequest) {
 
-        Optional<Member> checkMember = memberRepository.findByLoginId(registerRequest.getLoginId());
-        if (checkMember.isPresent()) {
-            throw new IllegalArgumentException("회원가입된 회원입니다. 로그인 해주세요.");
-        }
+        memberRepository.findByLoginId(registerRequest.getLoginId())
+                .orElseThrow(() -> new IllegalArgumentException("회원가입된 회원입니다. 로그인 해주세요."));
 
         Member newMember = Member.builder()
                 .loginId(registerRequest.getLoginId())
