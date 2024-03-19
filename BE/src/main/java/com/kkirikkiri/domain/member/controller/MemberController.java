@@ -93,5 +93,16 @@ public class MemberController {
         }
     }
 
+    // 아이디 중복 검사
+    @GetMapping("/{loginId}/check-login-id")
+    public ResponseEntity<Boolean> checkLoginId(@PathVariable String loginId) {
+        return ResponseEntity.ok(memberService.checkLoginId(loginId));
+    }
+
+    // 닉네임 중복 검사
+    @GetMapping("/{nickName}/check-nickname")
+    public ResponseEntity<Boolean> checkNickname(@PathVariable String nickName) {
+        return ResponseEntity.ok(memberService.checkNickname(nickName));
+    }
 }
 
