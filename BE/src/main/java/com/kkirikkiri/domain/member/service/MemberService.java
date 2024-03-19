@@ -106,4 +106,13 @@ public class MemberService {
             throw new IllegalArgumentException("회원 탈퇴에 실패했습니다.");
         }
     }
+
+    public Boolean checkLoginId(String loginId) {
+        return memberRepository.existsByLoginId(loginId);
+    }
+
+    public Boolean checkNickname(String nickName) {
+        return memberRepository.existsByNickname(nickName);
+    }
+
 }
