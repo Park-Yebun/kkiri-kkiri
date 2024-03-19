@@ -3,11 +3,13 @@ package com.kkirikkiri.domain.member.service;
 import com.kkirikkiri.domain.member.dto.LoginRequest;
 import com.kkirikkiri.domain.member.dto.MemberInfo;
 import com.kkirikkiri.domain.member.dto.RegisterRequest;
+import com.kkirikkiri.domain.member.dto.UpdateInfoRequest;
 import com.kkirikkiri.domain.member.entity.Member;
 import com.kkirikkiri.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -65,14 +67,43 @@ public class MemberService {
         Member member = optionalMember.get();
 
         MemberInfo memberInfo = MemberInfo.builder()
-                    .id(member.getId())
-                    .loginId(member.getLoginId())
-                    .nickname(member.getNickname())
-                    .age(member.getAge())
-                    .level(member.getLevel())
-                    .thumbnail(member.getThumbnail())
-                    .build();
+                .id(member.getId())
+                .loginId(member.getLoginId())
+                .nickname(member.getNickname())
+                .age(member.getAge())
+                .level(member.getLevel())
+                .thumbnail(member.getThumbnail())
+                .build();
 
         return memberInfo;
+
+
+    }
+
+    public String modifyMember(Long id, UpdateInfoRequest updateInfoRequest) {
+        Optional<Member> optionalMember = memberRepository.findById(id); // 기존 데베에 있는 회원정보 가져오기
+
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+            member.setPassword(updateInfoRequest.getPassword());
+            member.setNickname(updateInfoRequest.getNickname());
+            member.setThumbnail(updateInfoRequest.getThumbnail());
+            member.setLevel(updateInfoRequest.getLevel());
+
+            return member.getNickname();
+        } else {
+            throw new IllegalArgumentException("회원정보 수정에 실패했습니다.");
+        }
+    }
+
+    public Long deleteMember(Long id) {
+        Optional<Member> optionalMember = memberRepository.findById(id); // 기존 데베에 있는 회원정보 가져오기
+
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+            return member.getId();
+        } else {
+            throw new IllegalArgumentException("회원 탈퇴에 실패했습니다.");
+        }
     }
 }
