@@ -1,5 +1,5 @@
 #!/bin/sh
-
+chmod +x gradlew
 #
 # Copyright © 2015-2021 the original authors.
 #
