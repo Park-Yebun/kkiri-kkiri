@@ -1,15 +1,17 @@
 package com.kkirikkiri.domain.member.controller;
 
-import ch.qos.logback.classic.Logger;
 import com.kkirikkiri.domain.member.dto.LoginRequest;
 import com.kkirikkiri.domain.member.dto.MemberInfo;
 import com.kkirikkiri.domain.member.dto.RegisterRequest;
+import com.kkirikkiri.domain.member.dto.UpdateInfoRequest;
 import com.kkirikkiri.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -18,6 +20,12 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
+
+    private ResponseEntity<String> exceptionHandling(Exception e) {
+        // 예외 처리 로직을 구현하세요
+        // 여기에는 예외에 대한 적절한 처리를 수행하는 코드가 들어갑니다.
+        return new ResponseEntity<String>("Error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @PostMapping
     public ResponseEntity<Long> registerMember(
@@ -67,10 +75,22 @@ public class MemberController {
         }
     }
 
-    private ResponseEntity<String> exceptionHandling(Exception e) {
-        // 예외 처리 로직을 구현하세요
-        // 여기에는 예외에 대한 적절한 처리를 수행하는 코드가 들어갑니다.
-        return new ResponseEntity<String>("Error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    @PutMapping("/{id}/modify")
+    public ResponseEntity<?> modifyMember(@PathVariable long id, @RequestBody UpdateInfoRequest updateInfoRequest) {
+        try {
+            return ResponseEntity.ok(memberService.modifyMember(id, updateInfoRequest));
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+
+    @DeleteMapping("/{id}/delete")
+    public ResponseEntity<?> deleteMember(@PathVariable long id) {
+        try {
+            return ResponseEntity.ok(memberService.deleteMember(id));
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
     }
 
 }
