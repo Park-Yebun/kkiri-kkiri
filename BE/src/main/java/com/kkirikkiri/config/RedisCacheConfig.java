@@ -1,6 +1,5 @@
 package com.kkirikkiri.config;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,9 +9,9 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 @Configuration
 public class RedisCacheConfig {
 
-    @Value("{spring.data.redis.host}")
+    @Value("${spring.data.redis.host}")
     private String host;
-    @Value("{spring.data.redis.port}")
+    @Value("${spring.data.redis.port}")
     private int port;
 
     @Bean
