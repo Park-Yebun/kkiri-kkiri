@@ -186,4 +186,21 @@ public class BookService {
 
         return "동화책이 성공적으로 삭제됐습니다.";
     }
+
+    public String modifyTitle(Long storyId, String title) {
+
+        Story story = storyRepository.findById(storyId)
+                .orElseThrow(() -> new IllegalArgumentException("동화책이 존재하지 않습니다."));
+
+        Story updatedStory = Story.builder()
+                .id(story.getId())
+                .member(story.getMember()) // Set the existing member
+                .title(title) // Set the new title
+                .openState(story.getOpenState()) // Set the existing open state
+                .build();
+
+        storyRepository.save(updatedStory);
+
+        return "동화책의 제목이 성공적으로 변경됐습니다.";
+    }
 }

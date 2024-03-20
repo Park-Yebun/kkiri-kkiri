@@ -61,4 +61,15 @@ public class BookController {
         String result = bookService.deleteBook(storyId);
         return ResponseEntity.ok(result);
     }
+
+    // 동화책 제목 수정
+    @PatchMapping("/title/{storyId}")
+    public ResponseEntity<String> modifyTitle(
+            @PathVariable Long storyId,
+            @RequestParam String title
+    ) {
+
+        String result = bookService.modifyTitle(storyId, title);
+        return ResponseEntity.ok(result);
+    }
 }
