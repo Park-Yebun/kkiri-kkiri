@@ -49,20 +49,20 @@ public class BookService {
     public StoryResponse getStoryBook(Long storyId) {
 
         // Cache Logic
-        Optional<StoryResponse> storyResponse = bookRedisRepository.findById(storyId);
-        if (storyResponse.isPresent()) {
-            log.info("[동화책] Cache Data exists.");
-            return storyResponse.get();
-        } else {
-            log.info("[동화책] Cache Data does NOT exist.");
-        }
+//        Optional<StoryResponse> storyResponse = bookRedisRepository.findById(storyId);
+//        if (storyResponse.isPresent()) {
+//            log.info("[동화책] Cache Data exists.");
+//            return storyResponse.get();
+//        } else {
+//            log.info("[동화책] Cache Data does NOT exist.");
+//        }
 
         // DB에서 데이터 가져오기
         Optional<Story> newStory = storyRepository.findById(storyId);
         if (newStory.isPresent()) {
 
             List<Content> contents = contentRepository.findAllByStoryId(storyId);
-            List<ContentResponse> contentDTO = contents.stream()
+            List<ContentResponse> contentResponses = contents.stream()
                     .map(content -> ContentResponse.builder()
                             .storyId(content.getStory().getId())
                             .lineId(content.getLineId())
@@ -75,16 +75,18 @@ public class BookService {
                             .build())
                     .toList();
 
-            StoryResponse newStoryDTO = StoryResponse.builder()
+            StoryResponse newStoryResponse = StoryResponse.builder()
                     .id(newStory.get().getId())
+                    .memberId(newStory.get().getMember().getId())
+                    .memberNickname(newStory.get().getMember().getNickname())
                     .title(newStory.get().getTitle())
                     .openState(newStory.get().getOpenState())
-                    .contents(contentDTO)
+                    .contents(contentResponses)
                     .build();
 
             // DB에서 가져온 데이터 캐시에 넣기
-            bookRedisRepository.save(newStoryDTO);
-            return newStoryDTO;
+            bookRedisRepository.save(newStoryResponse);
+            return newStoryResponse;
 
         } else {
             throw new RuntimeException("Story with ID " + storyId + " not found.");
@@ -106,7 +108,7 @@ public class BookService {
                 .getId();
     }
 
-    public Long createContent(List<ContentRequest> contentRequestList) {
+    public String createContent(List<ContentRequest> contentRequestList) {
 
         for (ContentRequest contentRequest : contentRequestList) {
 
@@ -134,10 +136,12 @@ public class BookService {
                     .femaleVoiceUrl(voiceUrls.get(1))
                     .build();
             contentRepository.save(content);
+
+            return "성공적으로 저장됐어요";
         }
 
         // 리턴값 없어도 될 듯.
-        return 0L;
+        return "저장에 실패했어요";
     }
 
     // clova api를 사용해 mp3를 생성하고 s3에 저장하고 url 받아오기

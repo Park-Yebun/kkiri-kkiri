@@ -44,11 +44,11 @@ public class BookController {
 
     // 새로운 이야기 생성 (Content 생성)
     @PostMapping("/contents")
-    public ResponseEntity<Long> createContent(
+    public ResponseEntity<String> createContent(
             @RequestBody List<ContentRequest> contentRequestList
     ) {
-        // 리턴되는 값 다시 검토.
-        Long storyId = bookService.createContent(contentRequestList);
-        return ResponseEntity.ok(storyId);
+
+        String result = bookService.createContent(contentRequestList);
+        return ResponseEntity.ok(result);
     }
 }
