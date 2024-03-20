@@ -21,6 +21,7 @@ public class StoryResponse implements Serializable {
     @Id
     private Long id;
     private Long memberId;
+    private String memberNickname;
     private String title;
     private OpenState openState;
     private List<ContentResponse> contents;

@@ -2,7 +2,6 @@ package com.kkirikkiri.domain.book.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.kkirikkiri.config.S3Config;
 import com.kkirikkiri.domain.book.dto.ContentRequest;
 import com.kkirikkiri.domain.book.dto.ContentResponse;
 import com.kkirikkiri.domain.book.dto.StoryRequest;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +62,7 @@ public class BookService {
         if (newStory.isPresent()) {
 
             List<Content> contents = contentRepository.findAllByStoryId(storyId);
-            List<ContentResponse> contentDTO = contents.stream()
+            List<ContentResponse> contentResponses = contents.stream()
                     .map(content -> ContentResponse.builder()
                             .storyId(content.getStory().getId())
                             .lineId(content.getLineId())
@@ -77,16 +75,18 @@ public class BookService {
                             .build())
                     .toList();
 
-            StoryResponse newStoryDTO = StoryResponse.builder()
+            StoryResponse newStoryResponse = StoryResponse.builder()
                     .id(newStory.get().getId())
+                    .memberId(newStory.get().getMember().getId())
+                    .memberNickname(newStory.get().getMember().getNickname())
                     .title(newStory.get().getTitle())
                     .openState(newStory.get().getOpenState())
-                    .contents(contentDTO)
+                    .contents(contentResponses)
                     .build();
 
             // DB에서 가져온 데이터 캐시에 넣기
-            bookRedisRepository.save(newStoryDTO);
-            return newStoryDTO;
+            bookRedisRepository.save(newStoryResponse);
+            return newStoryResponse;
 
         } else {
             throw new RuntimeException("Story with ID " + storyId + " not found.");
@@ -108,7 +108,7 @@ public class BookService {
                 .getId();
     }
 
-    public Long createContent(List<ContentRequest> contentRequestList) {
+    public String createContent(List<ContentRequest> contentRequestList) {
 
         for (ContentRequest contentRequest : contentRequestList) {
 
@@ -132,14 +132,16 @@ public class BookService {
                     .koreanSentence(contentRequest.getKoreanSentence())
                     .translatedSentence(contentRequest.getTranslatedSentence())
                     .imageDescription(contentRequest.getImageDescription())
-                    .maleVoiceUrl(voiceUrls.getFirst())
-                    .femaleVoiceUrl(voiceUrls.getLast())
+                    .maleVoiceUrl(voiceUrls.get(0))
+                    .femaleVoiceUrl(voiceUrls.get(1))
                     .build();
             contentRepository.save(content);
+
+            return "성공적으로 저장됐어요";
         }
 
         // 리턴값 없어도 될 듯.
-        return 0L;
+        return "저장에 실패했어요";
     }
 
     // clova api를 사용해 mp3를 생성하고 s3에 저장하고 url 받아오기
