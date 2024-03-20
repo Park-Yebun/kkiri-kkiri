@@ -10,6 +10,7 @@ import com.kkirikkiri.domain.book.dto.StoryResponse;
 import com.kkirikkiri.domain.book.entity.Content;
 import com.kkirikkiri.domain.book.entity.Story;
 // import com.kkirikkiri.domain.book.repository.BookRedisRepository;
+import com.kkirikkiri.domain.book.repository.BookRedisRepository;
 import com.kkirikkiri.domain.book.repository.ContentRepository;
 import com.kkirikkiri.domain.book.repository.StoryRepository;
 import com.kkirikkiri.domain.member.entity.Member;
@@ -34,7 +35,7 @@ import java.util.Date;
 @Service
 public class BookService {
 
-    // private final BookRedisRepository bookRedisRepository;
+    private final BookRedisRepository bookRedisRepository;
     private final StoryRepository storyRepository;
     private final ContentRepository contentRepository;
     private final MemberRepository memberRepository;
@@ -51,13 +52,13 @@ public class BookService {
     public StoryResponse getStoryBook(Long storyId) {
 
         // Cache Logic
-//        Optional<StoryResponse> storyResponse = bookRedisRepository.findById(storyId);
-//        if (storyResponse.isPresent()) {
-//            log.info("[동화책] Cache Data exists.");
-//            return storyResponse.get();
-//        } else {
-//            log.info("[동화책] Cache Data does NOT exist.");
-//        }
+        Optional<StoryResponse> storyResponse = bookRedisRepository.findById(storyId);
+        if (storyResponse.isPresent()) {
+            log.info("[동화책] Cache Data exists.");
+            return storyResponse.get();
+        } else {
+            log.info("[동화책] Cache Data does NOT exist.");
+        }
 
         // DB에서 데이터 가져오기
         Optional<Story> newStory = storyRepository.findById(storyId);
