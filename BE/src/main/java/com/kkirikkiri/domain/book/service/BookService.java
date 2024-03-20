@@ -9,7 +9,7 @@ import com.kkirikkiri.domain.book.dto.StoryRequest;
 import com.kkirikkiri.domain.book.dto.StoryResponse;
 import com.kkirikkiri.domain.book.entity.Content;
 import com.kkirikkiri.domain.book.entity.Story;
-import com.kkirikkiri.domain.book.repository.BookRedisRepository;
+// import com.kkirikkiri.domain.book.repository.BookRedisRepository;
 import com.kkirikkiri.domain.book.repository.ContentRepository;
 import com.kkirikkiri.domain.book.repository.StoryRepository;
 import com.kkirikkiri.domain.member.entity.Member;
