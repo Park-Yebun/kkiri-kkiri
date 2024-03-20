@@ -3,7 +3,7 @@ version: '3.8'
 services:
   redis:
     image: redis:7.4.2-104
-    container_name: kkiri
+    container_name: redis
     ports:
       - "6379:6379"
     restart: always
