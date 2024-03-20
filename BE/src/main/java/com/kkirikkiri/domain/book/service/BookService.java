@@ -130,8 +130,8 @@ public class BookService {
                     .koreanSentence(contentRequest.getKoreanSentence())
                     .translatedSentence(contentRequest.getTranslatedSentence())
                     .imageDescription(contentRequest.getImageDescription())
-                    .maleVoiceUrl(voiceUrls.getFirst())
-                    .femaleVoiceUrl(voiceUrls.getLast())
+                    .maleVoiceUrl(voiceUrls.get(0))
+                    .femaleVoiceUrl(voiceUrls.get(1))
                     .build();
             contentRepository.save(content);
         }
