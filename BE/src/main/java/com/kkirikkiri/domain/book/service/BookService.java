@@ -34,7 +34,7 @@ import java.util.Date;
 @Service
 public class BookService {
 
-    private final BookRedisRepository bookRedisRepository;
+    // private final BookRedisRepository bookRedisRepository;
     private final StoryRepository storyRepository;
     private final ContentRepository contentRepository;
     private final MemberRepository memberRepository;
