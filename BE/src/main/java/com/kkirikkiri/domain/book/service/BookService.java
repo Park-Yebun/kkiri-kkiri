@@ -177,4 +177,13 @@ public class BookService {
         return "";
     }
 
+    public String deleteBook(Long storyId) {
+
+        Story story = storyRepository.findById(storyId)
+                .orElseThrow(() -> new IllegalArgumentException("동화책이 존재하지 않습니다."));
+
+        storyRepository.deleteById(storyId);
+
+        return "동화책이 성공적으로 삭제됐습니다.";
+    }
 }

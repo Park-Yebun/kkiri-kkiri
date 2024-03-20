@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface StoryRepository extends JpaRepository<Story, Long> {
 
-    List<Story> findByMemberId(Long memberId);
+    List<Story> findAllByMemberId(Long memberId);
 }

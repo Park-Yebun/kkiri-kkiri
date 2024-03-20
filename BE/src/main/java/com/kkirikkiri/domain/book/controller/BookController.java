@@ -51,4 +51,14 @@ public class BookController {
         String result = bookService.createContent(contentRequestList);
         return ResponseEntity.ok(result);
     }
+
+    // 동화책 삭제
+    @DeleteMapping("/{storyId}")
+    public ResponseEntity<String> deleteBook(
+            @PathVariable Long storyId
+    ) {
+
+        String result = bookService.deleteBook(storyId);
+        return ResponseEntity.ok(result);
+    }
 }

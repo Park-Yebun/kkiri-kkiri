@@ -4,6 +4,7 @@ import com.kkirikkiri.domain.book.entity.Story;
 import com.kkirikkiri.domain.member.entity.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,9 +24,11 @@ public class Bookshelf {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "story_id")
     private Story story;
 
 }
