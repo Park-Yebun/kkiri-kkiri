@@ -1,12 +1,13 @@
-
 import './App.css'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Header from "./components/header/Header.jsx"
 import LoginPage from "./pages/LoginPage.jsx"
 import SignupPage from "./pages/SignupPage.jsx"
+import MypagePage from "./pages/MypagePage.jsx"
 
 // 쓸 때 주석해제하세요
 
-// import MypagePage from "./pages/Mypagepage.jsx"
+
 // import MainPage from "./pages/MainPage.jsx"
 // import BookshelfPage from "./pages/BookshelfPage.jsx"
 // import LibraryPage from "./pages/LibraryPage.jsx"
@@ -16,11 +17,12 @@ const App = () => {
 
   return(
   <BrowserRouter>
+    <Header/>
     <Routes>
       <Route path="/login" element={<LoginPage/>} />
       <Route path="/signup" element={<SignupPage/>} />
-
-      {/* <Route path="/mypage" element={<MypagePage/>} />
+      <Route path="/mypage" element={<MypagePage/>} />
+      {/*
       <Route path="/" element={<MainPage/>} />
       <Route path="/bookshelf" element={<BookshelfPage/>} />
       <Route path="/library" element={<LibraryPage/>} /> */}

@@ -1,21 +1,9 @@
 import styled from 'styled-components';
-import Singup1 from '../components/Signup1.jsx'
+import Singup1 from '../components/signup/Signup1.jsx'
 // import Singup2 from '../components/Signup2.jsx'
+import Background from '../components/common/Background';
+import background from '../assets/user/backimg.png';
 
-
-
-const SignupContainer = styled.div`
-  width : 160rem;
-  height : 100rem;  
-  position : relative;
-  background-image: url('/assets/backimg.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  display: flex;
-  justify-content: center;
-  align-items: center; 
-`;
 
 const SketchBookImg = styled.img`
     position : absolute;
@@ -67,16 +55,16 @@ const PigImg = styled.img`
 `
 const SignupPage = () => {
     return (
-        <SignupContainer>
-            <SketchBookImg src="/assets/sketchbookImg.png" alt="" />
-            <EagleImg src="/assets/eagle.png"/>
-            <DearImg src="/assets/dear.png"/>
-            <PigImg src="/assets/pig.png"/>
-            <GiraffeImg src="/assets/giraffe.png"/>
-            <CatImg src="/assets/cat.png"/>
+        <Background backgroundImage={background}>
+            <SketchBookImg src="src/assets/user/sketchbookImg.png" alt="" />
+            <EagleImg src="src/assets/user/eagle.png"/>
+            <DearImg src="src/assets/user/dear.png"/>
+            <PigImg src="src/assets/user/pig.png"/>
+            <GiraffeImg src="src/assets/user/giraffe.png"/>
+            <CatImg src="src/assets/user/cat.png"/>
             <Singup1></Singup1>
             {/* <Singup2></Singup2> */}
-        </SignupContainer>
+        </Background>
     );
 };
 

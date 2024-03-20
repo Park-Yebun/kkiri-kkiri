@@ -1,19 +1,22 @@
 import styled from 'styled-components';
 // 나중이 화면 크기 바뀔일이 생기면 px -> % 로 고쳐야함
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import 'animate.css';
+import Background from '../components/common/Background';
+import background from '../assets/user/backimg.png';
 
-const LoginContainer = styled.div`
-  width : 160rem;
-  height : 100rem;  
-  position : relative;
-  background-image: url('/assets/backimg.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  display: flex;
-  justify-content: center;
-  align-items: center; 
-`;
+// const LoginContainer = styled.div`
+//   width : 160rem;
+//   height : 100rem;  
+//   position : relative;
+//   background-image: url('src/assets/backimg.png');
+//   background-size: cover;
+//   background-position: center;
+//   background-repeat: no-repeat;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center; 
+// `;
 
 const RabbitImg = styled.img`
     position : absolute;
@@ -21,7 +24,7 @@ const RabbitImg = styled.img`
     height : 25.6875rem;
     top : 65.25rem;
     left : 8.38rem;
-    
+    animation-delay: 0.5s;
 `
 const DogImg = styled.img`
     position : absolute;
@@ -29,7 +32,7 @@ const DogImg = styled.img`
     height: 18.8125rem;
     top : 64.25rem;
     left : 36.81rem;
-    
+    animation-delay: 0.1s;
 `
 const TigerImg = styled.img`
     position : absolute;
@@ -37,7 +40,7 @@ const TigerImg = styled.img`
     height: 19.8125rem;
     top : 68.94rem;
     left : 95rem;
-    
+    animation-delay: 0.5s;
 `
 const SquirrelImg = styled.img`
     position : absolute;
@@ -45,7 +48,7 @@ const SquirrelImg = styled.img`
     height: 10.375rem;
     top : 16.25rem;
     left : 34.06rem;
-    
+    animation-delay: 0.9s;
 `
 const FoxImg = styled.img`
     position : absolute;
@@ -198,13 +201,13 @@ const LoginPage = () => {
   };
 
   return (
-    <LoginContainer>
-        <SketchBookImg src="/assets/sketchbookImg.png" alt="" />
-        <RabbitImg src="/assets/rabbit.png"/>
-        <DogImg src="/assets/dog.png"/>
-        <TigerImg src="/assets/tiger.png"/>
-        <SquirrelImg src="/assets/squirrel.png"/>
-        <FoxImg src="/assets/fox.png"/>
+    <Background backgroundImage={background}>
+        <SketchBookImg src="src/assets/user/sketchbookImg.png" alt="" />
+        <RabbitImg className="animate__animated animate__bounce animate__infinite" src="src/assets/user/rabbit.png"/>
+        <DogImg className="animate__animated animate__bounce animate__infinite" src="src/assets/user/dog.png"/>
+        <TigerImg className="animate__animated animate__bounce animate__infinite" src="src/assets/user/tiger.png"/>
+        <SquirrelImg className="animate__animated animate__bounce animate__infinite" src="src/assets/user/squirrel.png"/>
+        <FoxImg className="animate__animated animate__bounce animate__infinite" src="src/assets/user/fox.png"/>
         <LoginText>로그인</LoginText>
         <IDBox> 
           <IDText>아이디</IDText>
@@ -222,8 +225,7 @@ const LoginPage = () => {
           <SignQuest>아직 계정이 없으신가요?</SignQuest>
           <SignupLink onClick={gotoSignup}>회원가입</SignupLink>
         </SignupBox>
-        
-     </LoginContainer>
+    </Background>
     
   );
 };
