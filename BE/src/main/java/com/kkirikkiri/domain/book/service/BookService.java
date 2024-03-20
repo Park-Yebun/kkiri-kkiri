@@ -51,13 +51,13 @@ public class BookService {
     public StoryResponse getStoryBook(Long storyId) {
 
         // Cache Logic
-        Optional<StoryResponse> storyDTO = bookRedisRepository.findById(storyId);
-        if (storyDTO.isPresent()) {
-            log.info("[동화책] Cache Data exists.");
-            return storyDTO.get();
-        } else {
-            log.info("[동화책] Cache Data does NOT exist.");
-        }
+//        Optional<StoryResponse> storyResponse = bookRedisRepository.findById(storyId);
+//        if (storyResponse.isPresent()) {
+//            log.info("[동화책] Cache Data exists.");
+//            return storyResponse.get();
+//        } else {
+//            log.info("[동화책] Cache Data does NOT exist.");
+//        }
 
         // DB에서 데이터 가져오기
         Optional<Story> newStory = storyRepository.findById(storyId);
@@ -118,7 +118,7 @@ public class BookService {
             try {
                 String maleVoiceUrl = clova(english, "dsinu-matt");
                 voiceUrls.add(maleVoiceUrl);
-                log.info("이건 남성 목소리 url 입니다!", maleVoiceUrl);
+//                log.info("이건 남성 목소리 url 입니다!", maleVoiceUrl);
                 String femaleVoiceUrl = clova(english, "dara-danna");
                 voiceUrls.add(femaleVoiceUrl);
 

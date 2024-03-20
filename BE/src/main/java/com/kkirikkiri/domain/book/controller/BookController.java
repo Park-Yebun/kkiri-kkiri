@@ -25,12 +25,12 @@ public class BookController {
         @PathVariable Long storyId
     ) {
         long startTime = System.currentTimeMillis();
-        StoryResponse storyDTO = bookService.getStoryBook(storyId);
+        StoryResponse storyResponse = bookService.getStoryBook(storyId);
         long endTime = System.currentTimeMillis();
 
         log.info("[getStoryBook] Response Time : {}ms", (endTime - startTime));
 
-        return ResponseEntity.ok(storyDTO);
+        return ResponseEntity.ok(storyResponse);
     }
 
     // 새로운 이야기 생성 (Story 생성)

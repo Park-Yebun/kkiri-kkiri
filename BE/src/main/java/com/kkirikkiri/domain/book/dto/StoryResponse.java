@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@RedisHash("book")
+@RedisHash(value = "book", timeToLive = 60)
 public class StoryResponse implements Serializable {
 
     @Id
