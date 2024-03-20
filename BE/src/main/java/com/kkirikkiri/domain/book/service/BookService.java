@@ -2,14 +2,12 @@ package com.kkirikkiri.domain.book.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.kkirikkiri.config.S3Config;
 import com.kkirikkiri.domain.book.dto.ContentRequest;
 import com.kkirikkiri.domain.book.dto.ContentResponse;
 import com.kkirikkiri.domain.book.dto.StoryRequest;
 import com.kkirikkiri.domain.book.dto.StoryResponse;
 import com.kkirikkiri.domain.book.entity.Content;
 import com.kkirikkiri.domain.book.entity.Story;
-// import com.kkirikkiri.domain.book.repository.BookRedisRepository;
 import com.kkirikkiri.domain.book.repository.BookRedisRepository;
 import com.kkirikkiri.domain.book.repository.ContentRepository;
 import com.kkirikkiri.domain.book.repository.StoryRepository;
@@ -22,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
