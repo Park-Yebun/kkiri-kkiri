@@ -6,7 +6,7 @@ const SignupText = styled.div`
     top: 28.13rem;
     left: 70.12rem;
     font-size : 5rem;
-    z-index: 11; 
+    z-index: 10; 
     font-family : 'Ttangsbudaejjigae OTF';
     font-weight : 700;
 

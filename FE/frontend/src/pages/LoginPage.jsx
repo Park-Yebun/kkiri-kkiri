@@ -4,6 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import 'animate.css';
 import Background from '../components/common/Background';
 import background from '../assets/user/backimg.png';
+import rabbit from '../assets/user/rabbit.png'
+import dog from '../assets/user/dog.png'
+import tiger from '../assets/user/tiger.png'
+import fox from '../assets/user/fox.png'
+import squirrel from '../assets/user/squirrel.png'
+import sketchbook from '../assets/user/sketchbookImg.png'
 
 // const LoginContainer = styled.div`
 //   width : 160rem;
@@ -201,13 +207,13 @@ const LoginPage = () => {
   };
 
   return (
-    <Background backgroundImage={background}>
-        <SketchBookImg src="src/assets/user/sketchbookImg.png" alt="" />
-        <RabbitImg className="animate__animated animate__bounce animate__infinite" src="src/assets/user/rabbit.png"/>
-        <DogImg className="animate__animated animate__bounce animate__infinite" src="src/assets/user/dog.png"/>
-        <TigerImg className="animate__animated animate__bounce animate__infinite" src="src/assets/user/tiger.png"/>
-        <SquirrelImg className="animate__animated animate__bounce animate__infinite" src="src/assets/user/squirrel.png"/>
-        <FoxImg className="animate__animated animate__bounce animate__infinite" src="src/assets/user/fox.png"/>
+    <Background backgroundimage={background}>
+        <SketchBookImg src={sketchbook} alt="" />
+        <RabbitImg className="animate__animated animate__bounce animate__infinite" src={rabbit} alt="토끼"/>
+        <DogImg className="animate__animated animate__bounce animate__infinite" src={dog}/>
+        <TigerImg className="animate__animated animate__bounce animate__infinite" src={tiger}/>
+        <SquirrelImg className="animate__animated animate__bounce animate__infinite" src={squirrel}/>
+        <FoxImg className="animate__animated animate__bounce animate__infinite" src={fox}/>
         <LoginText>로그인</LoginText>
         <IDBox> 
           <IDText>아이디</IDText>
@@ -231,3 +237,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+ 

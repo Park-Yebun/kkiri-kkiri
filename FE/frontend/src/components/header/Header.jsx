@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import styled, { keyframes,css } from 'styled-components';
 import { Link } from 'react-router-dom';
-// import logoPic from '../assets/header/logopic.png';
-// import ProfilePic from '../assets/header/profilepic.png';
+import logoPic from '../../assets/header/logopic.png';
+import ProfilePic from '../../assets/header/profilepic.png';
 
 const Headers = styled.div`
   display: flex;
@@ -106,10 +106,10 @@ const Header = () => {
   return (
     <Headers>
       <Link to='/'>
-        <Logo src="src/assets/header/logopic.png" />
+        <Logo src={logoPic} />
       </Link>
       <Profile onClick={() => setShowDropdown(!showDropdown)}>
-        <ProfileAnimal src="src/assets/header/profilepic.png"/>
+        <ProfileAnimal src={ProfilePic}/>
         <NameInfo>
           <NickName>가나다</NickName>
           <NameType>작가님</NameType>

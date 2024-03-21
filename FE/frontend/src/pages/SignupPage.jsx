@@ -1,9 +1,14 @@
 import styled from 'styled-components';
-import Singup1 from '../components/signup/Signup1.jsx'
-// import Singup2 from '../components/signup/Signup2.jsx'
+// import Singup1 from '../components/signup/Signup1.jsx'
+import Singup2 from '../components/signup/Signup2.jsx'
 import Background from '../components/common/Background';
 import background from '../assets/user/backimg.png';
-
+import sketchbook from '../assets/user/sketchbookImg.png';
+import pig from '../assets/user/pig.png';
+import dear from '../assets/user/dear.png';
+import cat from '../assets/user/cat.png';
+import eagle from '../assets/user/eagle.png'
+import giraffe from '../assets/user/giraffe.png'
 
 const SketchBookImg = styled.img`
     position : absolute;
@@ -55,15 +60,15 @@ const PigImg = styled.img`
 `
 const SignupPage = () => {
     return (
-        <Background backgroundImage={background}>
-            <SketchBookImg src="src/assets/user/sketchbookImg.png" alt="" />
-            <EagleImg src="src/assets/user/eagle.png"/>
-            <DearImg src="src/assets/user/dear.png"/>
-            <PigImg src="src/assets/user/pig.png"/>
-            <GiraffeImg src="src/assets/user/giraffe.png"/>
-            <CatImg src="src/assets/user/cat.png"/>
-            <Singup1></Singup1>
-            {/* <Singup2></Singup2> */}
+        <Background backgroundimage={background}>
+            <SketchBookImg src={sketchbook} alt="" />
+            <EagleImg src={eagle}/>
+            <DearImg src={dear}/>
+            <PigImg src={pig}/>
+            <GiraffeImg src={giraffe}/>
+            <CatImg src={cat}/>
+            {/* <Singup1></Singup1> */}
+            <Singup2></Singup2> /
         </Background>
     );
 };
