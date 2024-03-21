@@ -29,7 +29,7 @@ const Signup2 = () => {
       <SignupText>회원가입</SignupText>
       <CategoryText>캐릭터</CategoryText>
         <Character></Character>
-      
+      {/* 몰라요 */}
       
       
       </>
