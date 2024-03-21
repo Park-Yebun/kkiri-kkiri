@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const Background = styled.div`
-  background: url(${(props) => props.backgroundImage}) center center / cover
+  background: url(${(props) => props.backgroundimage}) center center / cover
     fixed no-repeat;
   width: 100vw;
   min-height: 100vh;

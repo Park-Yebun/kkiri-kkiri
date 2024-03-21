@@ -30,7 +30,7 @@ const Menu = styled.div`
 
 const MainPage = () => {
   return (
-    <Background backgroundImage={background}>
+    <Background backgroundimage={background}>
       <Container>
         <Description />
         <Menu />
