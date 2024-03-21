@@ -20,16 +20,16 @@ import background from '../assets/user/backimg.png';
 
 const RabbitImg = styled.img`
     position : absolute;
-    width : 24.3125rem;
-    height : 25.6875rem;
+    width: 26.1875rem;
+    height: 24.5625rem;
     top : 65.25rem;
     left : 8.38rem;
     animation-delay: 0.5s;
 `
 const DogImg = styled.img`
     position : absolute;
-    width: 12.1875rem;
-    height: 18.8125rem;
+    width: 17.25rem;
+    height: 17.0625rem;
     top : 64.25rem;
     left : 36.81rem;
     animation-delay: 0.1s;
@@ -46,8 +46,8 @@ const SquirrelImg = styled.img`
     position : absolute;
     width: 10.5rem;
     height: 10.375rem;
-    top : 16.25rem;
-    left : 34.06rem;
+    top : 23.81rem;
+    left : 39.75rem;
     animation-delay: 0.9s;
 `
 const FoxImg = styled.img`
