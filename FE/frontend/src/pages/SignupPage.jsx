@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Singup1 from '../components/signup/Signup1.jsx'
-// import Singup2 from '../components/Signup2.jsx'
+// import Singup2 from '../components/signup/Signup2.jsx'
 import Background from '../components/common/Background';
 import background from '../assets/user/backimg.png';
 
