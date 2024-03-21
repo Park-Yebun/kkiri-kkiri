@@ -10,6 +10,9 @@ const Background = styled.div`
   left: 0;
   z-index: -1;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 export default Background
