@@ -2,10 +2,7 @@ package com.kkirikkiri.domain.book.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.kkirikkiri.domain.book.dto.ContentRequest;
-import com.kkirikkiri.domain.book.dto.ContentResponse;
-import com.kkirikkiri.domain.book.dto.StoryRequest;
-import com.kkirikkiri.domain.book.dto.StoryResponse;
+import com.kkirikkiri.domain.book.dto.*;
 import com.kkirikkiri.domain.book.entity.Content;
 import com.kkirikkiri.domain.book.entity.Story;
 import com.kkirikkiri.domain.book.repository.BookRedisRepository;
@@ -112,6 +109,10 @@ public class BookService {
 
         for (ContentRequest contentRequest : contentRequestList) {
 
+            // 이미지 생성 Fast API에 storyId, lineId, (prompt) 보내기
+
+
+
             // 클로바 TTS API (https://api.ncloud-docs.com/docs/ai-naver-clovavoice-ttspremium)
             String english = contentRequest.getTranslatedSentence();
             List<String> voiceUrls = new ArrayList<>(); // null로 하면 NullPointException 남.
@@ -140,7 +141,6 @@ public class BookService {
             return "성공적으로 저장됐어요";
         }
 
-        // 리턴값 없어도 될 듯.
         return "저장에 실패했어요";
     }
 
@@ -194,13 +194,19 @@ public class BookService {
 
         Story updatedStory = Story.builder()
                 .id(story.getId())
-                .member(story.getMember()) // Set the existing member
-                .title(title) // Set the new title
-                .openState(story.getOpenState()) // Set the existing open state
+                .member(story.getMember())
+                .title(title)
+                .openState(story.getOpenState())
                 .build();
 
         storyRepository.save(updatedStory);
 
         return "동화책의 제목이 성공적으로 변경됐습니다.";
+    }
+
+    public String saveImageUrl(ImageResponse imageResponse) {
+
+        return "ok";
+
     }
 }
