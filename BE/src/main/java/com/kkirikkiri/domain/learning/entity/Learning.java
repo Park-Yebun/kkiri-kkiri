@@ -4,10 +4,7 @@ import com.kkirikkiri.domain.book.entity.Story;
 import com.kkirikkiri.domain.member.entity.Member;
 import com.kkirikkiri.domain.member.entity.enums.EnglishLevel;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
@@ -15,6 +12,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -22,8 +20,6 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 public class Learning {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column
     private Long id;
 
     @ManyToOne(fetch = LAZY)
