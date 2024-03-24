@@ -1,5 +1,6 @@
 package com.kkirikkiri.domain.learning.entity;
 
+import com.kkirikkiri.domain.book.entity.Story;
 import com.kkirikkiri.domain.member.entity.Member;
 import com.kkirikkiri.domain.member.entity.enums.EnglishLevel;
 import jakarta.persistence.*;
@@ -22,14 +23,16 @@ public class Learning {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "learning_id")
+    @Column
     private Long id;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id")
     private Member member;
 
-//    @OneToOne(fetch = LAZY)
-//    private Story story;
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "story_id")
+    private Story story;
 
     @Column
     private Integer lineNo;
