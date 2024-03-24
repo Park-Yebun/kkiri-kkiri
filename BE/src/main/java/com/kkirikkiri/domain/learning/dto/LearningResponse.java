@@ -17,6 +17,8 @@ import java.util.List;
 @Builder
 public class LearningResponse implements Serializable {
 
+    @Id
+    private Long id;
     private Long storyId;
     private Long memberId; 
     private Integer lineId; //문장 번호(식별값)
