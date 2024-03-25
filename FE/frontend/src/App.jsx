@@ -9,7 +9,7 @@ import MainPage from "./pages/MainPage.jsx"
 // 쓸 때 주석해제하세요
 // import MainPage from "./pages/MainPage.jsx"
 // import BookshelfPage from "./pages/BookshelfPage.jsx"
-// import LibraryPage from "./pages/LibraryPage.jsx"
+import LibraryPage from "./pages/LibraryPage.jsx"
 
 
 const App = () => {
@@ -25,9 +25,10 @@ const App = () => {
         <Route path="/signup" element={<SignupPage/>} />
         <Route path="/mypage" element={<MypagePage/>} />
         <Route path="/" element={<MainPage/>} />
+        <Route path="/library" element={<LibraryPage/>} />
         {/*
         <Route path="/bookshelf" element={<BookshelfPage/>} />
-        <Route path="/library" element={<LibraryPage/>} /> */}
+        // <Route path="/library" element={<LibraryPage/>} /> */}
 
       {/* 동적경로 포함된 라우터는 나중에 추가하세요 */}
       {/* 이야기, 동화책, 학습 페이지입니다 */}
