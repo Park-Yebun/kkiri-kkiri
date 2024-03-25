@@ -203,13 +203,15 @@ public class BookService {
 
     // DB에 이미지 URL 저장
     @Transactional
-    public void saveImageUrl(ImageResponse imageResponse) {
+    public String saveImageUrl(ImageResponse imageResponse) {
 
         Content content = contentRepository.findByStoryIdAndLineId(
                 imageResponse.getStoryId(), imageResponse.getLineId());
 
         content.setImageUrl(imageResponse.getImageUrl());
         contentRepository.save(content);
+
+        return "이미지 url이 저장됐습니다.";
 
     }
 

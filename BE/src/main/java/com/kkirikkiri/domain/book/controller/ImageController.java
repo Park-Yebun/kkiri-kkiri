@@ -22,14 +22,10 @@ public class ImageController {
     private final BookService bookService;
 
     @PostMapping
-    @Transactional
     public ResponseEntity<String> receiveImageFilename(
             @RequestBody ImageResponse imageResponse
     ) {
-
-        bookService.saveImageUrl(imageResponse);
-
-        return ResponseEntity.ok("이미지 url이 저장됐습니다.");
+        return ResponseEntity.ok(bookService.saveImageUrl(imageResponse));
 
     }
 
