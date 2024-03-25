@@ -7,6 +7,7 @@ import com.kkirikkiri.domain.member.dto.UpdateInfoRequest;
 import com.kkirikkiri.domain.member.entity.Member;
 import com.kkirikkiri.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -23,9 +25,9 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public Long registerMember(RegisterRequest registerRequest) {
-
-        memberRepository.findByLoginId(registerRequest.getLoginId())
-                .orElseThrow(() -> new IllegalArgumentException("회원가입된 회원입니다. 로그인 해주세요."));
+        if (memberRepository.existsByLoginId(registerRequest.getLoginId())) {
+            throw new IllegalArgumentException("회원가입된 회원입니다. 로그인해주세요.");
+        }
 
         Member newMember = Member.builder()
                 .loginId(registerRequest.getLoginId())
@@ -35,10 +37,12 @@ public class MemberService {
                 .level(registerRequest.getLevel())
                 .thumbnail(registerRequest.getThumbnail())
                 .build();
+
         memberRepository.save(newMember);
 
         return newMember.getId();
     }
+
 
     @Transactional(readOnly = true)
     public MemberInfo login(LoginRequest loginRequest) {
@@ -50,6 +54,7 @@ public class MemberService {
         }
 
         return MemberInfo.builder()
+                .id(member.getId())
                 .loginId(member.getLoginId())
                 .nickname(member.getNickname())
                 .age(member.getAge())
@@ -60,11 +65,10 @@ public class MemberService {
 
 
     public MemberInfo getMember(Long memberId) {
-        Optional<Member> optionalMember = memberRepository.findById(memberId);
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 
-        Member member = optionalMember.get();
-
-        MemberInfo memberInfo = MemberInfo.builder()
+        return MemberInfo.builder()
                 .id(member.getId())
                 .loginId(member.getLoginId())
                 .nickname(member.getNickname())
@@ -72,9 +76,6 @@ public class MemberService {
                 .level(member.getLevel())
                 .thumbnail(member.getThumbnail())
                 .build();
-
-        return memberInfo;
-
 
     }
 
