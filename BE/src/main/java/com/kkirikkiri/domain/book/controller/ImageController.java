@@ -1,11 +1,6 @@
 package com.kkirikkiri.domain.book.controller;
 
-import com.kkirikkiri.domain.book.dto.ContentRequest;
 import com.kkirikkiri.domain.book.dto.ImageResponse;
-import com.kkirikkiri.domain.book.entity.Content;
-import com.kkirikkiri.domain.book.entity.Story;
-import com.kkirikkiri.domain.book.repository.ContentRepository;
-import com.kkirikkiri.domain.book.repository.StoryRepository;
 import com.kkirikkiri.domain.book.service.BookService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +26,6 @@ public class ImageController {
     public ResponseEntity<String> receiveImageFilename(
             @RequestBody ImageResponse imageResponse
     ) {
-        log.info("이미지 url은?!?! " + imageResponse.getImageUrl());
 
         bookService.saveImageUrl(imageResponse);
 

@@ -161,9 +161,8 @@ public class BookService {
             wr.flush();
         }
         int responseCode = con.getResponseCode();
-        BufferedReader br;
         if (responseCode == 200) { // 정상 호출
-            log.info("여길로 들어왔다!");
+
             try (InputStream is = con.getInputStream()) {
                 String fileName = Long.valueOf(new Date().getTime()).toString() + ".mp3";
                 amazonS3.putObject(new PutObjectRequest(bucketName, fileName, is, null)); // Upload the file to Amazon S3
@@ -205,14 +204,12 @@ public class BookService {
     // DB에 이미지 URL 저장
     @Transactional
     public void saveImageUrl(ImageResponse imageResponse) {
-        log.info("서비스 저장된 이미지 url: "+ imageResponse.getImageUrl());
 
         Content content = contentRepository.findByStoryIdAndLineId(
                 imageResponse.getStoryId(), imageResponse.getLineId());
 
         content.setImageUrl(imageResponse.getImageUrl());
         contentRepository.save(content);
-        log.info("데이터 저장 완료!!!!");
 
     }
 
