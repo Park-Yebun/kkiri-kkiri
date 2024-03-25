@@ -96,7 +96,7 @@ const SearchButton = styled.div`
     font-size: 3.125rem;
     text-align : center;
     line-height : 6.25vh;
-    line-height : 6.7vh
+    line-height : 6.7vh;
 
 `
 const SortedDropdown = styled.select`
@@ -173,7 +173,7 @@ const TotalText = styled.div`
     width : ${(props) => props.width ||'20%'};
     overflow : hidden;
     white-space : nowrap;
-    margin-bottom : ${(props) => props.marginBottom || '0'}
+    margin-bottom : ${(props) => props.marginBottom || '0'};
   
 `
 
@@ -225,7 +225,7 @@ const LeftButton = styled.img`
 const ButtonBox = styled.div`
     display : flex;
     flex-direction : column;
-    justify-content : center
+    justify-content : center;
 `
 const TOP3imgSector = styled.div`
     display : flex;
@@ -289,7 +289,7 @@ const PrevText = styled.div`
     height : ${(props) => props.height || '8%'};
     font-family: 'Ttangsbudaejjigae OTF';
     font-weight: 300;
-    font-size : ${(props) => props.fontSize || '2.1875rem'}
+    font-size : ${(props) => props.fontSize || '2.1875rem'};
 `
 const PrevBtn = styled.div`
 
