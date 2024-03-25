@@ -1,5 +1,6 @@
 package com.kkirikkiri.domain.book.controller;
 
+import com.kkirikkiri.domain.book.dto.ContentRequest;
 import com.kkirikkiri.domain.book.dto.ImageResponse;
 import com.kkirikkiri.domain.book.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/images")
@@ -22,10 +25,10 @@ public class ImageController {
     public ResponseEntity<String> receiveImageFilename(
             @RequestBody ImageResponse imageResponse
     ) {
-
+        log.info("이미지 url은?!?! " + imageResponse.getImageUrl());
+        log.info(String.valueOf(imageResponse.getStoryId()));
+        log.info(String.valueOf(imageResponse.getLineId()));
         return ResponseEntity.ok(bookService.saveImageUrl(imageResponse));
-
-//        log.info("Received filename: " + filename);
 
     }
 

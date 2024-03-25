@@ -10,6 +10,7 @@ import com.kkirikkiri.domain.book.repository.ContentRepository;
 import com.kkirikkiri.domain.book.repository.StoryRepository;
 import com.kkirikkiri.domain.member.entity.Member;
 import com.kkirikkiri.domain.member.repository.MemberRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +35,7 @@ public class BookService {
     private final ContentRepository contentRepository;
     private final MemberRepository memberRepository;
     private final AmazonS3 amazonS3;
+    private final ImageInfoSendTemplate imageInfoSendTemplate;
 
     @Value("${spring.naver.tts.client-id}")
     private String clientId;
@@ -105,27 +107,31 @@ public class BookService {
                 .getId();
     }
 
+    public String imageRequestTest(List<ContentRequest> contentRequestList) {
+
+        for (ContentRequest contentRequest : contentRequestList) {
+            // 이미지 생성 Fast API에 storyId, lineId, (prompt) 보내기
+            ImageRequest imageRequest = ImageRequest.builder()
+                    .storyId(contentRequest.getStoryId())
+                    .lineId(contentRequest.getLineId())
+                    .prompt(contentRequest.getImageDescription())
+                    .build();
+
+            try {
+                imageInfoSendTemplate.sendGenerateImageRequest(imageRequest);
+                log.info("이미지 정보가 성공적으로 전송됐습니다.");
+            } catch (Exception e) {
+                log.info("이미지 정보 전송이 실패했습니다.");
+            }
+        }
+
+        return "테스트";
+    }
+
+    @Transactional
     public String createContent(List<ContentRequest> contentRequestList) {
 
         for (ContentRequest contentRequest : contentRequestList) {
-
-            // 이미지 생성 Fast API에 storyId, lineId, (prompt) 보내기
-
-
-
-            // 클로바 TTS API (https://api.ncloud-docs.com/docs/ai-naver-clovavoice-ttspremium)
-            String english = contentRequest.getTranslatedSentence();
-            List<String> voiceUrls = new ArrayList<>(); // null로 하면 NullPointException 남.
-            try {
-                String maleVoiceUrl = clova(english, "dsinu-matt");
-                voiceUrls.add(maleVoiceUrl);
-//                log.info("이건 남성 목소리 url 입니다!", maleVoiceUrl);
-                String femaleVoiceUrl = clova(english, "dara-danna");
-                voiceUrls.add(femaleVoiceUrl);
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
 
             Content content = Content.builder()
                     .story(Story.builder().id(contentRequest.getStoryId()).build())
@@ -133,15 +139,31 @@ public class BookService {
                     .koreanSentence(contentRequest.getKoreanSentence())
                     .translatedSentence(contentRequest.getTranslatedSentence())
                     .imageDescription(contentRequest.getImageDescription())
-                    .maleVoiceUrl(voiceUrls.get(0))
-                    .femaleVoiceUrl(voiceUrls.get(1))
                     .build();
             contentRepository.save(content);
 
-            return "성공적으로 저장됐어요";
         }
 
-        return "저장에 실패했어요";
+        return "이야기가 성공적으로 저장됐어요";
+    }
+
+    @Transactional
+    public String createImages(List<ContentRequest> contentRequestList) {
+
+        for (ContentRequest contentRequest : contentRequestList) {
+
+            // 이미지 생성 Fast API에 storyId, lineId, (prompt) 보내기
+            ImageRequest imageRequest = ImageRequest.builder()
+                    .storyId(contentRequest.getStoryId())
+                    .lineId(contentRequest.getLineId())
+                    .prompt(contentRequest.getImageDescription())
+                    .build();
+
+            imageInfoSendTemplate.sendGenerateImageRequest(imageRequest);
+
+        }
+
+        return "이미지가 성공적으로 저장됐어요";
     }
 
     // clova api를 사용해 mp3를 생성하고 s3에 저장하고 url 받아오기
@@ -204,9 +226,49 @@ public class BookService {
         return "동화책의 제목이 성공적으로 변경됐습니다.";
     }
 
+    // DB에 이미지 URL 저장
+    @Transactional
     public String saveImageUrl(ImageResponse imageResponse) {
+//        log.info(String.valueOf(imageResponse.getStoryId()));
+//        log.info(String.valueOf(imageResponse.getLineId()));
+        log.info("서비스 저장된 이미지 url: "+ imageResponse.getImageUrl());
+
+        Content content = contentRepository.findByStoryIdAndLineId(
+                imageResponse.getStoryId(), imageResponse.getLineId());
+
+        log.info("content 프린트:" + content);
+
+        content.setImageUrl(imageResponse.getImageUrl());
+        contentRepository.save(content);
 
         return "ok";
 
+    }
+
+    public void createVoice(List<ContentRequest> contentRequestList) {
+
+        for (ContentRequest contentRequest : contentRequestList) {
+
+            // 클로바 TTS API (https://api.ncloud-docs.com/docs/ai-naver-clovavoice-ttspremium)
+            String english = contentRequest.getTranslatedSentence();
+            List<String> voiceUrls = new ArrayList<>(); // null로 하면 NullPointException 남.
+            try {
+                String maleVoiceUrl = clova(english, "dsinu-matt");
+                voiceUrls.add(maleVoiceUrl);
+//                log.info("이건 남성 목소리 url 입니다!", maleVoiceUrl);
+                String femaleVoiceUrl = clova(english, "dara-danna");
+                voiceUrls.add(femaleVoiceUrl);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            Content content = contentRepository.findByStoryIdAndLineId(
+                    contentRequest.getStoryId(), contentRequest.getLineId());
+            content.setMaleVoiceUrl(voiceUrls.get(0));
+            content.setFemaleVoiceUrl(voiceUrls.get(1));
+
+            contentRepository.save(content);
+        }
     }
 }

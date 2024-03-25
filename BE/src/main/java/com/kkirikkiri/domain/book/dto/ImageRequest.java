@@ -1,7 +1,8 @@
 package com.kkirikkiri.domain.book.dto;
 
+import lombok.Builder;
 import lombok.Getter;
-
+@Builder
 @Getter
 public class ImageRequest {
 

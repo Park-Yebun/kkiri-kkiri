@@ -48,8 +48,13 @@ public class BookController {
             @RequestBody List<ContentRequest> contentRequestList
     ) {
 
-        String result = bookService.createContent(contentRequestList);
-        return ResponseEntity.ok(result);
+        // 이야기 저장
+        String storyResult = bookService.createContent(contentRequestList);
+        // 이미지 저장
+//        String imageResult = bookService.createImages(contentRequestList);
+//        // tts 저장
+        bookService.createVoice(contentRequestList);
+        return ResponseEntity.ok(storyResult);
     }
 
     // 동화책 삭제
