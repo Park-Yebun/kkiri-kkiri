@@ -93,12 +93,12 @@ public class MemberService {
         }
     }
 
-    public Long deleteMember(Long memberId) {
+    public String deleteMember(Long memberId) {
         Optional<Member> optionalMember = memberRepository.findById(memberId); // 기존 데베에 있는 회원정보 가져오기
 
         if (optionalMember.isPresent()) {
-            Member member = optionalMember.get();
-            return member.getId();
+            memberRepository.deleteById(memberId);
+            return "회원 탈퇴가 정상적으로 완료되었습니다.";
         } else {
             throw new IllegalArgumentException("회원 탈퇴에 실패했습니다.");
         }
