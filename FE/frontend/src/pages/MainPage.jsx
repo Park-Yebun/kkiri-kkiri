@@ -10,6 +10,7 @@ import libraryicon from '../assets/main/libraryicon.svg'
 import Explain from '../components/main/Explain.jsx'
 
 
+
 const Container = styled.div`
   position: absolute;
   margin-top: 5rem;

@@ -61,7 +61,7 @@ const PigImg = styled.img`
 const SignupPage = () => {
     return (
         <Background backgroundimage={background}>
-            <SketchBookImg src={sketchbook} alt="" />
+            <SketchBookImg src={sketchbook}  />
             <EagleImg src={eagle}/>
             <DearImg src={dear}/>
             <PigImg src={pig}/>
