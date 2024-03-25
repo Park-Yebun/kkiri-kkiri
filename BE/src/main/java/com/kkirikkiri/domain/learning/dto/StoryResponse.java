@@ -1,6 +1,6 @@
 package com.kkirikkiri.domain.learning.dto;
 
-import com.kkirikkiri.domain.learning.dto.StoryResponse;
+import com.kkirikkiri.domain.learning.dto.ContentResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,11 +14,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LearningResponse implements Serializable {
+public class StoryResponse implements Serializable {
 
     @Id
     private Long id;
-    private Long storyId;
-    private Integer lineNo; //진행 중 문장 번호
-    private Integer completeNo; // 학습 완료 횟수
+    private Long memberId;
+    private String memberNickname;
+    private String title;
+    private List<ContentResponse> contents;
+    private List<LearningResponse> learnings;
 }

@@ -23,12 +23,12 @@ public class Learning {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "story_id")
     private Story story;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @Column
     private Integer lineNo;
