@@ -26,25 +26,22 @@ import sketchbook from '../assets/user/sketchbookImg.png'
 
 const RabbitImg = styled.img`
   position : absolute;
-  width: 26.1875rem;
-  height: 24.5625rem;
-  top : 65.25rem;
-  left : 8.38rem;
+  width: 26rem;
+  top : 66rem;
+  left : 8rem;
   animation-delay: 0.4s;
 `
 const DogImg = styled.img`
     position : absolute;
-    width: 17.25rem;
-    height: 17.0625rem;
-    top : 64.25rem;
-    left : 36.81rem;
-    animation-delay: 0.1s;
+    width: 17rem;
+    top : 65rem;
+    left : 36rem;
+    animation-delay: 0s;
 `
 const TigerImg = styled.img`
     position : absolute;
-    width: 19.875rem;
-    height: 19.8125rem;
-    top : 68.94rem;
+    height: 23rem;
+    top : 70rem;
     left : 95rem;
     animation-delay: 0.7s;
 `
@@ -52,17 +49,15 @@ const SquirrelImg = styled.img`
     position : absolute;
     width: 10.5rem;
     height: 10.375rem;
-    top : 23.81rem;
-    left : 39.75rem;
-    animation-delay: 1s;
+    top : 23.5rem;
+    left : 39.2rem;
 `
 const FoxImg = styled.img`
     position : absolute;
     width: 20rem;
-    height: 20rem;
-    top : 75.69rem;
-    left : 114.87rem;
-    animation-delay: 0ms.2s;
+    top : 66rem;
+    left : 115rem;
+    animation-delay: 0.2s;
 `
 const SketchBookImg = styled.img`
     position : absolute;
@@ -204,7 +199,7 @@ const LoginPage = () => {
         <RabbitImg className="animate__animated animate__bounce animate__infinite" src={rabbit} alt="토끼"/>
         <DogImg className="animate__animated animate__bounce animate__infinite" src={dog}/>
         <TigerImg className="animate__animated animate__bounce animate__infinite" src={tiger}/>
-        <SquirrelImg className="animate__animated animate__bounce animate__infinite" src={squirrel}/>
+        <SquirrelImg className="animate__animated animate__bounce animate__fast animate__infinite" src={squirrel}/>
         <FoxImg className="animate__animated animate__bounce animate__infinite" src={fox}/>
         <LoginText>로그인</LoginText>
         <IDBox> 
