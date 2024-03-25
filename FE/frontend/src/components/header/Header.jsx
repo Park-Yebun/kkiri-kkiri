@@ -41,7 +41,6 @@ const NameInfo = styled.div`
   color: #FFF;
   -webkit-text-stroke-width: 0.15rem;
   -webkit-text-stroke-color: #000;
-  font-family: "Ttangsbudaejjigae OTF";
   font-size: 3.75rem;
   font-weight: 1000;
   flex-grow:1;
@@ -66,7 +65,6 @@ const DropdownMenu = styled.div`
   color: #FFF;
   -webkit-text-stroke-width: 0.15rem;
   -webkit-text-stroke-color: #000;
-  font-family: "Ttangsbudaejjigae OTF";
   font-size: 3rem;
   font-weight: 1000;
   box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.25);

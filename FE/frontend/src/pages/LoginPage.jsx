@@ -25,12 +25,12 @@ import sketchbook from '../assets/user/sketchbookImg.png'
 // `;
 
 const RabbitImg = styled.img`
-    position : absolute;
-    width: 26.1875rem;
-    height: 24.5625rem;
-    top : 65.25rem;
-    left : 8.38rem;
-    animation-delay: 0.5s;
+  position : absolute;
+  width: 26.1875rem;
+  height: 24.5625rem;
+  top : 65.25rem;
+  left : 8.38rem;
+  animation-delay: 0.4s;
 `
 const DogImg = styled.img`
     position : absolute;
@@ -46,7 +46,7 @@ const TigerImg = styled.img`
     height: 19.8125rem;
     top : 68.94rem;
     left : 95rem;
-    animation-delay: 0.5s;
+    animation-delay: 0.7s;
 `
 const SquirrelImg = styled.img`
     position : absolute;
@@ -54,7 +54,7 @@ const SquirrelImg = styled.img`
     height: 10.375rem;
     top : 23.81rem;
     left : 39.75rem;
-    animation-delay: 0.9s;
+    animation-delay: 1s;
 `
 const FoxImg = styled.img`
     position : absolute;
@@ -62,7 +62,7 @@ const FoxImg = styled.img`
     height: 20rem;
     top : 75.69rem;
     left : 114.87rem;
-    
+    animation-delay: 0ms.2s;
 `
 const SketchBookImg = styled.img`
     position : absolute;
@@ -78,7 +78,6 @@ const LoginText = styled.div`
   left: 72.56rem;
   font-size : 5rem;
   z-index: 10; 
-  font-family : 'Ttangsbudaejjigae OTF';
   font-weight : 500;
 
 `;
@@ -89,7 +88,6 @@ const IDText = styled.div`
   top : 40.75rem;
   left : 62.37rem;
   font-size : 2.1875rem;
-  font-family : 'Ttangsbudaejjigae OTF';
   font-weight : 300;
 `
 
@@ -99,7 +97,6 @@ const PWText = styled.div`
   top : 49.81rem;
   left : 60.56rem;
   font-size : 2.1875rem;
-  font-family : 'Ttangsbudaejjigae OTF';
   font-weight : 300;
 `
 const IDinput = styled.input`
@@ -113,7 +110,6 @@ const IDinput = styled.input`
   border: 1px solid #A7A7A7;
   background: rgba(167, 167, 167, 0.40);
   font-size : 2.1875rem;
-  font-family : 'Ttangsbudaejjigae OTF';
   font-weight : 300;
 `
 
@@ -136,7 +132,6 @@ const PWInput = styled.input`
   border: 1px solid #A7A7A7;
   background: rgba(167, 167, 167, 0.40);
   font-size : 2.1875rem;
-  font-family : 'Ttangsbudaejjigae OTF';
   font-weight : 300;
 `
 const BtnText = styled.div`
@@ -147,7 +142,6 @@ const BtnText = styled.div`
   height: 100%; 
   font-weight: 500;
   font-size: 2.5rem;
-  font-family : 'Ttangsbudaejjigae OTF';
   font-weight : 500;
   color : white;
   padding-top : 0.3rem;
@@ -176,7 +170,6 @@ const SignQuest = styled.div`
   font-weight: 300;
   z-index : 10;
   position : absolute;
-  font-family : 'Ttangsbudaejjigae OTF';
   font-weight : 300;
   color: #646464;
   
@@ -188,7 +181,6 @@ const SignupLink = styled.div`
   font-weight: 500;
   z-index : 10;
   position : absolute;
-  font-family : 'Ttangsbudaejjigae OTF';
   font-weight : 300;
   
 `
