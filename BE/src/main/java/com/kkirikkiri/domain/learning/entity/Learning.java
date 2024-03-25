@@ -1,12 +1,10 @@
 package com.kkirikkiri.domain.learning.entity;
 
+import com.kkirikkiri.domain.book.entity.Story;
 import com.kkirikkiri.domain.member.entity.Member;
 import com.kkirikkiri.domain.member.entity.enums.EnglishLevel;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
@@ -14,6 +12,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -21,15 +20,15 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 public class Learning {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "learning_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    private Member member;
+    @JoinColumn(name = "story_id")
+    private Story story;
 
-//    @OneToOne(fetch = LAZY)
-//    private Story story;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @Column
     private Integer lineNo;
