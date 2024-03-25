@@ -107,27 +107,6 @@ public class BookService {
                 .getId();
     }
 
-    public String imageRequestTest(List<ContentRequest> contentRequestList) {
-
-        for (ContentRequest contentRequest : contentRequestList) {
-            // 이미지 생성 Fast API에 storyId, lineId, (prompt) 보내기
-            ImageRequest imageRequest = ImageRequest.builder()
-                    .storyId(contentRequest.getStoryId())
-                    .lineId(contentRequest.getLineId())
-                    .prompt(contentRequest.getImageDescription())
-                    .build();
-
-            try {
-                imageInfoSendTemplate.sendGenerateImageRequest(imageRequest);
-                log.info("이미지 정보가 성공적으로 전송됐습니다.");
-            } catch (Exception e) {
-                log.info("이미지 정보 전송이 실패했습니다.");
-            }
-        }
-
-        return "테스트";
-    }
-
     @Transactional
     public String createContent(List<ContentRequest> contentRequestList) {
 
@@ -148,7 +127,7 @@ public class BookService {
     }
 
     @Transactional
-    public String createImages(List<ContentRequest> contentRequestList) {
+    public void createImages(List<ContentRequest> contentRequestList) {
 
         for (ContentRequest contentRequest : contentRequestList) {
 
@@ -160,10 +139,7 @@ public class BookService {
                     .build();
 
             imageInfoSendTemplate.sendGenerateImageRequest(imageRequest);
-
         }
-
-        return "이미지가 성공적으로 저장됐어요";
     }
 
     // clova api를 사용해 mp3를 생성하고 s3에 저장하고 url 받아오기
@@ -228,24 +204,19 @@ public class BookService {
 
     // DB에 이미지 URL 저장
     @Transactional
-    public String saveImageUrl(ImageResponse imageResponse) {
-//        log.info(String.valueOf(imageResponse.getStoryId()));
-//        log.info(String.valueOf(imageResponse.getLineId()));
+    public void saveImageUrl(ImageResponse imageResponse) {
         log.info("서비스 저장된 이미지 url: "+ imageResponse.getImageUrl());
 
         Content content = contentRepository.findByStoryIdAndLineId(
                 imageResponse.getStoryId(), imageResponse.getLineId());
 
-        log.info("content 프린트:" + content);
-
         content.setImageUrl(imageResponse.getImageUrl());
         contentRepository.save(content);
-
-        return "ok";
+        log.info("데이터 저장 완료!!!!");
 
     }
 
-    public void createVoice(List<ContentRequest> contentRequestList) {
+    public String createVoice(List<ContentRequest> contentRequestList) {
 
         for (ContentRequest contentRequest : contentRequestList) {
 
@@ -270,5 +241,7 @@ public class BookService {
 
             contentRepository.save(content);
         }
+
+        return "TTS가 저장됐어요!";
     }
 }

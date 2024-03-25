@@ -2,7 +2,12 @@ package com.kkirikkiri.domain.book.controller;
 
 import com.kkirikkiri.domain.book.dto.ContentRequest;
 import com.kkirikkiri.domain.book.dto.ImageResponse;
+import com.kkirikkiri.domain.book.entity.Content;
+import com.kkirikkiri.domain.book.entity.Story;
+import com.kkirikkiri.domain.book.repository.ContentRepository;
+import com.kkirikkiri.domain.book.repository.StoryRepository;
 import com.kkirikkiri.domain.book.service.BookService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +27,15 @@ public class ImageController {
     private final BookService bookService;
 
     @PostMapping
+    @Transactional
     public ResponseEntity<String> receiveImageFilename(
             @RequestBody ImageResponse imageResponse
     ) {
         log.info("이미지 url은?!?! " + imageResponse.getImageUrl());
-        log.info(String.valueOf(imageResponse.getStoryId()));
-        log.info(String.valueOf(imageResponse.getLineId()));
-        return ResponseEntity.ok(bookService.saveImageUrl(imageResponse));
+
+        bookService.saveImageUrl(imageResponse);
+
+        return ResponseEntity.ok("이미지 url이 저장됐습니다.");
 
     }
 
