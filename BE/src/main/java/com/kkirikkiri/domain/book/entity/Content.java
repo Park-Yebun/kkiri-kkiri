@@ -1,5 +1,6 @@
 package com.kkirikkiri.domain.book.entity;
 
+import com.kkirikkiri.domain.learning.entity.Learning;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

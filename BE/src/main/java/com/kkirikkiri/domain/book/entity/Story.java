@@ -1,6 +1,7 @@
 package com.kkirikkiri.domain.book.entity;
 
 import com.kkirikkiri.domain.book.entity.enums.OpenState;
+import com.kkirikkiri.domain.learning.entity.Learning;
 import com.kkirikkiri.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
