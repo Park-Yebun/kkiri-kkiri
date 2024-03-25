@@ -78,8 +78,8 @@ public class MemberService {
 
     }
 
-    public String modifyMember(Long id, UpdateInfoRequest updateInfoRequest) {
-        Optional<Member> optionalMember = memberRepository.findById(id); // 기존 데베에 있는 회원정보 가져오기
+    public String modifyMember(Long memberId, UpdateInfoRequest updateInfoRequest) {
+        Optional<Member> optionalMember = memberRepository.findById(memberId); // 기존 데베에 있는 회원정보 가져오기
 
         if (optionalMember.isPresent()) {
             Member member = optionalMember.get();
@@ -94,8 +94,8 @@ public class MemberService {
         }
     }
 
-    public Long deleteMember(Long id) {
-        Optional<Member> optionalMember = memberRepository.findById(id); // 기존 데베에 있는 회원정보 가져오기
+    public Long deleteMember(Long memberId) {
+        Optional<Member> optionalMember = memberRepository.findById(memberId); // 기존 데베에 있는 회원정보 가져오기
 
         if (optionalMember.isPresent()) {
             Member member = optionalMember.get();

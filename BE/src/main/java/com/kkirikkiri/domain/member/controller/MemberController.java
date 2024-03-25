@@ -61,10 +61,10 @@ public class MemberController {
 
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getMember(@PathVariable() long id) {
+    @GetMapping("/{memberId}")
+    public ResponseEntity<?> getMember(@PathVariable() long memberId) {
         try {
-            MemberInfo memberInfo = memberService.getMember(id);
+            MemberInfo memberInfo = memberService.getMember(memberId);
             if (memberInfo != null)
                 return new ResponseEntity<MemberInfo>(memberInfo, HttpStatus.OK);
             else
@@ -75,19 +75,19 @@ public class MemberController {
         }
     }
 
-    @PutMapping("/{id}/modify")
-    public ResponseEntity<?> modifyMember(@PathVariable long id, @RequestBody UpdateInfoRequest updateInfoRequest) {
+    @PutMapping("/{memberid}")
+    public ResponseEntity<?> modifyMember(@PathVariable long memberid, @RequestBody UpdateInfoRequest updateInfoRequest) {
         try {
-            return ResponseEntity.ok(memberService.modifyMember(id, updateInfoRequest));
+            return ResponseEntity.ok(memberService.modifyMember(memberid, updateInfoRequest));
         } catch (Exception e) {
             return exceptionHandling(e);
         }
     }
 
-    @DeleteMapping("/{id}/delete")
-    public ResponseEntity<?> deleteMember(@PathVariable long id) {
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity<?> deleteMember(@PathVariable long memberId) {
         try {
-            return ResponseEntity.ok(memberService.deleteMember(id));
+            return ResponseEntity.ok(memberService.deleteMember(memberId));
         } catch (Exception e) {
             return exceptionHandling(e);
         }
