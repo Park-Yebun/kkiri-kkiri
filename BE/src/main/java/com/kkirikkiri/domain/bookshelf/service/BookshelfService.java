@@ -2,6 +2,7 @@ package com.kkirikkiri.domain.bookshelf.service;
 
 import com.kkirikkiri.domain.book.dto.StoryResponse;
 import com.kkirikkiri.domain.book.entity.Story;
+import com.kkirikkiri.domain.book.repository.ContentRepository;
 import com.kkirikkiri.domain.book.repository.StoryRepository;
 import com.kkirikkiri.domain.bookshelf.dto.BookshelfResponse;
 import com.kkirikkiri.domain.bookshelf.entity.Bookshelf;
@@ -22,6 +23,7 @@ public class BookshelfService {
     private final BookshelfRepository bookshelfRepository;
     private final StoryRepository storyRepository;
     private final MemberRepository memberRepository;
+    private final ContentRepository contentRepository;
 
     // 동화책 전체 조회: 내가 만든 동화책 + 다른 사람이 만든 동화책
     public List<BookshelfResponse> getAllStories(String loginId) {
@@ -33,25 +35,26 @@ public class BookshelfService {
 
         // 내가 만든 책
         List<BookshelfResponse> myBooks = stories.stream()
-                .map(story -> BookshelfResponse.builder()
-                        .storyId(story.getId())
-                        .title(story.getTitle())
-                        .author(member.getNickname())
-                        .build())
-                .toList();
+            .map(story -> BookshelfResponse.builder()
+                .storyId(story.getId())
+                .title(story.getTitle())
+                .author(member.getNickname())
+                .build())
+            .toList();
 
         // 다른 사람이 만든 책
         List<Bookshelf> books = bookshelfRepository.findByMemberId(member.getId());
 
         List<BookshelfResponse> otherBooks = books.stream()
-                .map(bookshelf -> BookshelfResponse.builder()
-                        .storyId(bookshelf.getStory().getId())
-                        .title(bookshelf.getStory().getTitle())
-                        .author(bookshelf.getMember().getNickname())
-                        .build())
-                .toList();
+            .map(bookshelf -> BookshelfResponse.builder()
+                .storyId(bookshelf.getStory().getId())
+                .title(bookshelf.getStory().getTitle())
+                .author(bookshelf.getStory().getMember().getNickname())
+                .imageURL(contentRepository.findByStoryIdAndLineId(bookshelf.getStory().getId(), 1).getImageUrl())
+                .build())
+            .toList();
 
         return Stream.concat(myBooks.stream(), otherBooks.stream())
-                .collect(Collectors.toList());
+            .collect(Collectors.toList());
     }
 }
