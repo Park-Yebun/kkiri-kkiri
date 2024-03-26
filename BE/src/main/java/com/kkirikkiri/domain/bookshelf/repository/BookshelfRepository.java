@@ -10,4 +10,6 @@ public interface BookshelfRepository extends JpaRepository<Bookshelf, Long> {
 
     List<Bookshelf> findByMemberId(Long memberId);
 
+    List<Bookshelf> findByMemberIdAndStoryId(Long memberId, Long StoryId);
+
 }
