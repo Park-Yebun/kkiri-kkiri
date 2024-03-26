@@ -2,6 +2,7 @@ package com.kkirikkiri.domain.book.service;
 
 import com.kkirikkiri.domain.book.dto.ImageRequest;
 import com.kkirikkiri.domain.book.dto.ImageResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -12,6 +13,9 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class ImageInfoSendTemplate {
 
+    @Value("${myapp.fastApi.endpoint}")
+    private String fastApiEndpoint;
+
     public void sendGenerateImageRequest(ImageRequest imageRequest) {
 
         RestTemplate restTemplate = new RestTemplate();
@@ -21,8 +25,6 @@ public class ImageInfoSendTemplate {
 
         HttpEntity<ImageRequest> requestEntity = new HttpEntity<>(imageRequest, headers);
 
-        String fastApiEndpoint = "http://127.0.0.1:8000/generate_image";
-//        http://127.0.0.1:8000/
         restTemplate.exchange(fastApiEndpoint, HttpMethod.POST, requestEntity, ImageResponse.class);
     }
 }
