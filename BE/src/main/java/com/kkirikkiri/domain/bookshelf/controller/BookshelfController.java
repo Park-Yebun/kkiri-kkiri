@@ -37,4 +37,14 @@ public class BookshelfController {
         String result = bookshelfService.createBookshelf(bookshelfRequest, loginId);
         return ResponseEntity.ok(result);
     }
+
+    @DeleteMapping("/{loginId}")
+    public ResponseEntity<String> deleteBookshelf(
+            @RequestBody BookshelfRequest bookshelfRequest,
+            @PathVariable String loginId
+    ) {
+
+        String result = bookshelfService.deleteBookshelf(bookshelfRequest, loginId);
+        return ResponseEntity.ok(result);
+    }
 }
