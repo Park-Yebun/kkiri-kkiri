@@ -1,11 +1,15 @@
+import Background from '../components/common/Background';
+import background from '../assets/book/backimg.png';
 
 
-const StoryBookPage = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+const StorybookPage = () => {
+  return (
+    <Background backgroundimage={background}>
+s
+
+
+    </Background>
+  );
 };
 
-export default StoryBookPage;
+export default StorybookPage;
