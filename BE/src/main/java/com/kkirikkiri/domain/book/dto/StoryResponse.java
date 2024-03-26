@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -24,5 +25,7 @@ public class StoryResponse implements Serializable {
     private String memberNickname;
     private String title;
     private OpenState openState;
+    private String summary;
+    private String date;
     private List<ContentResponse> contents;
 }

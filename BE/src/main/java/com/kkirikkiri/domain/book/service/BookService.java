@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -80,6 +82,8 @@ public class BookService {
                     .memberNickname(newStory.get().getMember().getNickname())
                     .title(newStory.get().getTitle())
                     .openState(newStory.get().getOpenState())
+                    .summary(newStory.get().getSummary())
+                    .date(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(newStory.get().getCreateDate()))
                     .contents(contentResponses)
                     .build();
 
@@ -103,6 +107,7 @@ public class BookService {
                         .member(member)
                         .title(storyRequest.getTitle())
                         .openState(storyRequest.getOpenState())
+                        .summary(storyRequest.getSummary())
                         .build())
                 .getId();
     }
