@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import 'animate.css';
 // import Singup1 from '../components/signup/Signup1.jsx'
 import Singup2 from '../components/signup/Signup2.jsx'
 import Background from '../components/common/Background';
@@ -20,53 +21,47 @@ const SketchBookImg = styled.img`
 `
 const EagleImg = styled.img`
     position : absolute;
-    width: 14.6875rem;
-    height: 13.4375rem;
-    top : 16.44rem;
-    left : 10.75rem;
-    
+    width: 15rem;
+    top : 16rem;
+    left : 11rem;
 `
 const DearImg = styled.img`
     position : absolute;
-    width: 23.625rem;
-    height: 22.125rem;
-    top : 74.19rem;
-    left : 29.19rem;
-    
+    width: 22rem;
+    top : 72rem;
+    left : 41rem;
+    animation-delay: 0.3s;
 `
 const GiraffeImg = styled.img`
     position : absolute;
-    width: 17.625rem;   
-    height: 21.375rem;
-    top : 67.62rem;
-    left : 123rem;
-    
+    width: 16rem;   
+    top : 61.3rem;
+    left : 126rem;
+    animation-delay: 0.1s;
 `
 const CatImg = styled.img`
     position : absolute;
-    width: 19.625rem;
-    height: 20.875rem;
-    top : 74.19rem;
-    left : 98.81rem;
-    
+    width: 20rem;
+    top : 67rem;
+    left : 103rem;
+    animation-delay: 0.8s;
 `
 const PigImg = styled.img`
     position : absolute;
-    width: 23.8125rem;
-    height: 23.8125rem;
-    top : 66.88rem;
-    left : 3.5rem;
-    
+    width: 25rem;
+    top : 68rem;
+    left : 7rem;
+    animation-delay: 0.5s;
 `
 const SignupPage = () => {
     return (
         <Background backgroundimage={background}>
             <SketchBookImg src={sketchbook}  />
-            <EagleImg src={eagle}/>
-            <DearImg src={dear}/>
-            <PigImg src={pig}/>
-            <GiraffeImg src={giraffe}/>
-            <CatImg src={cat}/>
+            <EagleImg className="animate__animated animate__bounce animate__fast animate__infinite" src={eagle}/>
+            <DearImg className="animate__animated animate__bounce animate__infinite" src={dear}/>
+            <PigImg className="animate__animated animate__bounce animate__infinite" src={pig}/>
+            <GiraffeImg className="animate__animated animate__bounce animate__infinite" src={giraffe}/>
+            <CatImg className="animate__animated animate__bounce animate__infinite" src={cat}/>
             {/* <Singup1></Singup1> */}
             <Singup2></Singup2>
         </Background>
