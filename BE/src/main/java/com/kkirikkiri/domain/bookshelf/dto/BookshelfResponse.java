@@ -15,4 +15,5 @@ public class BookshelfResponse {
     private String title; // 제목
     private String author; // 작가 이름
     private String imageURL; // 썸네일이미지
+    private String summery; // 요약
 }
