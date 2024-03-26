@@ -67,7 +67,7 @@ const DoubleCheckBtn = styled.div`
 const BtnText = styled.div`
     display: flex;
     justify-content: center;
-    align-items: center  ;
+    align-items: center;
     width: 100%; 
     height: 100%; 
     font-weight: 500;
@@ -83,8 +83,8 @@ const NextBtn = styled.div`
     z-index : 10;
     width: 9.375rem;
     height: 5rem;
-    top : 74.19rem;
-    left : 93.44rem;
+    top : 73.5rem;
+    left : 92.5rem;
     background: ${props => props.match ?  '#29C325': '#727272' };
     border-radius: 2.5rem;
 `
@@ -177,7 +177,7 @@ const Signup1 = () => {
             <InputBox onChange={handleConfirmPasswordChange}  top = "67.62rem" type="password" placeholder="비밀번호를 재입력하세요"></InputBox>
         </Box>
         <NextBtn onClick={gotoNext} match={passwordMatch}>
-            <BtnText><img src="src/assets/user/east.png" alt="" /></BtnText>
+            <BtnText><img src="src/assets/user/east.png" style={{ width: '50%', height: 'auto', margin: '0 0 0.5rem' }} /></BtnText>
         </NextBtn>
         
         </>

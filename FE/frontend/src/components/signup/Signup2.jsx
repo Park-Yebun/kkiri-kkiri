@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Character from "../common/Character.jsx";
 import { useState } from "react";
+import downbtn from '../../assets/user/downicon.png';
 
 const SignupText = styled.div`
     position: absolute;
@@ -36,12 +37,17 @@ const Dropdown = styled.select`
     left : ${props => props.left ||'61.12rem'};
     border-radius: 1.875rem;
     border: 1px solid #A7A7A7;
-    background: rgba(167, 167, 167, 0.50);
+    background: rgba(167, 167, 167, 0.50) url(${downbtn}) no-repeat;;
+    background-position: right 1rem center;
+    background-size: 3rem;
     font-family: 'Ttangsbudaejjigae OTF';
     font-weight: 300;
     font-size: 1.5625rem;
     color: #6F6C6C;
     text-indent : 1rem;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
 `;
 
 const Option = styled.option`

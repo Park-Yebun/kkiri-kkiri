@@ -68,7 +68,7 @@ const SignupPage = () => {
             <GiraffeImg src={giraffe}/>
             <CatImg src={cat}/>
             {/* <Singup1></Singup1> */}
-            <Singup2></Singup2> /
+            <Singup2></Singup2>
         </Background>
     );
 };

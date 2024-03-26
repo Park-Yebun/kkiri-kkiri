@@ -3,6 +3,7 @@ import background from '../assets/main/backimg.png';
 import sketchbook from '../assets/user/sketchbookImg2.png'
 import styled from 'styled-components';
 import Character from '../components/common/Character';
+import downbtn from '../assets/user/downicon.png';
 import { useState } from 'react';
 
 
@@ -15,17 +16,17 @@ const SketchbookImg = styled.img`
 
 const Container = styled.div`
     position : relative;
+    display: flex;
     width: 50rem;
     height: 85rem;
 
 `
 const MypageText = styled.div`
-position: absolute;
-top: 9.37rem;
-left: 9.38rem;
-font-size : 5rem;
-font-family : 'Ttangsbudaejjigae OTF';
-font-weight : 700;
+    position: absolute;
+    top: 8rem;
+    left: 9.38rem;
+    font-size : 5rem;
+    font-weight : 700;
 `;
 
 const CharacterBox  = styled.div`
@@ -40,7 +41,6 @@ const CategoryText = styled.div`
     top: ${props => props.top || '32.56rem'};
     left: 4.69rem;
     font-size: 1.875rem;
-    font-family: 'Ttangsbudaejjigae OTF';
     font-weight: 300;
 `;
 
@@ -64,10 +64,8 @@ const InputBox = styled.input`
     text-indent : 2.8rem;
     &::placeholder {
         color:#6F6C6C;
-        font-family : 'Ttangsbudaejjigae OTF';
         font-size: 1.5625rem;
-        font-weight: 300;
-        
+        font-weight: 300
     }
 `
 
@@ -81,7 +79,6 @@ const DoubleCheckBtn = styled.div`
     background: #727272;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     margin-left : 0.5rem;
-
 `
 const BtnText = styled.div`
     display: flex;
@@ -95,7 +92,6 @@ const BtnText = styled.div`
     font-weight : 500;
     color : ${props => props.color ||'white'};
     padding-top : 0.3rem;
-    
 `
 const Dropdown = styled.select`
     position : absolute;
@@ -105,12 +101,17 @@ const Dropdown = styled.select`
     left : ${props => props.left ||'4.56rem'};
     border-radius: 1.875rem;
     border: 1px solid #A7A7A7;
-    background: rgba(167, 167, 167, 0.50);
+    background: rgba(167, 167, 167, 0.50) url(${downbtn}) no-repeat;;
+    background-position: right 1rem center;
+    background-size: 3rem;
     font-family: 'Ttangsbudaejjigae OTF';
     font-weight: 300;
     font-size: 1.5625rem;
     color: #6F6C6C;
     text-indent : 2.3rem;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
 `;
 
 const Option = styled.option`
@@ -164,7 +165,7 @@ const MypagePage = () => {
                 <CategoryText top="52.56rem">나이</CategoryText>
                 <Dropdown value={selectedAge} onChange={handleAgeChange}>
                     <Option value="">나이를 선택해주세요</Option>
-                    <Option  value="6세">6세</Option>
+                    <Option value="6세">6세</Option>
                     <Option value="7세">7세</Option>
                     <Option value="8세">8세</Option>
                     <Option value="9세">9세</Option>
