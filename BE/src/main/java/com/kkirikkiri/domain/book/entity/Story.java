@@ -3,6 +3,7 @@ package com.kkirikkiri.domain.book.entity;
 import com.kkirikkiri.domain.book.entity.enums.OpenState;
 import com.kkirikkiri.domain.learning.entity.Learning;
 import com.kkirikkiri.domain.member.entity.Member;
+import com.kkirikkiri.global.common.BaseEntity;
 import jakarta.persistence.*;
 import jdk.jfr.Timestamp;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Story {
+public class Story extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -45,12 +46,4 @@ public class Story {
     @Column(length = 511)
     private String summary;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_date")
-    private Date createDate;
-
-    @PrePersist
-    protected void onCreate() {
-        createDate = new Date((System.currentTimeMillis()/1000)*1000);
-    }
 }

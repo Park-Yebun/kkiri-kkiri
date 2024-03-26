@@ -83,7 +83,6 @@ public class BookService {
                     .title(newStory.get().getTitle())
                     .openState(newStory.get().getOpenState())
                     .summary(newStory.get().getSummary())
-                    .date(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(newStory.get().getCreateDate()))
                     .contents(contentResponses)
                     .build();
 
