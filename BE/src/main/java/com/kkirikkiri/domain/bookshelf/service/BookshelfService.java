@@ -39,6 +39,7 @@ public class BookshelfService {
                 .storyId(story.getId())
                 .title(story.getTitle())
                 .author(member.getNickname())
+                .imageURL(contentRepository.findByStoryIdAndLineId(story.getId(), 1).getImageUrl())
                 .build())
             .toList();
 
