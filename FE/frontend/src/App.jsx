@@ -1,13 +1,13 @@
 import './App.css'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Header from "./components/header/Header.jsx"
-import LoginPage from "./pages/LoginPage.jsx"
-import SignupPage from "./pages/SignupPage.jsx"
-import MypagePage from "./pages/MypagePage.jsx"
-import MainPage from "./pages/MainPage.jsx"
+import Header from "./components/header/Header.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import SignupPage from "./pages/SignupPage.jsx";
+import MypagePage from "./pages/MypagePage.jsx";
+import MainPage from "./pages/MainPage.jsx";
+import StorybookPage from "./pages/StorybookPage.jsx";
 
 // 쓸 때 주석해제하세요
-// import MainPage from "./pages/MainPage.jsx"
 // import BookshelfPage from "./pages/BookshelfPage.jsx"
 import LibraryPage from "./pages/LibraryPage.jsx"
 
@@ -26,6 +26,7 @@ const App = () => {
         <Route path="/mypage" element={<MypagePage/>} />
         <Route path="/" element={<MainPage/>} />
         <Route path="/library" element={<LibraryPage/>} />
+        <Route path="/Storybook" element={<StorybookPage/>} />
         {/*
         <Route path="/bookshelf" element={<BookshelfPage/>} />
         // <Route path="/library" element={<LibraryPage/>} /> */}
