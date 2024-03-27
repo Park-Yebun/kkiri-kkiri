@@ -62,7 +62,7 @@ public class LibraryService {
                         .summary(story.getSummary())
                         .imageURL(contentRepository.findByStoryIdAndLineId(story.getId(), 1).getImageUrl())
                         .download((long) bookshelfRepository.findByStoryId(story.getId()).size())
-                        .date(story.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                        .date(story.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                         .possession(bookshelfRepository.findByMemberIdAndStoryId(member.getId(), story.getId()) != null)
                         .build())
                 .toList());

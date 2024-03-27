@@ -1,13 +1,15 @@
 package com.kkirikkiri.domain.learning.service;
 
-import com.amazonaws.services.s3.AmazonS3;
+import com.kkirikkiri.domain.bookshelf.entity.Bookshelf;
 import com.kkirikkiri.domain.learning.dto.*;
 import com.kkirikkiri.domain.book.entity.Content;
 import com.kkirikkiri.domain.book.entity.Story;
 import com.kkirikkiri.domain.book.repository.ContentRepository;
 import com.kkirikkiri.domain.book.repository.StoryRepository;
+import com.kkirikkiri.domain.member.repository.MemberRepository;
 import com.kkirikkiri.domain.learning.entity.Learning;
 import com.kkirikkiri.domain.learning.repository.LearningRepository;
+import com.kkirikkiri.domain.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,7 @@ public class LearningService {
     private final LearningRepository learningRepository;
     private final StoryRepository storyRepository;
     private final ContentRepository contentRepository;
-    private final AmazonS3 amazonS3;
+    private final MemberRepository memberRepository;
 
     public StoryResponse getLearningBook(Long storyId) {
         Optional<Story> story = storyRepository.findById(storyId);
@@ -44,7 +46,7 @@ public class LearningService {
             List<Learning> learnings = learningRepository.findAllByStoryId(storyId);
             List<LearningResponse> learningResponses = learnings.stream()
                     .map(learning -> LearningResponse.builder()
-                            .id(learning.getId())
+                            .learingId(learning.getId())
                             .storyId(learning.getStory().getId())
                             .writingLineNo(learning.getWritingLineNo())
                             .speakingLineNo(learning.getSpeakingLineNo())
@@ -103,4 +105,18 @@ public class LearningService {
             throw new IllegalArgumentException("학습 데이터 업데이트에 실패했습니다.");
         }
     }
+
+    // 스토리 정보에서 member_id 가져와서 그 정보를 넣고 save해주기
+    public Long createLearningData(Long storyId) {
+        Story story = storyRepository.findById(storyId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 동화책이 없습니다."));
+        Member member = story.getMember();
+        return learningRepository.save(
+                        Learning.builder()
+                                .story(story)
+                                .member(member)
+                                .build())
+                .getId();
+    }
+
 }

@@ -17,7 +17,7 @@ import java.util.List;
 public class LearningResponse implements Serializable {
 
     @Id
-    private Long id;
+    private Long learingId;
     private Long storyId;
     private Integer writingLineNo; //진행 중 문장 번호
     private Integer speakingLineNo;
