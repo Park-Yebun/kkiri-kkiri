@@ -7,7 +7,6 @@ import LeftButtonImg from '../assets/library/arrow_left.png'
 import RightButtonImg from '../assets/library/arrow_right.png'
 import BookPreviewModal from "../components/Modal/BookPreviewModal";
 import closeBtn from '../assets/library/clear.png'
-import downbtn from '../assets/user/downicon.png';
 
 
 const Container = styled.div`
@@ -46,13 +45,13 @@ const SearchBox = styled.div`
 const ListBox = styled.div`
     width: 78.125vw;
     height: 37.5vh;
+    background-color : pink;
     display : flex;
-    align-content: center;
     flex-direction : column;
     justify-content : space-between;
     border-radius: 3.125rem;
     background: rgba(55, 55, 55, 0.90);
-`
+    `
 const SearchBarBox = styled.div`
     display : flex;
     width : 61.4625vw;
@@ -68,16 +67,12 @@ const SearchDropdown = styled.select`
     /* background-color : gray; */
     border-radius: 1.875rem;
     border: 1px solid #A7A7A7;
-    background: rgba(167, 167, 167, 0.90) url(${downbtn}) no-repeat;;
-    background-position: right 0rem center;
-    background-size: 3.5rem;
+    background: rgba(167, 167, 167, 0.90);
     font-family: 'Ttangsbudaejjigae OTF';
     font-weight: 300;
-    font-size: clamp(1rem, 2.19vw, 3.125rem);
+    font-size: 1.853vw;
     text-align : center;
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
+    
 `
 const Option = styled.option`
 `
@@ -85,13 +80,12 @@ const Option = styled.option`
 const KeyWordInputBox = styled.input`
     width: 39.062vw;
     height: 6.25vh;
-    top: 2rem;
     background-color : rgba(167, 167, 167, 0.90);
     font-family: "Ttangsbudaejjigae OTF";
-    font-size : clamp(1rem, 1.875vw, 3rem);
+    font-size: 1.853vw;
     border-radius: 1.875rem;
     text-indent : 2.85rem;
-    border-color: rgba(167, 167, 167, 0.90);
+    
 `
 const SearchButton = styled.div`
     width: 7.8125vw;
@@ -99,29 +93,25 @@ const SearchButton = styled.div`
     background-color : #29C325;
     border-radius: 1.875rem;
     font-family: "Ttangsbudaejjigae OTF";
-    font-weight: 300;
-    font-size: clamp(1rem, 2.19vw, 3.125rem);
+    font-size:  1.853vw;
     text-align : center;
+    line-height : 6.25vh;
     line-height : 6.7vh;
 
 `
 const SortedDropdown = styled.select`
+
     width: 11.719vw;
     height: 6.25vh;
     background-color : gray;
     border-radius: 1.875rem;
     border: 1px solid #A7A7A7;
-    background: rgba(167, 167, 167, 0.90) url(${downbtn}) no-repeat;;
-    background-position: right 0rem center;
-    background-size: 3.5rem;
+    background: rgba(167, 167, 167, 0.90);
     font-family: 'Ttangsbudaejjigae OTF';
     font-weight: 500;
-    font-size: clamp(1rem, 2.19vw, 3.125rem);
+    font-size:  1.853vw;
     text-align : center;
-    padding-right: 1rem ;
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
+    
 `
 const ImgBox = styled.div`
     width : 26.5vw;
@@ -130,19 +120,24 @@ const ImgBox = styled.div`
 
     
 `
-
+const ContentBox = styled.div`
+    width : 47.5375vw;
+    height : 25.27vh;
+    /* background-color : lightcoral; */
+    display : flex;
+`
 const Top3Text = styled.div`
-    font-size: clamp(1rem, 2.07vw, 3rem);
+    font-size:  1.953vw;
     font-family : 'Ttangsbudaejjigae OTF';
     color: #F6DA47;
-    margin-top : 2.2rem;
-    
+    margin-top : 1.5rem;
 `
 const CrownImg = styled.img`
-    height : 4rem;
-    margin-top : 1.75rem;
+    height : 3.69vh;
+    width : 2.5vw;
+    margin-top : 2.15rem;
     margin-left : 2.81rem;
-    margin-right : 1.13rem;
+    margin-right : 1.03rem;
     
 `
 const Logo = styled.div`
@@ -151,40 +146,30 @@ const Logo = styled.div`
     height : 5.98vh;
     /* background-color : white; */
 `
-const TextBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    /* background-color : yellow; */
-`
 
 const DownLoad = styled.div`
     align-items : center;
-    font-size: 2.5rem;
+    font-size: 1.2671vw;
     font-weight: 300;
-    padding-bottom: 1.5rem;
     
 `
 const Title = styled.div`
-    font-size: 3.8rem;
+    font-size: 2.639vw;
     margin-right : 1.68vw;
-    padding-bottom: 1rem;
-    
 `
 const Writer = styled.div`
-    margin-top : 1.1rem;
-    font-size: 2.8rem;
+    margin-top : 0.4rem;
+    font-size: 1.7vw;
 `
 const Info = styled.div`
     display : flex;
-    
 `
 const Summary = styled.div`
-    font-size: 2.4rem;
+    font-size: 1.5671vw;
     margin-bottom : 3.96rem;
-    font-weight: 300;
 `
 const TotalText = styled.div`
-    width : ${(props) => props.width ||'30%'};
+    width : ${(props) => props.width ||'20%'};
     overflow : hidden;
     white-space : nowrap;
     margin-bottom : ${(props) => props.marginBottom || '0'};
@@ -197,39 +182,38 @@ const Lists = styled.div`
     justify-content : space-between;
     align-items : center; 
     text-align : center;
-    margin-top : 1.5rem;
-    margin-bottom : 1.5rem;
-    /* background-color: white; */
+    margin-top : 1.4rem;
+    /* margin-bottom : 2rem; */
+    
 `
 const List = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-left: 3rem;
-    margin-right: 3rem;
-    margin-top: 2.8rem;
-    margin-bottom: 2.8rem;
+    margin-left: 3.94rem;
+    margin-right: 3.94rem;
+    margin-top: 1.5vw;
+    margin-bottom: 0.75rem;
     height: ${(props) => props.height * 3.75}vh;
-    max-height: 32vh;
+    max-height: 30vh; 
     overflow-y: auto; 
-    width: 74.5vw;
+    width: 73.203vw;
     color: white;
     font-weight: 300;
-    font-size: 3rem;
-    /* background-color: aqua; */
+    font-size: 2.95vh;
 
     &::-webkit-scrollbar {
-        width: 1.5rem; 
+        width: 1.375rem; 
     }
 
     &::-webkit-scrollbar-track {
-    background:  rgb(95, 95, 95); 
-    border-radius: 2rem; 
+    background:  rgba(55, 55, 55, 0.90); 
+    border-radius: 10px; 
     }
 
     &::-webkit-scrollbar-thumb {
-    background: #b3b3b3; 
-    border-radius: 2rem;
+    background: #888; 
+    border-radius: 1.25rem;
     }
     `
 const LeftButton = styled.img`
@@ -255,7 +239,6 @@ const StoryImage = styled.img`
     width :  21.4vw;
     border-radius: 1.25rem;
     margin-top : 0.73rem;
-    margin-right: 1rem;
     /* background-color: blue; */
 
 `
@@ -264,12 +247,12 @@ const RightButton = styled.img`
     height : 5.024vh;
 `
 const TextSector = styled.div`
-    width : 48vw;
+    width : 43.1vw;
     height : 25.27vh;
     /* background-color : blue; */
     display : flex;
-    margin-left: 3rem;
     flex-direction : column;
+    justify-content : space-between;
     color : white;
     font-family: "Ttangsbudaejjigae OTF";
   
@@ -281,7 +264,7 @@ const PreviewContent = styled.div`
     width : 53.918vw;
     height : 26.19vh;
     /* background-color : green; */
-    margin-bottom : 9.75rem;    
+    margin-bottom : 4.65rem;    
 `
 const ButtonContent = styled.div`
     display : flex;
@@ -305,7 +288,7 @@ const PrevText = styled.div`
     height : ${(props) => props.height || '8%'};
     font-family: 'Ttangsbudaejjigae OTF';
     font-weight: 300;
-    font-size : ${(props) => props.fontSize || '2.1875rem'};
+    font-size : ${(props) => props.fontSize || '1.19vw'};
 `
 const PrevBtn = styled.div`
 
@@ -317,15 +300,17 @@ const PrevBtn = styled.div`
     color: #000;
     text-align: center;
     font-family: "Ttangsbudaejjigae OTF";
-    font-size: clamp(1.5rem, 1.7vw, 3rem);
+    font-size: 1.712vw;
     font-style: normal;
     font-weight: 300;
     line-height: 8.625vh;
 
 `
 const CloseBtn = styled.img`
+    width : 2.9vw;
+    height : 3.9vh;
     margin-top : 1vh;
-    margin-left : 57vw;
+    margin-left : 55vw;
 `
 
 
@@ -472,21 +457,23 @@ const LibraryPage = () => {
                             <StoryImage src={topBooks.length > 0 && topBooks[currentIndex].imageURL}></StoryImage>
                         </TOP3imgSector>
                     </ImgBox>
+                    <ContentBox>
                     <TextSector>
                         {topBooks.length > 0 && (
-                            <TextBox>
+                            <>
                                 <DownLoad>소장수 {topBooks[currentIndex].download}</DownLoad>
                                 <Info>
                                     <Title>{topBooks[currentIndex].title}</Title>
                                     <Writer>{topBooks[currentIndex].author} 작가님</Writer>
                                 </Info>
                                 <Summary>{topBooks[currentIndex].summary}</Summary>
-                            </TextBox>
+                            </>
                         )}
                     </TextSector>
-                    <ButtonBox>
-                        <RightButton onClick={NextBook} src={RightButtonImg}></RightButton>
-                    </ButtonBox>
+                        <ButtonBox>
+                            <RightButton onClick={NextBook} src={RightButtonImg}></RightButton>
+                        </ButtonBox>
+                    </ContentBox>
                 </BestBox>
                 
                 </UpperContainer>
@@ -512,18 +499,18 @@ const LibraryPage = () => {
                     <List>
                         {searchClick === false && books.length > 0 && books.map((book, index) => (
                             <Lists key={index} onClick={()=> handleBookClick(book)}>
-                                <TotalText width='31%'>{book.title}</TotalText>
-                                <TotalText width='34%'>{book.author} 작가님</TotalText>
-                                <TotalText width='15%'>소장수 {book.download}</TotalText>
-                                <TotalText width='20%'>{book.Date}</TotalText>
+                                <TotalText width='30%'>{book.title}</TotalText>
+                                <TotalText width='30%'>{book.author} 작가님</TotalText>
+                                <TotalText>소장수 {book.download}</TotalText>
+                                <TotalText>{book.Date}</TotalText>
                             </Lists>
                         ))}
                         {searchClick === true && searchResults.length > 0 && searchResults.map((book, index) => (
                             <Lists height={searchResults.length} key={index} onClick={()=> handleBookClick(book)}>
-                                <TotalText width='31%'>{book.title}</TotalText>
-                                <TotalText width='34%' >{book.author} 작가님</TotalText>
-                                <TotalText width='15%'>소장수 {book.download}</TotalText>
-                                <TotalText width='20%'>{book.Date}</TotalText>
+                                <TotalText width='30%'>{book.title}</TotalText>
+                                <TotalText width='30%' >{book.author} 작가님</TotalText>
+                                <TotalText>소장수 {book.download}</TotalText>
+                                <TotalText>{book.Date}</TotalText>
                             </Lists>
                         ))}
                         {searchClick === true && searchResults.length === 0 && (
@@ -531,6 +518,7 @@ const LibraryPage = () => {
                                 <Lists>
                                     <TotalText>"검색결과가 없습니다"</TotalText>
                                 </Lists>
+                             
                             </>
                         )}
                     </List>
@@ -543,10 +531,10 @@ const LibraryPage = () => {
             <PreviewContent>
                 <img style={{width : '22.93lvw' , height : '26.1857vh', marginRight:'6.3rem'}} src={selectedBook.imageURL}/>
                 <PrevTextSector>
-                    <PrevText marginBottom="2rem">소장수 {selectedBook.download}</PrevText>
-                    <PrevText height="23.13%" fontSize="4rem">{selectedBook.title}</PrevText>
-                    <PrevText height="12%" fontSize="3rem" marginBottom="2rem">{selectedBook.author} 작가님</PrevText>
-                    <PrevText height="43%" fontSize="2.5rem">{selectedBook.summary}</PrevText>
+                    <PrevText marginBottom="1.81rem">소장수 {selectedBook.download}</PrevText>
+                    <PrevText height="23.13%" fontSize="2.712vw">{selectedBook.title}</PrevText>
+                    <PrevText height="12.117%" fontSize="1.612vw" marginBottom="2rem">{selectedBook.author} 작가님</PrevText>
+                    <PrevText height="43%" fontSize="1.412vw">{selectedBook.summary}</PrevText>
                 </PrevTextSector>
             </PreviewContent>
             <ButtonContent>
