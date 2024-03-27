@@ -30,7 +30,7 @@ public class LibraryService {
     private final ContentRepository contentRepository;
 
     // 다른사람이 공유한 동화책
-    public List<LibraryResponse> getAllLibrarys(
+    public List<LibraryResponse> getAllLibraries(
             String loginId,
             String filter,
             String orderby,
@@ -42,7 +42,7 @@ public class LibraryService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 
         List<Story> stories = null;
-        if(type.equals("") || text.equals("")) {    // 검색필터와 검색어가 하나라도 없으면 전체 조회
+        if(type.isEmpty() || text.isEmpty()) {    // 검색필터와 검색어가 하나라도 없으면 전체 조회
             stories = storyRepository.findAllByOpenState(OpenState.PUBLIC);
         } else {    // 검색필터와 검색어가 둘 다 있을 때
             if (type.equals("title")) { //  검색필터가 title이면 제목으로 검색
@@ -80,11 +80,6 @@ public class LibraryService {
                 libraries.sort(Comparator.comparing(LibraryResponse::getDownload).reversed());
             }
         }
-
-
-
-
-
 
         return libraries;
     }
