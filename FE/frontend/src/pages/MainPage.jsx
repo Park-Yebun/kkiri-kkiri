@@ -13,16 +13,16 @@ import Explain from '../components/main/Explain.jsx'
 
 const Container = styled.div`
   position: absolute;
-  margin-top: 5rem;
-  width: 120rem;
-  height: 75rem;
+  margin-top: 2rem;
+  width: 69rem;
+  height: 40rem;
   display: flex;
   /* background-color: red; */
 `
 const Descriptionbox = styled.div`
   position: absolute;
-  width: 120rem;
-  height: 45rem;
+  width: 69rem;
+  height: 25rem;
   display: flex;
   /* background-color: white; */
 `
@@ -30,8 +30,8 @@ const Menu = styled.div`
   position: absolute;
   justify-content: space-between;
   bottom: 0;
-  width: 120rem;
-  height: 25rem;
+  width: 69rem;
+  height: 13rem;
   display: flex;
   /* background-color: yellow; */
 `
@@ -41,11 +41,11 @@ const Menubox = styled.div`
   align-items: center;
   justify-content: space-evenly;
   bottom: 0;
-  width: 30rem;
-  height: 25rem;
-  border-radius: 3.125rem;
+  width: 18rem;
+  height: 13rem;
+  border-radius: 2rem;
   background: rgba(240, 240, 240, 0.5);
-  box-shadow: 6px -6px 6px 0px rgba(198, 194, 194, 0.5) inset, -6px 6px 6px 0px rgba(255, 255, 255, 0.5) inset;
+  box-shadow: 4px -4px 4px 0px rgba(198, 194, 194, 0.5) inset, -4px 4px 4px 0px rgba(255, 255, 255, 0.5) inset;
   backdrop-filter: blur(0.4rem);
   text-decoration: none;
 `
@@ -54,13 +54,13 @@ const Menuicon = styled.img`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 13rem;
-  height: 13rem;
+  width: 7rem;
+  height: 7rem;
 `
 const Menuname = styled.div`
   color: #000;
   font-family: "Ttangsbudaejjigae OTF";
-  font-size: 3rem;
+  font-size: 1.5rem;
   font-style: normal;
   font-weight: 300;
 `
