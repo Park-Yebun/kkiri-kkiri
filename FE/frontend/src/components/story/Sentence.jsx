@@ -2,16 +2,16 @@ import styled from 'styled-components'
 
 const Sentence = styled.div`
 	width: 100%;
-	min-height: 16rem;
+	min-height: 8rem;
 	height: auto;
-	border-radius: 3.125rem;
+	border-radius: 1.5rem;
 	background-color: #FFF7E7;
-	font-size: 2.5rem;
+	font-size: 1.5rem;
 	font-family: "Ttangsbudaejjigae OTF";
 	font-weight: 300;
-	padding: 3rem;
+	padding: 1.5rem;
 	text-align: center;
-	line-height: 4rem;
+	line-height: 2.5rem;
 	box-sizing: border-box;
 	margin: 1rem 0rem;
 `

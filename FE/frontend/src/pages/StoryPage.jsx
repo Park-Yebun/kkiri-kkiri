@@ -10,12 +10,13 @@ import  dummyjson  from '../pages/storydummy.json';
 
 const StoryContainer = styled.div`
 	max-width: 125rem;
-	width: 78.125%;
-	height: 75rem;
+	width: 80%;
+	height: 75%;
 	position: absolute;
-	top: 14rem;
+	top: 15%;
 	/* left: 17.5rem; */
-	border-radius: 3.75rem;
+	/* border-radius: 3.75rem; */
+	border-radius: 2rem;
 	background-color: #745E5EE5;
 	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 	display: flex;
@@ -27,12 +28,12 @@ const StoryContainer = styled.div`
 
 
 const StoryTitlebox = styled.div`
- max-height: 14rem;
+ max-height: 4rem;
  height: 75%;
  width: 100%;
  /* background-color: red; */
  display: flex;
- justify-content: center;
+ /* justify-content: center; */
 `
 
 const StoryTitleText = styled.div`
@@ -44,7 +45,7 @@ const StoryTitleText = styled.div`
 	width: 100%;
 	/* height	: 10%; */
 	font-weight: 300;
-	font-size: 4rem;
+	font-size: 2rem;
 	font-family: "Ttangsbudaejjigae OTF";
 	color: #000;
 	line-height: normal;
@@ -56,33 +57,35 @@ const StoryTitleText = styled.div`
 const StoryScrollbox = styled.div`
 	font-size: 6rem;
 	width: 100%;
-	height: 43.75rem;
+	/* height: 43.75rem; */
+	height: 70%;
 	background-color: pink;
 	position: relative;
 	/* top: 11.56rem;
 	left: 3.13rem; */
-	border-radius: 2rem;
+	border-radius: 1.5rem;
 	background: #3A2E2E;
-	display: flex;
+	/* display: flex; */
 	flex-direction: column;
 	align-items: center;
-	padding-left: 1.5rem;
+	padding-left: 1rem;
 
 
 
 
 	overflow-y: scroll;
 	&::-webkit-scrollbar {
-		width: 6rem;
-		background-color: #3A2E2E;
-		margin: 1rem;
+		width: 3rem;
+		/* background-color: red; */
+		/* background-color: #3A2E2E; */
+		/* margin: 1rem; */
 		border-radius: 2rem;
 	}
 	&::-webkit-scrollbar-thumb {
 		background-color: #FFF7E7;
-		border-radius: 3rem;
+		border-radius: 1.5rem;
 		background-clip: padding-box;
-		border: 1.5rem solid transparent;
+		border: 0.5rem solid transparent;
 		/* border: 1rem solid transparent; */
 	}
 	/* &::-webkit-sccollbar-track {} */
@@ -93,7 +96,8 @@ const StoryScrollbox = styled.div`
 
 const StoryInputBox = styled.div`
 	width: 100%;
-	height: 15rem;
+	/* height: 15rem; */
+	height: 25%;
 	/* background-color: red; */
 	display: flex;
 	margin-top: 1rem;
@@ -101,22 +105,27 @@ const StoryInputBox = styled.div`
 `
 
 const Sentence2 = styled(Sentence)`
-	min-height: 100%;
+	min-height: 90%;
+	width: 95%;
 	margin: 0;
 	padding-bottom: 0;
 `
 const UserInput = styled.textarea`
 	width: 100%;
-	Height: 10rem;
+	/* Height: 10rem; */
+	/* Height: 10rem; */
 	background-color: transparent;
 	overflow: visible;
-	font-size: 2.5rem;
+	font-size: 1.5rem;
 	font-family: "Ttangsbudaejjigae OTF";
 	font-weight: 300;
 	border: none;
 	&:focus {
 		outline: none;
 		/* background-color: pink; */
+	}
+	&:disabled {
+		filter: brightness(0.8);
 	}
 `
 const StoryInput = styled.div`
@@ -130,21 +139,21 @@ position: relative;
 const Capa = styled.div`
 position: absolute;
 /* background-color: aqua; */
-height: 4rem;
-width: 12rem;
+height: 3rem;
+width: 9rem;
 right: 0;
 bottom: 0;
 
-font-size: 2rem;
+font-size: 1.5rem;
 font-family: "Ttangsbudaejjigae OTF";
 font-weight: 300;
 &::after {
-	content: "/ 100";
+	content: "/100";
 
 }
 `
 const MiniBox = styled.div`
-width: 12rem;
+width: 8rem;
 height: 100%;
 /* background-color: blue; */
 margin-left: auto;
@@ -156,14 +165,15 @@ justify-content: space-between;
 const Quill = styled.div`
 height: 30%;
 /* width: 50%; */
-margin-top:1rem;
+/* margin-top:1rem; */
 /* background-color: green; */
 display: flex;
 flex-direction: row;
 font-size: 2.5rem;
 font-family: "Ttangsbudaejjigae OTF";
 font-weight: 300;
-padding-left: 1rem;
+/* padding-right: 1rem; */
+padding-left: 0.5rem;
 /* &::before {
 	content: "x ";
 } */
@@ -187,7 +197,7 @@ height: 50%;
 width: 100%;
 margin-bottom: 1rem;
 /* background-color: magenta; */
-border-radius: 1.875rem;
+border-radius: 1rem;
 background: #29C325;
 box-shadow: 0px 0.5rem 0.5rem 0px rgba(0, 0, 0, 0.25);
 
@@ -198,9 +208,9 @@ text-align: center;
 /* vertical-align: baseline; */
 /* padding-top */
 /* height: 120px; */
-line-height: 9rem;
+line-height: 6rem;
 font-family: "Ttangsbudaejjigae OTF";
-font-size: 4rem;
+font-size: 2.5rem;
 font-style: normal;
 font-weight: 300;
 /* line-height: normal; */
@@ -338,7 +348,7 @@ const StoryPage = () => {
 	
 
   const writeStory = () => {
-		
+		inputX.current.disabled = true;
 		console.log("입력메세지: ", inputUser)
 		setMessages(messages => [...messages, inputUser]);
 		// useEffect(() => {setMessages([...messages, inputUser])}, [messages]);
@@ -355,6 +365,7 @@ const StoryPage = () => {
 		}
 
 		writeGptStory();
+		inputX.current.disabled = false;
 	}
 
 	
