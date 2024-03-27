@@ -6,6 +6,7 @@ import SignupPage from "./pages/SignupPage.jsx";
 import MypagePage from "./pages/MypagePage.jsx";
 import MainPage from "./pages/MainPage.jsx";
 import StoryPage from "./pages/StoryPage.jsx"
+import BookshelfPage from './pages/BookshelfPage.jsx';
 // import StorybookPage from "./pages/StorybookPage.jsx";
 import Test from "./pages/Test.jsx";
 
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/story/:user-id" element={<StoryPage/>}/>
         <Route path="/library" element={<LibraryPage/>} />
         {/* <Route path="/Storybook" element={<StorybookPage/>} /> */}
+        <Route path="/bookshelf" element={<BookshelfPage/>} />
         <Route path="/test" element={<Test/>} />
 
         {/*
