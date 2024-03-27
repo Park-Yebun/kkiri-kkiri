@@ -1,6 +1,13 @@
 import { useRef } from 'react';
 import FlipPage from 'react-pageflip';
 import styled from 'styled-components';
+import bookcover from '../assets/book/bookcover.png'
+
+const Container = styled.div`
+  position: fixed;
+  top: 14rem;
+  width: 100vw;
+`;
 
 const PageCoverStyle = styled.div`
   display: flex;
@@ -8,7 +15,8 @@ const PageCoverStyle = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
-  background-color: rgb(225, 201, 155);
+  background-image: url(${bookcover});
+  background-size: 100% 100%;;
   border: 0.2rem solid #6d6d6d;
   box-shadow:
     inset 0 0 100px 30px rgba(0, 0, 0, 0.4),
@@ -24,7 +32,7 @@ const BookContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  top: -5rem;
+  /* top: -5rem; */
 `;
 
 const Page = styled.div`
@@ -70,39 +78,42 @@ const Test = () => {
   };
 
   return (
-    <BookContainer>
-      <FlipPage 
-        width={1000} height={1200} ref={bookRef} showCover={true}>
-        <div data-density='hard'>
-          <PageCoverStyle>
-            ㅁㄴㅇ
-          </PageCoverStyle>
-        </div>
-        <Page className="page">페이지 1</Page>
-        <Page className="page">페이지 2</Page>
-        <Page className="page">페이지 3</Page>
-        <Page className="page">페이지 4</Page>
-        <Page className="page">페이지 5</Page>
-        <Page className="page">페이지 6</Page>
-        <Page className="page">페이지 7</Page>
-        <Page className="page">페이지 8</Page>
-        <Page className="page">페이지 9</Page>
-        <Page className="page">페이지 10</Page>
-        <div data-density='hard'>
-          <PageCoverStyle>
-            ㅁㄴㅇ
-          </PageCoverStyle>
-        </div>
-      </FlipPage>
+    <Container>
+      <BookContainer>
+        <FlipPage 
+          width={900} height={1200} ref={bookRef} showCover={true}>
+          <div data-density='hard'>
+            <PageCoverStyle>
+              시작
+            </PageCoverStyle>
+          </div>
+          <Page className="page">페이지 1</Page>
+          <Page className="page">페이지 2</Page>
+          <Page className="page">페이지 3</Page>
+          <Page className="page">페이지 4</Page>
+          <Page className="page">페이지 5</Page>
+          <Page className="page">페이지 6</Page>
+          <Page className="page">페이지 7</Page>
+          <Page className="page">페이지 8</Page>
+          <Page className="page">페이지 9</Page>
+          <Page className="page">페이지 10</Page>
+          <div data-density='hard'>
+            <PageCoverStyle>
+              끝
+            </PageCoverStyle>
+          </div>
+        </FlipPage>
 
-      <ButtonContainer>
-        {[...Array(10).keys()].map((number) => (
-          <PageButton key={number} onClick={() => goToPage(number+2)}>
-            {number+1}
-          </PageButton>
-        ))}
-      </ButtonContainer>
-    </BookContainer>
+        <ButtonContainer>
+          {[...Array(10).keys()].map((number) => (
+            <PageButton key={number} onClick={() => goToPage(number+2)}>
+              {number+1}
+            </PageButton>
+          ))}
+        </ButtonContainer>
+      </BookContainer>
+    </Container>
+    
   );
 };
 
