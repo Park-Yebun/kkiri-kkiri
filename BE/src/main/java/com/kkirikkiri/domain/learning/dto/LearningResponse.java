@@ -19,6 +19,8 @@ public class LearningResponse implements Serializable {
     @Id
     private Long id;
     private Long storyId;
-    private Integer lineNo; //진행 중 문장 번호
-    private Integer completeNo; // 학습 완료 횟수
+    private Integer writingLineNo; //진행 중 문장 번호
+    private Integer speakingLineNo;
+    private Integer writingCpltNo; // 학습 완료 횟수
+    private Integer speakingCpltNo;
 }
