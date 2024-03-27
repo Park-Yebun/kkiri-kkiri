@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.awt.print.Book;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -74,7 +75,7 @@ public class BookshelfService {
 
         Bookshelf findBookshelf = bookshelfRepository.findByMemberIdAndStoryId(member.getId(), story.getId());
         if (findBookshelf != null) return "이미 책장에 추가되어있어요!!";
-        if (story.getMember().getId() == member.getId()) return "자신의 이야기는 추가할 수 없어요!!";
+        if (Objects.equals(story.getMember().getId(), member.getId())) return "자신의 이야기는 추가할 수 없어요!!";
 
         Bookshelf bookshelf = Bookshelf.builder()
                 .member(member)
