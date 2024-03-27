@@ -3,6 +3,8 @@ package com.kkirikkiri.domain.book.entity;
 import com.kkirikkiri.domain.learning.entity.Learning;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -21,6 +23,7 @@ public class Content {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "story_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Story story;
 
     @Column

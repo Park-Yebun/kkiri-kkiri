@@ -193,6 +193,7 @@ public class BookService {
                 .member(story.getMember())
                 .title(title)
                 .openState(story.getOpenState())
+                .summary(story.getSummary())
                 .build();
 
         storyRepository.save(updatedStory);
