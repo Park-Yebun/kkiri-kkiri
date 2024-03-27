@@ -28,23 +28,21 @@ public class BookshelfController {
         return ResponseEntity.ok(bookshelfService.getAllStories(loginId));
     }
 
-    @PostMapping("/{loginId}")
+    @PostMapping
     public ResponseEntity<String> createBookshelf(
-            @RequestBody BookshelfRequest bookshelfRequest,
-            @PathVariable String loginId
+            @RequestBody BookshelfRequest bookshelfRequest
     ) {
 
-        String result = bookshelfService.createBookshelf(bookshelfRequest, loginId);
+        String result = bookshelfService.createBookshelf(bookshelfRequest);
         return ResponseEntity.ok(result);
     }
 
-    @DeleteMapping("/{loginId}")
+    @DeleteMapping
     public ResponseEntity<String> deleteBookshelf(
-            @RequestBody BookshelfRequest bookshelfRequest,
-            @PathVariable String loginId
+            @RequestBody BookshelfRequest bookshelfRequest
     ) {
 
-        String result = bookshelfService.deleteBookshelf(bookshelfRequest, loginId);
+        String result = bookshelfService.deleteBookshelf(bookshelfRequest);
         return ResponseEntity.ok(result);
     }
 }
