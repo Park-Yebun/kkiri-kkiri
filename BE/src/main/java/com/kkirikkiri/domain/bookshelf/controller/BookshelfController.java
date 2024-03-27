@@ -37,13 +37,12 @@ public class BookshelfController {
         return ResponseEntity.ok(result);
     }
 
-    @DeleteMapping("/{loginId}")
+    @DeleteMapping
     public ResponseEntity<String> deleteBookshelf(
-            @RequestBody BookshelfRequest bookshelfRequest,
-            @PathVariable String loginId
+            @RequestBody BookshelfRequest bookshelfRequest
     ) {
 
-        String result = bookshelfService.deleteBookshelf(bookshelfRequest, loginId);
+        String result = bookshelfService.deleteBookshelf(bookshelfRequest);
         return ResponseEntity.ok(result);
     }
 }

@@ -88,8 +88,8 @@ public class BookshelfService {
     }
 
     // 책장에서 동화책 삭제
-    public String deleteBookshelf(BookshelfRequest bookshelfRequest, String loginId) {
-        Member member = memberRepository.findByLoginId(loginId)
+    public String deleteBookshelf(BookshelfRequest bookshelfRequest) {
+        Member member = memberRepository.findByLoginId(bookshelfRequest.getLoginId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
         Story story = storyRepository.findById(bookshelfRequest.getStoryId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 스토리가 없습니다."));
