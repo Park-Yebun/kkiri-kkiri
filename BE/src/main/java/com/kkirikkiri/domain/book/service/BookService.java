@@ -111,17 +111,28 @@ public class BookService {
 
         for (ContentRequest contentRequest : contentRequestList) {
 
-            Content content = Content.builder()
-                    .story(Story.builder().id(contentRequest.getStoryId()).build())
-                    .lineId(contentRequest.getLineId())
-                    .koreanSentence(contentRequest.getKoreanSentence())
-                    .translatedSentence(contentRequest.getTranslatedSentence())
-                    .imageDescription(contentRequest.getImageDescription())
-                    .build();
-            contentRepository.save(content);
+            Content existingContent = contentRepository.findByStoryIdAndLineId(
+                    contentRequest.getStoryId(),
+                    contentRequest.getLineId()
+            );
 
+            if (existingContent != null) {
+//                log.info("이미 있는 데이터!");
+                existingContent.setKoreanSentence(contentRequest.getKoreanSentence());
+                existingContent.setTranslatedSentence(contentRequest.getTranslatedSentence());
+                existingContent.setImageDescription(contentRequest.getImageDescription());
+                contentRepository.save(existingContent);
+            } else {
+//                log.info("새로 추가한 데이터!");
+                Content content = new Content();
+                content.setStory(Story.builder().id(contentRequest.getStoryId()).build());
+                content.setLineId(contentRequest.getLineId());
+                content.setKoreanSentence(contentRequest.getKoreanSentence());
+                content.setTranslatedSentence(contentRequest.getTranslatedSentence());
+                content.setImageDescription(contentRequest.getImageDescription());
+                contentRepository.save(content);
+            }
         }
-
         return "이야기가 성공적으로 저장됐어요";
     }
 
