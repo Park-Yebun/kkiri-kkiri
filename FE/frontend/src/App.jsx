@@ -5,7 +5,7 @@ import LoginPage from "./pages/LoginPage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
 import MypagePage from "./pages/MypagePage.jsx";
 import MainPage from "./pages/MainPage.jsx";
-import StorybookPage from "./pages/StorybookPage.jsx";
+import StorybookPage from "./pages/StoryBookPage.jsx";
 
 // 쓸 때 주석해제하세요
 // import BookshelfPage from "./pages/BookshelfPage.jsx"
