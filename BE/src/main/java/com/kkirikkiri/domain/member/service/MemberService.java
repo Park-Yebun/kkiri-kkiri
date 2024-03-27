@@ -78,30 +78,37 @@ public class MemberService {
     }
 
     public String modifyMember(Long memberId, UpdateInfoRequest updateInfoRequest) {
-        Optional<Member> optionalMember = memberRepository.findById(memberId); // 기존 데베에 있는 회원정보 가져오기
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 
-        if (optionalMember.isPresent()) {
-            Member member = optionalMember.get();
-            member.setPassword(updateInfoRequest.getPassword());
-            member.setNickname(updateInfoRequest.getNickname());
-            member.setThumbnail(updateInfoRequest.getThumbnail());
-            member.setLevel(updateInfoRequest.getLevel());
-
-            return member.getNickname();
-        } else {
-            throw new IllegalArgumentException("회원정보 수정에 실패했습니다.");
+        if (checkNickname(updateInfoRequest.getNickname())) {
+            throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
         }
+
+        Member updatedMember = Member.builder()
+                .id(member.getId())
+                .loginId(member.getLoginId())
+                .password(updateInfoRequest.getPassword())
+                .nickname(updateInfoRequest.getNickname())
+                .thumbnail(updateInfoRequest.getThumbnail())
+                .level(updateInfoRequest.getLevel())
+                .age(member.getAge())
+                .build();
+
+        memberRepository.save(updatedMember);
+
+        return "수정이 완료됐어요!";
     }
 
     public String deleteMember(Long memberId) {
-        Optional<Member> optionalMember = memberRepository.findById(memberId); // 기존 데베에 있는 회원정보 가져오기
-
-        if (optionalMember.isPresent()) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+        try {
             memberRepository.deleteById(memberId);
-            return "회원 탈퇴가 정상적으로 완료되었습니다.";
-        } else {
+        } catch (Exception e) {
             throw new IllegalArgumentException("회원 탈퇴에 실패했습니다.");
         }
+        return "회원 탈퇴가 완료됐습니다.";
     }
 
     public Boolean checkLoginId(String loginId) {

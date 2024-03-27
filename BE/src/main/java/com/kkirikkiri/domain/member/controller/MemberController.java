@@ -49,31 +49,31 @@ public class MemberController {
         try {
             MemberInfo memberInfo = memberService.getMember(memberId);
             if (memberInfo != null)
-                return new ResponseEntity<MemberInfo>(memberInfo, HttpStatus.OK);
+                return ResponseEntity.ok(memberInfo);
             else
-                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+                return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return exceptionHandling(e);
 
         }
     }
 
-    @PutMapping("/{memberid}")
-    public ResponseEntity<?> modifyMember(@PathVariable long memberid, @RequestBody UpdateInfoRequest updateInfoRequest) {
+    @PutMapping("/{memberId}")
+    public ResponseEntity<?> modifyMember(
+            @PathVariable long memberId,
+            @RequestBody UpdateInfoRequest updateInfoRequest) {
         try {
-            return ResponseEntity.ok(memberService.modifyMember(memberid, updateInfoRequest));
+            return ResponseEntity.ok(memberService.modifyMember(memberId, updateInfoRequest));
         } catch (Exception e) {
             return exceptionHandling(e);
         }
     }
 
     @DeleteMapping("/{memberId}")
-    public ResponseEntity<?> deleteMember(@PathVariable long memberId) {
-        try {
-            return ResponseEntity.ok(memberService.deleteMember(memberId));
-        } catch (Exception e) {
-            return exceptionHandling(e);
-        }
+    public ResponseEntity<String> deleteMember(@PathVariable long memberId) {
+
+        return ResponseEntity.ok(memberService.deleteMember(memberId));
+
     }
 
     // 아이디 중복 검사
