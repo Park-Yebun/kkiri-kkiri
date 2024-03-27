@@ -59,40 +59,35 @@ public class BookService {
 //        }
 
         // DB에서 데이터 가져오기
-        Optional<Story> newStory = storyRepository.findById(storyId);
-        if (newStory.isPresent()) {
+        Story story = storyRepository.findById(storyId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 동화책이 없습니다."));
 
-            List<Content> contents = contentRepository.findAllByStoryId(storyId);
-            List<ContentResponse> contentResponses = contents.stream()
-                    .map(content -> ContentResponse.builder()
-                            .storyId(content.getStory().getId())
-                            .lineId(content.getLineId())
-                            .koreanSentence(content.getKoreanSentence())
-                            .translatedSentence(content.getTranslatedSentence())
-                            .imageDescription(content.getImageDescription())
-                            .imageUrl(content.getImageUrl())
-                            .maleVoiceUrl(content.getMaleVoiceUrl())
-                            .femaleVoiceUrl(content.getFemaleVoiceUrl())
-                            .build())
-                    .toList();
+        List<Content> contents = contentRepository.findAllByStoryId(storyId);
+        List<ContentResponse> contentResponses = contents.stream()
+                .map(content -> ContentResponse.builder()
+                        .storyId(content.getStory().getId())
+                        .lineId(content.getLineId())
+                        .koreanSentence(content.getKoreanSentence())
+                        .translatedSentence(content.getTranslatedSentence())
+                        .imageDescription(content.getImageDescription())
+                        .imageUrl(content.getImageUrl())
+                        .maleVoiceUrl(content.getMaleVoiceUrl())
+                        .femaleVoiceUrl(content.getFemaleVoiceUrl())
+                        .build())
+                .toList();
 
-            StoryResponse newStoryResponse = StoryResponse.builder()
-                    .id(newStory.get().getId())
-                    .memberId(newStory.get().getMember().getId())
-                    .memberNickname(newStory.get().getMember().getNickname())
-                    .title(newStory.get().getTitle())
-                    .openState(newStory.get().getOpenState())
-                    .summary(newStory.get().getSummary())
-                    .contents(contentResponses)
-                    .build();
-
-            // DB에서 가져온 데이터 캐시에 넣기
-            bookRedisRepository.save(newStoryResponse);
-            return newStoryResponse;
-
-        } else {
-            throw new RuntimeException("Story with ID " + storyId + " not found.");
-        }
+        // DB에서 가져온 데이터 캐시에 넣기
+//            bookRedisRepository.save(storyResponse);
+        return StoryResponse.builder()
+                .id(story.getId())
+                .memberId(story.getMember().getId())
+                .memberNickname(story.getMember().getNickname())
+                .title(story.getTitle())
+                .openState(story.getOpenState())
+                .summary(story.getSummary())
+                .createdAt(story.getCreatedAt())
+                .contents(contentResponses)
+                .build();
 
     }
 

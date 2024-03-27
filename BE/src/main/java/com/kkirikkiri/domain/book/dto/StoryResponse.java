@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +27,6 @@ public class StoryResponse implements Serializable {
     private String title;
     private OpenState openState;
     private String summary;
-    private String date;
+    private LocalDateTime createdAt;
     private List<ContentResponse> contents;
 }
