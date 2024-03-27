@@ -4,8 +4,15 @@ import Background from '../components/common/Background';
 import Sentence from '../components/story/Sentence';
 import background from '../assets/story/backimgstory.png';
 import quill from '../assets/story/quill.png';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import  dummyjson  from '../pages/storydummy.json';
+// const messagesdummy = [
+//   "어느 날 덕수는 친구와 구슬놀이를 하고 있었습니다.",
+//   "그때 갑자기 하늘에서 반짝이는 별이 떨어졌어요.",
+//   "별에서 나타난 것은 오징어외계인 오돌이 였습니다. 덕수와 구슬놀이를 하기 위해 머나먼 곳에서 찾아온 것이었지요.",
+//   "오돌이는 귀여운 모습으로 덕수를 놀라게 했어요.",
+//   "새로운 친구라면 언제나 환영이야\" 반갑게 오돌이를 맞이하는 덕수는 함께놀던 친구 호철이와 셋이서 슈퍼 구슬치기를 하기로 했습니다."
+// ];
 
 
 const StoryContainer = styled.div`
@@ -119,7 +126,7 @@ const UserInput = styled.textarea`
 		/* background-color: pink; */
 	}
 `
-const StoryInput = styled.div`
+const TextInput = styled.div`
 width: 104rem;
 height: 100%;
 /* background-color: yellow; */
@@ -219,168 +226,150 @@ const SendBtn = styled.div``
 // 	)
 // })
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
-let convUser = [
-	{
-		"role": "system",
-		"content": "나는 10살 한국 아이로, 동화를 좋아해."
-	},
-	{
-		"role": "system",
-		"content": "너는 아이들을 좋아하고 동화를 만드는 창의적이고 동화작가야."
-	},
-	{
-		"role": "system",
-		"content": "지금부터 나와 함께 동화를 만들어보자.내가 먼저 한 문장 길이의 동화를 입력하면, 너는 그 동화를 이어서 대답하는거야."
-	},
-	{
-		"role": "system",
-		"content": "함께 만들 동화는 10 번의 정도의 대화를 오가면서 만들어질거야. 내가 끝이라고 말하면, 동화를 마무리 지어줘"
-	},
-	{
-		"role": "system",
-		"content": "너의 대답은 100글자를 넘지 않아야 하고, 공손해야 해."
-	},
-	// {
-	// 	"role": "system",
-	// 	"content": ""
-	// },
-	// {
-	// 	"role": "system",
-	// 	"content": ""
-	// },
-	// const {convUser, setConvUser} = useState([
-		// {
-		// 	"role": "system",
-		// 	"content": "user is a 10 years old korean child who loves fairy tales."
-		// },
-		// {
-		// 	"role": "system",
-		// 	"content": "you are a fairy tale writer who loves children and makes fairy tales with user."
-		// },
-		// {
-		// 	"role": "system",
-		// 	"content": "당신은 창의적인 동화작가입니다."
-		// },
-		// {
-		// 	"role": "system",
-		// 	"content": "user의 한 문장의 동화를 듣고, 그에 대한 이야기를 100byte를 넘지 않는 분량으로 만들어주세요."
-		// },
-		// {
-		// 	"role": "system",
-		// 	"content": "user는 영어를 잘 못하므로, user와 대화할 때는 한국어로 대화해야 합니다."
-		// },
-		// // {
-		// // 	"role": "system",
-		// // 	"content": "당신의 대답은 100 글자를 넘지 않아야 합니다."
-		// // },
-		// {
-		// 	"role": "system",
-		// 	// "content": 'The output format is korGPT=; engGPT=; descGPT=;'
-		// 	"content": '당신은 이런 형식으로 답합니다. koreanSentence=; translatedSentense=; imageDescription=;'
-		// },
-		// {
-		// 	"role": "system",
-		// 	"content": "예를 들어, user가 \"옛날옛날에 작은 하마는 작은 장난감 기차를 가지고 있었습니다.\" 라고 입력하면, \
-		// 	다음과 같은 형식으로 답하십시오. \
-		// 	koreanSentence=어느 날, 작은 하마는 작은 장난감 기차를 타고 바다로 놀러가기로 했어요; \
-		// 	translatedSentence=One day, the little hippo decided to take a small toy train to the sea for a picnic; \
-		// 	imageDescription=The little hippo is riding a small toy train to the sea."
-		// }
-	// ]);
-	];
-
-
-const StoryPage = () => {
-	// console.log("찰초공")
+const StoryPage0 = () => {
 	const [writer, setWriter]	= useState("짱짱맨");
 	const openaiUser = new OpenAI({apiKey: "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", dangerouslyAllowBrowser: true});
-	
-	const [messages, setMessages] = useState([
-		
+	const openaiGPT = new OpenAI({apiKey: "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", dangerouslyAllowBrowser: true});
+	const [conversationUser, setConversationUser]	= useState([
+		{
+			"role": "system",
+    //   "content": "Please echo message and translate it. Additionally, please write an image description to be used for image generation AI in English with a length of approximately 100 bytes each."
+			"content": "주어진 문장에 대한 다음 규칙을 만족하는 문자열을 반환해줘. koreanSentence는 입력된 한국어 문장, \
+	  			translatedSentense는 koreanSentence를 영어로 번역한 문장, \
+				imageDescription은 translatedSentense를 영어로 서술한 거야."
+		},
+		{
+			"role": "system",
+      "content": 'The output format is koreanSentence=; translatedSentense=; imageDescription=;'
+		},
+		// {
+		// 	"role": "system",
+		// 	"content": "for example, when messagge is \"강아지 모모는 낮잠을 자고 있었습니다.\", your output is koreanSentence=강아지 모모는 낮잠을 자고 있었습니다.; translatedSentense=The puppy Momo was taking a nap.; imageDescription=A cute puppy named Momo is sleeping in a cozy bed.;"
+		// }
 	]);
-	// const {conv, setConv} = setState([]);
 
-	const chatWithGpt = async (ii) => {
-		convUser.push({role: "user", content: ii})
-		console.log(quillNum)
-		if (quillNum === 0) { 
-			convUser = [{role: "assistant", content: "이 동화를 100글자 이내로 마무리 해줘 "}, ... convUser]
-		}
-		// let xxxx = [1234]
-		// console.log(xxxx)
-		sleep(50);
-		// setConv(xxxx);
+	const [conversationGPT, setConversationGPT]	= useState([
+		{
+			"role": "system",
+			"content": "user is 10 years old children."
+		},
+		{
+			"role": "system",
+			// "content": "You are a creative taleteller who kind and appropriate for children. when you heard a sentence of tale, respond with the next sentence of the tale."
+			"content": "You are a creative taleteller who kind and appropriate for children. when you received a message, respond with the next sentence of the tale."
+		},
+		{
+			"role": "system",
+			"content": "addtionally, translate it and write an image description to be used for image generation AI in English with a length of approximately 100 bytes. each"
+		},
+		{
+		"role": "system",
+		// "content": 'The output format is korGPT=; engGPT=; descGPT=;'
+		"content": 'The output format is koreanSentence=; translatedSentense=; imageDescription=;'
+		},
+		// {
+		// 	"role": "system",
+		// 	"content": "for example, when messagge is \"강아지 모모는 낮잠을 자고 있었습니다.\", your output is koreanSentence=그런데 어떤 달콤한 냄새에 모모는 잠에서 깨고 말았어요.; translatedSentense=But Momo woke up from sleep because of a sweet smell.; imageDescription=A puppy awakened by a sweel smell;"
+		// }
+	]);
+	const {storyId, setStoryId} = useState(1);
+	const {lineId, setLineId} = useState(1);
+	// let lineId = 1;
+	const writeStory = async (message) => {
+	// const writeStory = (message) => {
+		console.log("들어온 문장: ",message)
+		setConversationUser([...conversationUser, {"role": "user", "content": message}]);
+		setConversationGPT([...conversationGPT, {"role": "user", "content": message}]);
+
+		// const completionUser = openaiUser.chat.completions.create({
 		const completionUser = await openaiUser.chat.completions.create({
-			messages: convUser,
+			messages: conversationUser,
 			model: "gpt-3.5-turbo",
 			// max_tokens: 50,
 			temperature: 0.7
 		});
-		const responseUser = completionUser.choices[0].message.content;
-		convUser.push({role: "assistant", content: responseUser})
-		return responseUser;
-		}
-		// console.log("대화록:", ii);}
+		// const completionGPT = openaiGPT.chat.completions.create({
+		const completionGPT = await openaiGPT.chat.completions.create({
+			messages: conversationGPT,
+			model: "gpt-3.5-turbo",
+			// max_tokens: 50,
+			temperature: 0.7
+		});
 
-		
-  const [quillNum, setQuillNum] = useState(5);
+		const responseUser = completionUser.choices[0].message;
+		console.log("사용자대답",responseUser.content)
+		console.log(storyId)
+		setConversationUser([...conversationUser, {"role": "assistant", "content": responseUser.content}]);
+		console.log(conversationUser)
+		const responseGPT = completionGPT.choices[0].message;
+		console.log("GPT대답",responseGPT.content)
+		console.log(storyId)
+		setConversationGPT([...conversationGPT, {"role": "assistant", "content": responseGPT.content}]);
+		console.log(conversationGPT)
 
-	const writeGptStory = async () => {
-		console.log("배고파")
-		const xx = await chatWithGpt(inputUser);
-		// await sleep(3000);
-	setMessages(messages => [...messages, xx]);
+		const arrayUser = responseUser.content.split(";").reduce((result, pair) => {
+			const [key, value] = pair.split('=');
+			result[key] = value;
+      return result;
+			}, {"storyId": storyId, "lineId": 1
+		});
+
+		const arrayGPT = responseGPT.content.split(";").reduce((result, pair) => {
+			const [key, value] = pair.split('=');
+      result[key] = value;
+      return result;
+			}, {"storyId": storyId, "lineId": 99
+		});
+		console.log(arrayUser);
+		console.log(arrayGPT);
 	}
-	
 
-  const writeStory = () => {
-		
-		console.log("입력메세지: ", inputUser)
-		setMessages(messages => [...messages, inputUser]);
-		// useEffect(() => {setMessages([...messages, inputUser])}, [messages]);
-		console.log("메세지: ", messages);
+
+
+
+
+  const [quillNum, setQuillNum] = useState(10);
+	const [messages, setMessages] = useState([]);
+
+  const WriteSentence = () => {
+		console.log(inputMessage)
+		writeStory(inputMessage);
+		setMessages([...messages, inputMessage]);
 		inputX.current.value = "";
 		setInputLength(0);
 		inputX.current.focus();
-		setInputUser("");
+		setInputMessage("");
 		if (quillNum > 0) {
 			setQuillNum(quillNum - 1);
 		}
 		else {
 			console.log("우리의 이야기는 여기까지.");
 		}
-
-		writeGptStory();
 	}
 
-	
-
-	const [inputUser, setInputUser] = useState("");
+	const [inputMessage, setInputMessage] = useState("");
 	const [inputLength, setInputLength] = useState(0);
 	const inputX = useRef();
 	const buttonRef = useRef();
-	// useEffect(() => {setConvUser([...convUser,{role: "user", content: ii}])}, [inputUser]);
-	// useEffect(() => console.log("정열맨"), [inputUser]);
+
 	const CheckLength = (e) => {
 		if (inputLength > 100) {
 			e.target.value = e.target.value.slice(0, 100);
-			setInputUser(e.target.value)
+			setInputMessage(e.target.value)
 			setInputLength(e.target.value.length);
 			return;
 		}
-		setInputUser(e.target.value)
+		setInputMessage(e.target.value)
 		setInputLength(e.target.value.length);
 	}
 	const handleOnKeyDown = (e) => {
 		if (e.keyCode === 13) {
 			e.preventDefault();
-			writeStory();
+			WriteSentence();
 		}
 	}
+
   return (
 		<Background backgroundimage={background}>
 			<StoryContainer>
@@ -397,19 +386,19 @@ const StoryPage = () => {
 					})}
 				</StoryScrollbox>
 				<StoryInputBox>
-					<StoryInput>
+					<TextInput>
 						<Sentence2>
 							<UserInput onChange={CheckLength} ref={inputX} onKeyDown={handleOnKeyDown}></UserInput>
 						</Sentence2>
 						{/* <Capa style={{color: inputLength > 100 ? "red" : "black"}} ref={capaRef}>{inputLength}</Capa> */}
 						<Capa>{inputLength}</Capa>
-					</StoryInput>
+					</TextInput>
 					<MiniBox>
 						<Quill>
 							<QuillImg src={quill}></QuillImg>
 							<QuillNum>{quillNum}</QuillNum>
 						</Quill>
-						<WriteBtn onClick={writeStory} ref={buttonRef}>작성</WriteBtn>
+						<WriteBtn onClick={WriteSentence} ref={buttonRef}>작성</WriteBtn>
 					</MiniBox>
 				</StoryInputBox>
 			</StoryContainer>
@@ -418,4 +407,4 @@ const StoryPage = () => {
   );
 };
 
-export default StoryPage;
+export default StoryPage0;

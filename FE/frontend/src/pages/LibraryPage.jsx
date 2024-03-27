@@ -73,7 +73,7 @@ const SearchDropdown = styled.select`
     background-size: 3.5rem;
     font-family: 'Ttangsbudaejjigae OTF';
     font-weight: 300;
-    font-size: 3.5rem;
+    font-size: clamp(1rem, 2.19vw, 3.125rem);
     text-align : center;
     appearance: none;
     -moz-appearance: none;
@@ -88,7 +88,7 @@ const KeyWordInputBox = styled.input`
     top: 2rem;
     background-color : rgba(167, 167, 167, 0.90);
     font-family: "Ttangsbudaejjigae OTF";
-    font-size: 3rem;
+    font-size : clamp(1rem, 1.875vw, 3rem);
     border-radius: 1.875rem;
     text-indent : 2.85rem;
     border-color: rgba(167, 167, 167, 0.90);
@@ -100,7 +100,7 @@ const SearchButton = styled.div`
     border-radius: 1.875rem;
     font-family: "Ttangsbudaejjigae OTF";
     font-weight: 300;
-    font-size: 3.5rem;
+    font-size: clamp(1rem, 2.19vw, 3.125rem);
     text-align : center;
     line-height : 6.7vh;
 
@@ -116,7 +116,7 @@ const SortedDropdown = styled.select`
     background-size: 3.5rem;
     font-family: 'Ttangsbudaejjigae OTF';
     font-weight: 500;
-    font-size: 3rem;
+    font-size: clamp(1rem, 2.19vw, 3.125rem);
     text-align : center;
     padding-right: 1rem ;
     appearance: none;
@@ -132,7 +132,7 @@ const ImgBox = styled.div`
 `
 
 const Top3Text = styled.div`
-    font-size: 3.3125rem;
+    font-size: clamp(1rem, 2.07vw, 3rem);
     font-family : 'Ttangsbudaejjigae OTF';
     color: #F6DA47;
     margin-top : 2.2rem;
@@ -317,7 +317,7 @@ const PrevBtn = styled.div`
     color: #000;
     text-align: center;
     font-family: "Ttangsbudaejjigae OTF";
-    font-size: 2.8125rem;
+    font-size: clamp(1.5rem, 1.7vw, 3rem);
     font-style: normal;
     font-weight: 300;
     line-height: 8.625vh;

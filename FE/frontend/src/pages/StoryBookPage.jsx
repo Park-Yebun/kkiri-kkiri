@@ -99,4 +99,4 @@ const StorybookPage = () => {
   );
 };
 
-export default StorybookPage;
+export default StoryBookPage;

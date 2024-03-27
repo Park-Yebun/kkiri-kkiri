@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
 import MypagePage from "./pages/MypagePage.jsx";
 import MainPage from "./pages/MainPage.jsx";
+import StoryPage from "./pages/StoryPage.jsx"
 // import StorybookPage from "./pages/StorybookPage.jsx";
 import Test from "./pages/Test.jsx";
 
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/signup" element={<SignupPage/>} />
         <Route path="/mypage" element={<MypagePage/>} />
         <Route path="/" element={<MainPage/>} />
+        <Route path="/story/:user-id" element={<StoryPage/>}/>
         <Route path="/library" element={<LibraryPage/>} />
         {/* <Route path="/Storybook" element={<StorybookPage/>} /> */}
         <Route path="/test" element={<Test/>} />
