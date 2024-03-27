@@ -24,7 +24,7 @@ const Container = styled.div`
 `;
 
 const Slide = styled.div`
-  width: 87%;
+  width: 87.5%;
   height: 100%;
   position: absolute;
   opacity: 0;
@@ -33,14 +33,14 @@ const Slide = styled.div`
   justify-content: space-evenly;
   align-items: center;
   border-radius: 4rem;
-
+  
   &.active {
     opacity: 1;
   }
 `;
 
 const SlideBox = styled.div`
-
+  
 `
 
 const Photo = styled.img`
@@ -73,18 +73,18 @@ const ExplainPhotobg2 = styled.img`
 `;
 
 const Explain = styled.div`
-  width: 60%;
-  font-size: 2.7rem;
+  width: 66%;
+  font-size: 1.7rem;
   font-weight: 300;
   color: black;
   white-space: pre-line;
-  margin: 0 5% 0 4%;
+  margin: 0 4% 0 4%;
   text-align: center;
   line-height:1.5;
 `;
 
 const Name = styled.div`
-  font-size: 3.8rem;
+  font-size: 2.3rem;
   font-weight: 500;
   margin-top: 0.5rem;
 `;
@@ -92,19 +92,19 @@ const Name = styled.div`
 
 const ThumbnailBox = styled.div`
   display: flex;
-  width: 13%;
+  width: 12.5%;
   justify-content: center;
   flex-direction: column;
 `;
 
 const Thumbnail = styled.div`
-  width: 15rem;
-  height: 14.5rem;
+  width: 8rem;
+  height: 9rem;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin:5px;
+  margin: 3px;
   cursor: pointer;
   z-index: 1;
   background: rgba(240, 240, 240, 0.5);
