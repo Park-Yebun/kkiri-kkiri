@@ -1,9 +1,11 @@
 package com.kkirikkiri.domain.bookshelf.service;
 
 import com.kkirikkiri.domain.book.dto.StoryResponse;
+import com.kkirikkiri.domain.book.entity.Content;
 import com.kkirikkiri.domain.book.entity.Story;
 import com.kkirikkiri.domain.book.repository.ContentRepository;
 import com.kkirikkiri.domain.book.repository.StoryRepository;
+import com.kkirikkiri.domain.bookshelf.dto.BookshelfRequest;
 import com.kkirikkiri.domain.bookshelf.dto.BookshelfResponse;
 import com.kkirikkiri.domain.bookshelf.entity.Bookshelf;
 import com.kkirikkiri.domain.bookshelf.repository.BookshelfRepository;
@@ -12,7 +14,9 @@ import com.kkirikkiri.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Book;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -39,6 +43,8 @@ public class BookshelfService {
                 .storyId(story.getId())
                 .title(story.getTitle())
                 .author(member.getNickname())
+                .imageURL(contentRepository.findByStoryIdAndLineId(story.getId(), 1).getImageUrl())
+                .summery(story.getSummary())
                 .build())
             .toList();
 
@@ -51,10 +57,47 @@ public class BookshelfService {
                 .title(bookshelf.getStory().getTitle())
                 .author(bookshelf.getStory().getMember().getNickname())
                 .imageURL(contentRepository.findByStoryIdAndLineId(bookshelf.getStory().getId(), 1).getImageUrl())
+                .summery(bookshelf.getStory().getSummary())
                 .build())
             .toList();
 
         return Stream.concat(myBooks.stream(), otherBooks.stream())
             .collect(Collectors.toList());
     }
+
+    // 책장에 동화책 추가
+    public String createBookshelf(BookshelfRequest bookshelfRequest, String loginId) {
+        Member member = memberRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+        Story story = storyRepository.findById(bookshelfRequest.getStoryId())
+            .orElseThrow(() -> new IllegalArgumentException("해당 스토리가 없습니다."));
+
+        Bookshelf findBookshelf = bookshelfRepository.findByMemberIdAndStoryId(member.getId(), story.getId());
+        if (findBookshelf != null) return "이미 책장에 추가되어있어요!!";
+        if (story.getMember().getId() == member.getId()) return "자신의 이야기는 추가할 수 없어요!!";
+
+        Bookshelf bookshelf = Bookshelf.builder()
+                .member(member)
+                .story(story)
+                .build();
+
+        bookshelfRepository.save(bookshelf);
+
+        return "책장에 추가되었어요!!";
+    }
+
+    // 책장에서 동화책 삭제
+    public String deleteBookshelf(BookshelfRequest bookshelfRequest, String loginId) {
+        Member member = memberRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+        Story story = storyRepository.findById(bookshelfRequest.getStoryId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 스토리가 없습니다."));
+
+        Bookshelf findBookshelf = bookshelfRepository.findByMemberIdAndStoryId(member.getId(), story.getId());
+        if (findBookshelf == null) return "책장에 해당 스토리가 존재하지 않아요!!";
+
+        bookshelfRepository.delete(findBookshelf);
+        return "책장에서 삭제되었어요!!";
+    }
+
 }
