@@ -85,7 +85,7 @@ public class BookService {
                 .title(story.getTitle())
                 .openState(story.getOpenState())
                 .summary(story.getSummary())
-                .createdAt(story.getCreatedAt())
+                .createdAt(story.getCreateDate())
                 .contents(contentResponses)
                 .build();
 

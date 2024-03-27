@@ -9,7 +9,10 @@ import jdk.jfr.Timestamp;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import static jakarta.persistence.EnumType.STRING;
@@ -42,5 +45,4 @@ public class Story extends BaseEntity {
 
     @Column(length = 511)
     private String summary;
-
 }

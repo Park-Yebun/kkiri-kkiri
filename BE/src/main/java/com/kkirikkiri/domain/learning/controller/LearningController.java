@@ -23,16 +23,26 @@ public class LearningController {
     }
 
 
-    // 말하기 학습 데이터 업데이트
+    // 쓰기 학습 데이터 업데이트
     @PutMapping("/{learningId}/write")
     public ResponseEntity<?> modifyWritingData(
             @PathVariable Long learningId, @RequestBody WritingRequest writingRequest) {
         return ResponseEntity.ok(learningService.modifyWritingData(learningId, writingRequest));
     }
 
+        
+    // 말하기 학습 데이터 업데이트
     @PutMapping("/{learningId}/speak")
     public ResponseEntity<?> modifySpeakingData(
             @PathVariable Long learningId, @RequestBody SpeakingRequest speakingRequest) {
         return ResponseEntity.ok(learningService.modifySpeakingData(learningId, speakingRequest));
+    }
+    
+    
+    // 초기 학습 데이터 생성
+    @PostMapping("/{storyId}")
+    public ResponseEntity<?> createLearningData(
+            @PathVariable Long storyId) {
+        return ResponseEntity.ok(learningService.createLearningData(storyId));
     }
 }
