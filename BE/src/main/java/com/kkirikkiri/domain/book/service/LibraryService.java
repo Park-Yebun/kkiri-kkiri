@@ -55,13 +55,14 @@ public class LibraryService {
             }
         }
 
+        assert stories != null;
         List<LibraryResponse> libraries = new java.util.ArrayList<>(stories.stream()
                 .map(story -> LibraryResponse.builder()
                         .title(story.getTitle())
                         .author(story.getMember().getNickname())
                         .summary(story.getSummary())
                         .imageURL(contentRepository.findByStoryIdAndLineId(story.getId(), 1).getImageUrl())
-                        .download((long) bookshelfRepository.findByStoryId(story.getId()).size())
+                        .download(bookshelfRepository.findByStoryId(story.getId()).size())
                         .date(story.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                         .possession(bookshelfRepository.findByMemberIdAndStoryId(member.getId(), story.getId()) != null)
                         .build())

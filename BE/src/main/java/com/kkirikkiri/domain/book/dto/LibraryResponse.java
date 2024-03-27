@@ -11,7 +11,7 @@ public class LibraryResponse {
     private String author;
     private String summary;
     private String imageURL;
-    private Long download;
+    private Integer download;
     private String date;
     private Boolean possession;
 
