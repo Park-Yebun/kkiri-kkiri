@@ -67,15 +67,15 @@ public class BookshelfService {
     }
 
     // 책장에 동화책 추가
-    public String createBookshelf(BookshelfRequest bookshelfRequest, String loginId) {
-        Member member = memberRepository.findByLoginId(loginId)
+    public String createBookshelf(BookshelfRequest bookshelfRequest) {
+        Member member = memberRepository.findByLoginId(bookshelfRequest.getLoginId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
         Story story = storyRepository.findById(bookshelfRequest.getStoryId())
             .orElseThrow(() -> new IllegalArgumentException("해당 스토리가 없습니다."));
 
         Bookshelf findBookshelf = bookshelfRepository.findByMemberIdAndStoryId(member.getId(), story.getId());
-        if (findBookshelf != null) return "이미 책장에 추가되어있어요!!";
-        if (Objects.equals(story.getMember().getId(), member.getId())) return "자신의 이야기는 추가할 수 없어요!!";
+        if (findBookshelf != null) throw new IllegalArgumentException("이미 책장에 추가되었어요!!");
+        if (Objects.equals(story.getMember().getId(), member.getId())) throw new IllegalArgumentException("자신의 이야기는 추가할 수 없어요!!");
 
         Bookshelf bookshelf = Bookshelf.builder()
                 .member(member)
