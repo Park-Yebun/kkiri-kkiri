@@ -135,7 +135,7 @@ const Description = () => {
       animate1: 'animate__animated animate__shakeX animate__infinite animate__slower animate__delay-2s',
       animate2: 'animate__animated animate__shakeX animate__infinite animate__slower',
       backgroundColor :'rgba(255, 242, 216, 0.80)', 
-      explain: '“안녕 AI 친구인 끼리코와 함께 한문장씩 번갈아가며\n나만의 이야기를 쓸 수 있어!“'},
+      explain: '“AI 친구인 끼리코와 함께 한문장씩 번갈아가며\n나만의 이야기를 쓸 수 있어!“'},
     { id: 2, name:'책장',
       img: simplebookshelf, 
       img2: bookshelf, 
@@ -146,7 +146,7 @@ const Description = () => {
       animate1: 'animate__animated animate__shakeY animate__infinite animate__slower animate__delay-1s',
       animate2: 'animate__animated animate__shakeY animate__infinite animate__slower',
       backgroundColor :'rgba(230, 255, 218, 0.80)', 
-      explain: '“안녕 책장에 가면 네가 쓴 이야기를 확인할 수 있어!\n네가 쓴 이야기를 영어로 공부하면\n그림을 생성해줄게.\n너만의 그림 동화책을 만들어볼래?”'},
+      explain: '“책장에 가면 네가 쓴 이야기를 확인할 수 있어!\n네가 쓴 이야기를 영어로 공부하면\n그림을 생성해줄게.\n너만의 그림 동화책을 만들어볼래?”'},
     { id: 3, 
       name:'도서관',
       img: simplelibrary, 
@@ -158,7 +158,7 @@ const Description = () => {
       animate1: 'animate__animated animate__heartBeat animate__infinite animate__delay-1s', 
       animate2: 'animate__animated animate__heartBeat animate__infinite',
       backgroundColor :'rgba(223, 228, 255, 0.80)', 
-      explain: '“안녕 도서관에 가면 다른 친구들의 동화책을\n읽어볼 수 있고, 친구들이 만든 동화로도\n공부해볼 수 있어!”'},
+      explain: '“도서관에 가면 다른 친구들의 동화책을\n읽어볼 수 있고, 친구들이 만든 동화로도\n공부해볼 수 있어!”'},
   ];
 
   useEffect(() => {
