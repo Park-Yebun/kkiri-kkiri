@@ -21,7 +21,6 @@ public class Learning {
 
     @Id
     private Long id;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "story_id")
     private Story story;
@@ -31,10 +30,16 @@ public class Learning {
     private Member member;
 
     @Column
-    private Integer lineNo;
+    private Integer writingLineNo;
 
     @Column
-    private Integer completeNo;
+    private Integer speakingLineNo;
+
+    @Column
+    private Integer writingCpltNo;
+
+    @Column
+    private Integer speakingCpltNo;
 
 
 

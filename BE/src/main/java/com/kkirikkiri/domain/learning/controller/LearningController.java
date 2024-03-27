@@ -1,7 +1,7 @@
 package com.kkirikkiri.domain.learning.controller;
 
-import com.kkirikkiri.domain.learning.dto.LearningRequest;
-import com.kkirikkiri.domain.learning.dto.LearningResponse;
+import com.kkirikkiri.domain.learning.dto.SpeakingRequest;
+import com.kkirikkiri.domain.learning.dto.WritingRequest;
 import com.kkirikkiri.domain.learning.dto.StoryResponse;
 import com.kkirikkiri.domain.learning.service.LearningService;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +23,16 @@ public class LearningController {
     }
 
 
-    // 학습 데이터 업데이트
-    @PutMapping("/{learningId}")
-    public ResponseEntity<?> modifyLearningBook(
-            @PathVariable Long learningId, @RequestBody LearningRequest learningRequest) {
-        return ResponseEntity.ok(learningService.modifyLearningBook(learningId, learningRequest));
+    // 말하기 학습 데이터 업데이트
+    @PutMapping("/{learningId}/write")
+    public ResponseEntity<?> modifyWritingData(
+            @PathVariable Long learningId, @RequestBody WritingRequest writingRequest) {
+        return ResponseEntity.ok(learningService.modifyWritingData(learningId, writingRequest));
+    }
+
+    @PutMapping("/{learningId}/speak")
+    public ResponseEntity<?> modifySpeakingData(
+            @PathVariable Long learningId, @RequestBody SpeakingRequest speakingRequest) {
+        return ResponseEntity.ok(learningService.modifySpeakingData(learningId, speakingRequest));
     }
 }
