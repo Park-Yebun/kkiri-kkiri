@@ -5,11 +5,14 @@ import com.kkirikkiri.domain.bookshelf.entity.Bookshelf;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookshelfRepository extends JpaRepository<Bookshelf, Long> {
 
     List<Bookshelf> findByMemberId(Long memberId);
 
-    Bookshelf findByMemberIdAndStoryId(Long memberId, Long StoryId);
+    List<Bookshelf> findByStoryId(Long StoryId);
 
+    Bookshelf findByMemberIdAndStoryId(Long memberId, Long StoryId);
 }
+
