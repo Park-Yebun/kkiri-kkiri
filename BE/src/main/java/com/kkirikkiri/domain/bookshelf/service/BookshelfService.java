@@ -9,6 +9,8 @@ import com.kkirikkiri.domain.bookshelf.dto.BookshelfRequest;
 import com.kkirikkiri.domain.bookshelf.dto.BookshelfResponse;
 import com.kkirikkiri.domain.bookshelf.entity.Bookshelf;
 import com.kkirikkiri.domain.bookshelf.repository.BookshelfRepository;
+import com.kkirikkiri.domain.learning.entity.Learning;
+import com.kkirikkiri.domain.learning.repository.LearningRepository;
 import com.kkirikkiri.domain.member.entity.Member;
 import com.kkirikkiri.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ public class BookshelfService {
     private final StoryRepository storyRepository;
     private final MemberRepository memberRepository;
     private final ContentRepository contentRepository;
+    private final LearningRepository learningRepository;
 
     // 동화책 전체 조회: 내가 만든 동화책 + 다른 사람이 만든 동화책
     public List<BookshelfResponse> getAllStories(String loginId) {
@@ -40,30 +43,51 @@ public class BookshelfService {
 
         // 내가 만든 책
         List<BookshelfResponse> myBooks = stories.stream()
-            .map(story -> BookshelfResponse.builder()
-                .storyId(story.getId())
-                .title(story.getTitle())
-                .author(member.getNickname())
-                .imageURL(contentRepository.findByStoryIdAndLineId(story.getId(), 1).getImageUrl())
-                .summary(story.getSummary())
-                .build())
-            .toList();
+                .map(story -> {
+                    // 특정 스토리와 멤버에 대한 학습 데이터를 가져오기
+                    Optional<Learning> learningOptional = learningRepository.findAllByStoryIdAndMemberId(story.getId(), member.getId()).stream().findFirst();
+                    // 가져온 학습 데이터의 writingCpltNo, speakingCpltNo 컬럼 중 하나라도 0을 가지면 false를 아니라면 true를 반환
+                    boolean isLearned = learningOptional
+                            .map(learning -> learning.getWritingCpltNo() != 0 && learning.getSpeakingCpltNo() != 0)
+                            .orElse(false);
+                    // 특정 스토리 아이디와 라인 아이디를 가지는 문장 가져오고 비어있는 값과 아닌값 구분해 넣어주기
+                    Content content = contentRepository.findByStoryIdAndLineId(story.getId(), 1);
+                    String imageUrl = content != null ? content.getImageUrl() : null;
+                    
+                    return BookshelfResponse.builder()
+                            .storyId(story.getId())
+                            .title(story.getTitle())
+                            .author(member.getNickname())
+                            .imageURL(imageUrl)
+                            .summary(story.getSummary())
+                            .isLearned(isLearned)
+                            .build();
+                })
+                .toList();
 
         // 다른 사람이 만든 책
         List<Bookshelf> books = bookshelfRepository.findByMemberId(member.getId());
 
         List<BookshelfResponse> otherBooks = books.stream()
-            .map(bookshelf -> BookshelfResponse.builder()
-                .storyId(bookshelf.getStory().getId())
-                .title(bookshelf.getStory().getTitle())
-                .author(bookshelf.getStory().getMember().getNickname())
-                .imageURL(contentRepository.findByStoryIdAndLineId(bookshelf.getStory().getId(), 1).getImageUrl())
-                .summary(bookshelf.getStory().getSummary())
-                .build())
-            .toList();
+                .map(bookshelf -> {
+                    Optional<Learning> learningOptional = learningRepository.findAllByStoryIdAndMemberId(bookshelf.getId(), member.getId()).stream().findFirst();
+                    boolean isLearned = learningOptional
+                            .map(learning -> learning.getWritingCpltNo() != 0 && learning.getSpeakingCpltNo() != 0)
+                            .orElse(false);
+
+                    return BookshelfResponse.builder()
+                            .storyId(bookshelf.getStory().getId())
+                            .title(bookshelf.getStory().getTitle())
+                            .author(bookshelf.getStory().getMember().getNickname())
+                            .imageURL(contentRepository.findByStoryIdAndLineId(bookshelf.getStory().getId(), 1).getImageUrl())
+                            .summary(bookshelf.getStory().getSummary())
+                            .isLearned(isLearned)
+                            .build();
+                })
+                .toList();
 
         return Stream.concat(myBooks.stream(), otherBooks.stream())
-            .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
     // 책장에 동화책 추가

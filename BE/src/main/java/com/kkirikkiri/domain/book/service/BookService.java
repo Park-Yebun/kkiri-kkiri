@@ -8,6 +8,7 @@ import com.kkirikkiri.domain.book.entity.Story;
 import com.kkirikkiri.domain.book.repository.BookRedisRepository;
 import com.kkirikkiri.domain.book.repository.ContentRepository;
 import com.kkirikkiri.domain.book.repository.StoryRepository;
+import com.kkirikkiri.domain.learning.repository.LearningRepository;
 import com.kkirikkiri.domain.member.entity.Member;
 import com.kkirikkiri.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -62,6 +63,7 @@ public class BookService {
         Story story = storyRepository.findById(storyId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 동화책이 없습니다."));
 
+
         List<Content> contents = contentRepository.findAllByStoryId(storyId);
         List<ContentResponse> contentResponses = contents.stream()
                 .map(content -> ContentResponse.builder()
@@ -108,9 +110,7 @@ public class BookService {
 
     @Transactional
     public String createContent(List<ContentRequest> contentRequestList) {
-
         for (ContentRequest contentRequest : contentRequestList) {
-
             Content existingContent = contentRepository.findByStoryIdAndLineId(
                     contentRequest.getStoryId(),
                     contentRequest.getLineId()
