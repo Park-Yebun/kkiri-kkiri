@@ -108,6 +108,12 @@ const Header = () => {
       <Link to='/'>
         <Logo src={logoPic} />
       </Link>
+      <Link to='/login'>
+       로그인
+      </Link>
+      <Link to='/test'>
+        테스트
+      </Link>
       <Profile onClick={() => setShowDropdown(!showDropdown)}>
         <ProfileAnimal src={ProfilePic}/>
         <NameInfo>
