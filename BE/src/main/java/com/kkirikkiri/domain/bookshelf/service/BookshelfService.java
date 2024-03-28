@@ -45,7 +45,7 @@ public class BookshelfService {
         List<BookshelfResponse> myBooks = stories.stream()
                 .map(story -> {
                     // 특정 스토리와 멤버에 대한 학습 데이터를 가져오기
-                    Optional<Learning> learningOptional = learningRepository.findAllByStoryIdAndMemberId(story.getId(), member.getId()).stream().findFirst();
+                    Optional<Learning> learningOptional = learningRepository.findByMemberIdAndStoryIdOptional(story.getId(), member.getId()).stream().findFirst();
                     // 가져온 학습 데이터의 writingCpltNo, speakingCpltNo 컬럼 중 하나라도 0을 가지면 false를 아니라면 true를 반환
                     boolean isLearned = learningOptional
                             .map(learning -> learning.getWritingCpltNo() != 0 && learning.getSpeakingCpltNo() != 0)
@@ -53,7 +53,7 @@ public class BookshelfService {
                     // 특정 스토리 아이디와 라인 아이디를 가지는 문장 가져오고 비어있는 값과 아닌값 구분해 넣어주기
                     Content content = contentRepository.findByStoryIdAndLineId(story.getId(), 1);
                     String imageUrl = content != null ? content.getImageUrl() : null;
-                    
+
                     return BookshelfResponse.builder()
                             .storyId(story.getId())
                             .title(story.getTitle())
@@ -70,7 +70,7 @@ public class BookshelfService {
 
         List<BookshelfResponse> otherBooks = books.stream()
                 .map(bookshelf -> {
-                    Optional<Learning> learningOptional = learningRepository.findAllByStoryIdAndMemberId(bookshelf.getId(), member.getId()).stream().findFirst();
+                    Optional<Learning> learningOptional = learningRepository.findByMemberIdAndStoryIdOptional(bookshelf.getId(), member.getId()).stream().findFirst();
                     boolean isLearned = learningOptional
                             .map(learning -> learning.getWritingCpltNo() != 0 && learning.getSpeakingCpltNo() != 0)
                             .orElse(false);

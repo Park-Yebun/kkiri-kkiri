@@ -45,8 +45,4 @@ public class Learning {
 
     @Builder.Default
     private Integer speakingCpltNo = 0;
-
-
-
-
 }
