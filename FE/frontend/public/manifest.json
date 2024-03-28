@@ -3,8 +3,8 @@
   "short_name": "끼리끼리",
   "start_url": "",
   "display": "standalone",
-  "background_color": "#F8F7DA",
-  "theme_color": "#007bff",
+  "background_color": "#00FF1A",
+  "theme_color": "#FF0000",
   "description": "PWA with Vite.js, React.js and TypeScript",
   "icons": [
     {
@@ -16,6 +16,11 @@
       "src": "icons/favicon-196x196.png",
       "type": "image/png",
       "sizes": "196x196"
+    },
+    {
+      "src": "icons/favicon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
     },
     {
       "src": "icons/mstile-310x310.png",
