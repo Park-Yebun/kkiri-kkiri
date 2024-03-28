@@ -35,27 +35,29 @@ const ImgFormat = styled.img`
     margin: 0 0.2rem;
 `
 
-const Character = () => {
-    const [clickedImg, setClickedImg] = useState(null);
+const Character = ({onCharacterSelect}) => {
+    const [selectedCharacter, setSelectedCharacter] = useState(null);
+
 
     const clickImg = (imageId) => {
-        setClickedImg(imageId);
+        setSelectedCharacter(imageId);
+        onCharacterSelect(imageId);
 
     }
 
     return (
        <>
        <CharacterBox>
-            <ImgFormat onClick={()=> clickImg(1)} src={profileDog} clicked={clickedImg === 1}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg(2)} src={profileTiger} clicked={clickedImg === 2}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg(3)} src={profilePig} clicked={clickedImg === 3}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg(4)} src={profileDear} clicked={clickedImg === 4}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg(5)} src={profileEagle} clicked={clickedImg === 5}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg(6)} src={profileSquirrel} clicked={clickedImg === 6}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg(7)} src={profileRabbit} clicked={clickedImg === 7}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg(8)} src={profileFox} clicked={clickedImg === 8}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg(9)} src={profileGiraffe} clicked={clickedImg === 9}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg(10)} src={profileCat} clicked={clickedImg === 10}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg(1)} src={profileDog} clicked={selectedCharacter === 1}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg(2)} src={profileTiger} clicked={selectedCharacter === 2}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg(3)} src={profilePig} clicked={selectedCharacter === 3}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg(4)} src={profileDear} clicked={selectedCharacter === 4}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg(5)} src={profileEagle} clicked={selectedCharacter === 5}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg(6)} src={profileSquirrel} clicked={selectedCharacter === 6}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg(7)} src={profileRabbit} clicked={selectedCharacter === 7}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg(8)} src={profileFox} clicked={selectedCharacter === 8}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg(9)} src={profileGiraffe} clicked={selectedCharacter === 9}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg(10)} src={profileCat} clicked={selectedCharacter === 10}></ImgFormat>
             
         </CharacterBox> 
        </>
