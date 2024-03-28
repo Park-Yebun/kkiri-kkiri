@@ -113,7 +113,13 @@ const Sentence2 = styled(Sentence)`
 	padding-bottom: 0;
 	&.writingstyle {
 		/* background-color: red; */
+		/* pointer-events: none; */
 		filter: brightness(0.8);
+	}
+
+	&.stopwrite {
+		/* /* pointer-events: none; */
+		filter: brightness(0.8); */
 	}
 `
 const UserInput = styled.textarea`
@@ -230,9 +236,41 @@ font-weight: 300;
 	filter: brightness(0.8);
 	/* background-color: red; */
 }
+&.stopwrite {
+	pointer-events: none;
+	filter: brightness(0.5);
+
+}
 `
 
-const SendBtn = styled.div``
+const SendBtn = styled.div`
+	position: absolute;
+	top: 90%;
+	margin-top: 0.5rem;
+	width: 20rem;
+	height: 4rem;
+	border-radius: 1rem;
+	/* background-color: grey; */
+	text-align: center;
+	line-height: 4rem;
+	background-color: #29C325;
+	font-family: "Ttangsbudaejjigae OTF";
+	font-size: 2rem;
+	font-style: normal;
+	font-weight: 300;
+	filter: brightness(0.6);
+	box-shadow: 0px 0.5rem 0.5rem 0px rgba(0, 0, 0, 0.25);
+	pointer-events: none;
+	&:active {
+	box-shadow: none;
+	}
+	&.writingstyle {
+	/* box-shadow: none; */
+	pointer-events: auto;
+	filter: brightness(1);
+	/* background-color: red; */
+}
+`
 
 // const Sentences = messagesdummy.map((message) => {
 // 	return (
@@ -282,9 +320,9 @@ const WriterText = styled.div`
 	padding-top: 1rem;
 	padding-right: 1rem;
 `
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+// function sleep(ms) {
+//   return new Promise(resolve => setTimeout(resolve, ms));
+// }
 
 
 
@@ -301,61 +339,6 @@ let convUser = [
 		"role": "system",
 		"content": "지금부터 나와 함께 동화를 만들어보자.내가 먼저 한 문장 길이의 동화를 입력하면, 너는 그 동화를 이어서 대답하는거야."
 	},
-	// {
-	// 	"role": "system",
-	// 	"content": "함께 만들 동화는 10 번의 정도의 대화를 오가면서 만들어질거야. 내가 끝이라고 말하면, 동화를 마무리 지어줘"
-	// },
-	// {
-	// 	"role": "system",
-	// 	"content": ""
-	// },
-	// {
-	// 	"role": "system",
-	// 	"content": ""
-	// },
-	// {
-	// 	"role": "system",
-	// 	"content": ""
-	// },
-	// const {convUser, setConvUser} = useState([
-		// {
-		// 	"role": "system",
-		// 	"content": "user is a 10 years old korean child who loves fairy tales."
-		// },
-		// {
-		// 	"role": "system",
-		// 	"content": "you are a fairy tale writer who loves children and makes fairy tales with user."
-		// },
-		// {
-		// 	"role": "system",
-		// 	"content": "당신은 창의적인 동화작가입니다."
-		// },
-		// {
-		// 	"role": "system",
-		// 	"content": "user의 한 문장의 동화를 듣고, 그에 대한 이야기를 100byte를 넘지 않는 분량으로 만들어주세요."
-		// },
-		// {
-		// 	"role": "system",
-		// 	"content": "user는 영어를 잘 못하므로, user와 대화할 때는 한국어로 대화해야 합니다."
-		// },
-		// // {
-		// // 	"role": "system",
-		// // 	"content": "당신의 대답은 100 글자를 넘지 않아야 합니다."
-		// // },
-		// {
-		// 	"role": "system",
-		// 	// "content": 'The output format is korGPT=; engGPT=; descGPT=;'
-		// 	"content": '당신은 이런 형식으로 답합니다. koreanSentence=; translatedSentense=; imageDescription=;'
-		// },
-		// {
-		// 	"role": "system",
-		// 	"content": "예를 들어, user가 \"옛날옛날에 작은 하마는 작은 장난감 기차를 가지고 있었습니다.\" 라고 입력하면, \
-		// 	다음과 같은 형식으로 답하십시오. \
-		// 	koreanSentence=어느 날, 작은 하마는 작은 장난감 기차를 타고 바다로 놀러가기로 했어요; \
-		// 	translatedSentence=One day, the little hippo decided to take a small toy train to the sea for a picnic; \
-		// 	imageDescription=The little hippo is riding a small toy train to the sea."
-		// }
-	// ]);
 	];
 
 
@@ -394,7 +377,11 @@ const StoryPage = () => {
 			messages: [
 				{
 					role: "system",
-					content: "Write an image description to be used for image generation AI in English based on the following input."
+					content: "Write an image description to be used for image generation AI based on the following input."
+				},
+				{
+					role: "system",
+					content: "your image description should be 100 characters or less in English. also, write the image description one sentence of noun form"
 				},
 				{
 					role: "user",	
@@ -402,10 +389,10 @@ const StoryPage = () => {
 				},
 			],
 			model: "gpt-3.5-turbo",
-			max_tokens: 150,
+			max_tokens: 25,
 			temperature: 0.7
 		});
-		return description.choices[0].message.content;
+		return "lvngvncnt, " + description.choices[0].message.content;
 	}
 
 
@@ -423,7 +410,7 @@ const StoryPage = () => {
 		const completionUser = await openaiUser.chat.completions.create({
 			messages: convUser,
 			model: "gpt-3.5-turbo",
-			max_tokens: 200,
+			max_tokens: 150,
 			temperature: 0.7
 		});
 		const responseUser = completionUser.choices[0].message.content;
@@ -496,7 +483,7 @@ const StoryPage = () => {
 			console.log("현재 퀼넘:", quillNum.current);
 		}
 		else {
-			console.log("우리의 이야기는 여기까지.");
+			console.log(messages);
 		}
 
 		await writeGptStory(inputUser);
@@ -549,9 +536,10 @@ const StoryPage = () => {
 									<WriterName>{message.writer}</WriterName>
 									<WriterImg src={message.writer === userName ?  userimg: gptimg}></WriterImg>
 								</WriterDiv>
-								<WriterText>{message.koreanSentence}{message.translatedSentence}{message.imageDescription}</WriterText>
+								<WriterText>{message.koreanSentence}</WriterText>
+								{/* <WriterText>{message.koreanSentence}{message.translatedSentence}{message.imageDescription}</WriterText> */}
 								{/* <WriterText>{message.KoreanSentence}</WriterText> */}
-								<WriterText></WriterText>
+								{/* <WriterText></WriterText> */}
 								{/* <WriterText>{message}</WriterText> */}
 								
 							</Sentence>
@@ -561,7 +549,7 @@ const StoryPage = () => {
 				<StoryInputBox>
 					<StoryInput>
 						{/* <Sentence2 className={`${ userInputRef.current.disabled ? "writingstyle":""}`}> */}
-						<Sentence2 className={`${ isWriting.current ? "writingstyle":""}`}>
+						<Sentence2 className={`${ isWriting.current ? "writingstyle":"", quillNum.current?"":"stopwrite" }`}>
 							<UserInput onChange={CheckLength} ref={userInputRef} onKeyDown={handleOnKeyDown}></UserInput>
 						</Sentence2>
 						{/* <Capa style={{color: inputLength > 100 ? "red" : "black"}} ref={capaRef}>{inputLength}</Capa> */}
@@ -573,11 +561,12 @@ const StoryPage = () => {
 							<QuillNum>{quillNum.current}</QuillNum>
 						</Quill>
 						{/* <WriteBtn onClick={writeStory} ref={buttonRef} className={`${ isWriting.current ? "writingstyle":""}`}>작성</WriteBtn> */}
-						<WriteBtn className={`${ isWriting.current? "writingstyle":""}`} ref={buttonRef} onClick={writeStory}>작성</WriteBtn>
+						<WriteBtn className={`${ isWriting.current? "writingstyle":"", quillNum.current?"":"stopwrite"}`} ref={buttonRef} onClick={writeStory}>작성</WriteBtn>
 					</MiniBox>
 				</StoryInputBox>
 			</StoryContainer>
-			<SendBtn></SendBtn>
+			{/* <SendBtn className={`${ quillNum.current?"":"writingstyle"}`} onClick={console.log(messages)}>{quillNum.current?"이야기 계속하기":"이야기 작성하기"}</SendBtn> */}
+			<SendBtn className={`${ quillNum.current?"":"writingstyle"}`}>{quillNum.current?"이야기 계속하기":"이야기 작성하기"}</SendBtn>
 		</Background>
   );
 };
