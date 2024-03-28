@@ -1,6 +1,5 @@
 package com.kkirikkiri.domain.bookshelf.service;
 
-import com.kkirikkiri.domain.book.dto.StoryResponse;
 import com.kkirikkiri.domain.book.entity.Content;
 import com.kkirikkiri.domain.book.entity.Story;
 import com.kkirikkiri.domain.book.repository.ContentRepository;
@@ -14,10 +13,8 @@ import com.kkirikkiri.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Book;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,13 +37,17 @@ public class BookshelfService {
 
         // 내가 만든 책
         List<BookshelfResponse> myBooks = stories.stream()
-            .map(story -> BookshelfResponse.builder()
-                .storyId(story.getId())
-                .title(story.getTitle())
-                .author(member.getNickname())
-                .imageURL(contentRepository.findByStoryIdAndLineId(story.getId(), 1).getImageUrl())
-                .summary(story.getSummary())
-                .build())
+                .map(story -> {
+                    Content content = contentRepository.findByStoryIdAndLineId(story.getId(), 1);
+                    String imageUrl = content != null ? content.getImageUrl() : null;
+                    return BookshelfResponse.builder()
+                            .storyId(story.getId())
+                            .title(story.getTitle())
+                            .author(member.getNickname())
+                            .imageURL(imageUrl)
+                            .summary(story.getSummary())
+                            .build();
+                })
             .toList();
 
         // 다른 사람이 만든 책

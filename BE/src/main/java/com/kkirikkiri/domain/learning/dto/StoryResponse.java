@@ -22,5 +22,5 @@ public class StoryResponse implements Serializable {
     private String memberNickname;
     private String title;
     private List<ContentResponse> contents;
-    private List<LearningResponse> learnings;
+    private LearningResponse learning;
 }

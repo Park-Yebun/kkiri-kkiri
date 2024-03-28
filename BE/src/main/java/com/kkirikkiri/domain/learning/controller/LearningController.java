@@ -17,9 +17,12 @@ public class LearningController {
     private final LearningService learningService;
 
     // 학습 페이지에서 동화책 상세 페이지 조회
-    @GetMapping("/{storyId}")
-    public ResponseEntity<StoryResponse> getLearningBook(@PathVariable Long storyId) {
-        StoryResponse storyResponse = learningService.getLearningBook(storyId);
+    @GetMapping("/{memberId}/{storyId}")
+    public ResponseEntity<StoryResponse> getLearningBook(
+            @PathVariable Long memberId,
+            @PathVariable Long storyId
+            ) {
+        StoryResponse storyResponse = learningService.getLearningBook(memberId, storyId);
         return ResponseEntity.ok(storyResponse);
     }
 
