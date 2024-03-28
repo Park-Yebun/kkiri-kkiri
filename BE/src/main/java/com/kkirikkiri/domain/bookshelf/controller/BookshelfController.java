@@ -23,7 +23,7 @@ public class BookshelfController {
     public ResponseEntity<List<BookshelfResponse>> getAllStories(
             @PathVariable String loginId
     ) {
-
+        System.out.println(loginId);
         // 전체 책 제목
         return ResponseEntity.ok(bookshelfService.getAllStories(loginId));
     }
