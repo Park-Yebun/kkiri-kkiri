@@ -10,6 +10,5 @@ public class ContentRequest {
     private String koreanSentence;
     private String translatedSentence;
     private String imageDescription;
-    private String summary;
 
 }

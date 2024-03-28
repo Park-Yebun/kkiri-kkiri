@@ -3,6 +3,7 @@ package com.kkirikkiri.domain.book.controller;
 import com.kkirikkiri.domain.book.dto.ContentRequest;
 import com.kkirikkiri.domain.book.dto.StoryRequest;
 import com.kkirikkiri.domain.book.dto.StoryResponse;
+import com.kkirikkiri.domain.book.dto.TitleRequest;
 import com.kkirikkiri.domain.book.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -80,10 +81,10 @@ public class BookController {
     @PatchMapping("/title/{storyId}")
     public ResponseEntity<String> modifyTitle(
             @PathVariable Long storyId,
-            @RequestParam String title
+            @RequestBody TitleRequest titleRequest
     ) {
 
-        String result = bookService.modifyTitle(storyId, title);
+        String result = bookService.modifyTitle(storyId, titleRequest);
         return ResponseEntity.ok(result);
     }
 }

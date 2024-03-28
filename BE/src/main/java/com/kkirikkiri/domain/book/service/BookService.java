@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -194,17 +196,17 @@ public class BookService {
         return "동화책이 성공적으로 삭제됐습니다.";
     }
 
-    public String modifyTitle(Long storyId, String title) {
-
+    // 동화책을 다 작성하고, 마지막에 제목 작성할때 요약 데이터도 같이 넣어주기!!
+    public String modifyTitle(long storyId, TitleRequest titleRequest) {
         Story story = storyRepository.findById(storyId)
                 .orElseThrow(() -> new IllegalArgumentException("동화책이 존재하지 않습니다."));
 
         Story updatedStory = Story.builder()
                 .id(story.getId())
                 .member(story.getMember())
-                .title(title)
+                .title(titleRequest.getTitle())
                 .openState(story.getOpenState())
-                .summary(story.getSummary())
+                .summary(titleRequest.getSummary())
                 .build();
 
         storyRepository.save(updatedStory);

@@ -48,12 +48,13 @@ public class LearningService {
         // 학습 데이터 가져오기
         Learning learning = learningRepository.findByMemberIdAndStoryId(memberId, storyId);
         LearningResponse learningResponse = LearningResponse.builder()
-                        .storyId(learning.getStory().getId())
-                        .writingLineNo(learning.getWritingLineNo())
-                        .speakingLineNo(learning.getSpeakingLineNo())
-                        .writingCpltNo(learning.getSpeakingCpltNo())
-                        .speakingCpltNo(learning.getSpeakingCpltNo())
-                        .build();
+                .id(learning.getId())
+                .storyId(learning.getStory().getId())
+                .writingLineNo(learning.getWritingLineNo())
+                .speakingLineNo(learning.getSpeakingLineNo())
+                .writingCpltNo(learning.getSpeakingCpltNo())
+                .speakingCpltNo(learning.getSpeakingCpltNo())
+                .build();
 
         return StoryResponse.builder()
                 .id(story.getId())
@@ -67,39 +68,31 @@ public class LearningService {
     }
 
     public Long modifyWritingData(Long learningId, WritingRequest writingRequest) {
-        Optional<Learning> optionalLearning = learningRepository.findById(learningId); // 기존 데베에 있는 회원정보 가져오기
+        Learning learning = learningRepository.findById(learningId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 학습 내역이 없습니다."));
 
-        if (optionalLearning.isPresent()) {
-            Learning learning = optionalLearning.get();
-            if (writingRequest.getWritingLineNo().equals(10)) {
-                learning.setWritingLineNo(writingRequest.getWritingLineNo());
-                learning.setWritingCpltNo(learning.getWritingCpltNo()+1);
-            } else {
-                learning.setWritingLineNo(writingRequest.getWritingLineNo());
-            }
-            return learning.getId();
-
+        if (writingRequest.getWritingLineNo().equals(10)) {
+            learning.setWritingLineNo(writingRequest.getWritingLineNo());
+            learning.setWritingCpltNo(learning.getWritingCpltNo()+1);
         } else {
-            throw new IllegalArgumentException("학습 데이터 업데이트에 실패했습니다.");
+            learning.setWritingLineNo(writingRequest.getWritingLineNo());
         }
+        return learning.getId();
+
     }
 
     public Long modifySpeakingData(Long learningId, SpeakingRequest speakingRequest) {
-        Optional<Learning> optionalLearning = learningRepository.findById(learningId); // 기존 데베에 있는 회원정보 가져오기
+        Learning learning = learningRepository.findById(learningId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 학습 내역이 없습니다."));
 
-        if (optionalLearning.isPresent()) {
-            Learning learning = optionalLearning.get();
-            if (speakingRequest.getSpeakingLineNo().equals(10)) {
-                learning.setSpeakingLineNo(speakingRequest.getSpeakingLineNo());
-                learning.setSpeakingCpltNo(learning.getSpeakingCpltNo()+1);
-            } else {
-                learning.setWritingLineNo(speakingRequest.getSpeakingLineNo());
-            }
-            return learning.getId();
-
+        if (speakingRequest.getSpeakingLineNo().equals(10)) {
+            learning.setSpeakingLineNo(speakingRequest.getSpeakingLineNo());
+            learning.setSpeakingCpltNo(learning.getSpeakingCpltNo()+1);
         } else {
-            throw new IllegalArgumentException("학습 데이터 업데이트에 실패했습니다.");
+            learning.setWritingLineNo(speakingRequest.getSpeakingLineNo());
         }
+        return learning.getId();
+
     }
 
     // 스토리id와 멤버id를 클라이언트에서 받아 데이터 save해주기
