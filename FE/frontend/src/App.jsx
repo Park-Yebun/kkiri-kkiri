@@ -2,7 +2,7 @@ import './App.css'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/header/Header.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
-import SignupPage from "./pages/SignupPage.jsx";
+import SignupPage1 from "./pages/SignupPage1.jsx";
 import MypagePage from "./pages/MypagePage.jsx";
 import MainPage from "./pages/MainPage.jsx";
 import StoryPage from "./pages/StoryPage.jsx"
@@ -26,7 +26,7 @@ const App = () => {
     <div className="app-container">
       <Routes>
         <Route path="/login" element={<LoginPage/>} />
-        <Route path="/signup" element={<SignupPage/>} />
+        <Route path="/signup" element={<SignupPage1/>} />
         <Route path="/mypage" element={<MypagePage/>} />
         <Route path="/" element={<MainPage/>} />
         <Route path="/story/:user-id" element={<StoryPage/>}/>

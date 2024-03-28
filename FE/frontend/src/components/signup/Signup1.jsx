@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState, useEffect} from "react";
+import {useNavigate} from 'react-router-dom';
 
 const SignupText = styled.div`
     position: absolute;
@@ -102,13 +103,14 @@ const ErrorId = styled.div`
     
 `
 
-const Signup1 = () => {
 
+const Signup1 = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordMatch, setPasswordMatch] = useState(false);
     const [userId, setUserId] = useState('');
     const [validUserId, setValidUserId] = useState(true);
+    const navigate = useNavigate();
 
     const handleIdChange = (event) => {
         const id = event.target.value;
@@ -117,38 +119,28 @@ const Signup1 = () => {
         setUserId(id);   //만족하면 UserId를 id로 바꿔줌
     }
 
-    useEffect(() => {
-        if(password && confirmPassword && password === confirmPassword){
-            setPasswordMatch(true);
-
-        } else{
-            setPasswordMatch(false);
-        }
-    },[password, confirmPassword]);
- 
-
     const handlePasswordChange = (event) => {
-        console.log("비밀번호:", event.target.value);
         setPassword(event.target.value);
-        
     };
     
     const handleConfirmPasswordChange = (event) => {
-        console.log("비밀번호 확인:", event.target.value);
         setConfirmPassword(event.target.value);
         setPasswordMatch(event.target.value === password);
-        console.log(passwordMatch)
     };
 
-    const gotoNext = () => { 
-        if (validUserId && password && confirmPassword && password === confirmPassword) {
-    
-            console.log("모든 조건이 만족하여 다음 단계로 이동합니다.");
-        } else {
-            console.log("조건을 충족하지 못하여 다음 단계로 이동할 수 없습니다.");
-        }
-    };
-    
+ // Signup1 컴포넌트의 gotoNext 함수 수정
+
+ const gotoNext = () => { 
+    if (validUserId && password && confirmPassword && password === confirmPassword) {
+        console.log("모든 조건이 만족하여 다음 단계로 이동합니다.");
+        onSignupComplete(); // Signup2로 이동하기 위한 콜백 함수 호출
+    } else {
+        console.log("조건을 충족하지 못하여 다음 단계로 이동할 수 없습니다.");
+    }
+};
+
+
+
 
     return (
         <>
