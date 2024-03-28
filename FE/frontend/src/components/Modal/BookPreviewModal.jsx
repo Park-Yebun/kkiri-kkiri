@@ -10,7 +10,7 @@ const PreviewModal = styled.div`
   transform : translate(-50%, -50%);
   z-index : 1000;
   background-color : #D2F9D1;
-  border-radius : 5rem;
+  border-radius : 4rem;
   width: 63.397vw;
   height: 55.8125vh; 
   overflow-y : auto;
