@@ -40,20 +40,20 @@ const TextSector = styled.div`
 
 
 const BookCover = styled.div`
-    background-image: url(${BookImg});
+    background-image: url(${({ isCompleted }) =>
+        isCompleted ? BookImg : NotCompletedImg});
     cursor: pointer;
     text-align: center;
-    /* border: 1px solid red; */
-    height : 33.625vh;
-    width : 15.179vw;
-    margin-bottom : 3.5rem;
-    margin-left : 1.2rem;   
+    height: 33.625vh;
+    width: 15.179vw;
+    margin-bottom: 3.5rem;
+    margin-left: 1.2rem;
     background-size: contain;
     background-repeat: no-repeat;
-    background-position : center; 
+    background-position: center;
     font-family: "Ttangsbudaejjigae OTF";
-
 `
+
 const Book = styled.div`
     
 `
@@ -124,6 +124,7 @@ const PrevText = styled.div`
 `
 
 const ButtonContent = styled.div`
+    margin-top : 2rem;
     display : flex;
     justify-content : space-between;
     width : 34.693vw;
@@ -148,7 +149,19 @@ const PrevBtn = styled.div`
 
 `
 const StudyInfo = styled.div`
+    color : #FE3838;
+
     
+`
+const Btn = styled.div`
+    margin-bottom : 1rem;
+    display : flex;
+    flex-direction : column;
+    justify-content : center;
+    align-items : center;
+
+    
+
 `
 
 
@@ -220,7 +233,7 @@ const BookshelfPage = () => {
                     <BookTitle></BookTitle>
                 </BookCover>
                 {books.map((book, index) => (
-                    <BookCover key={index} onClick={() => handleBookClick(book)}>
+                    <BookCover isCompleted={book.iscompleted} key={index} onClick={() => handleBookClick(book)}>
                         <BookTitle>{book.title}</BookTitle>
                         <BookAuthor>{book.author}</BookAuthor>
                     </BookCover>
@@ -242,10 +255,14 @@ const BookshelfPage = () => {
                     <PrevBtn onClick={gotoStudy} >
                             학습하기
                         </PrevBtn>
-                        <StudyInfo>먼저 학습을 진행해주세요!</StudyInfo>
+                        <Btn>
+                        {study === 0 ? (
+                            <StudyInfo>먼저 학습을 진행해주세요</StudyInfo>
+                        ) : null}
                         <PrevBtn style={{ backgroundColor: study === 0 ? '#868B86' : '#29C325' }}>
                             그림책보기
                         </PrevBtn>
+                    </Btn>
                     </ButtonContent>
                  </>
                 </InfoModal>
