@@ -7,7 +7,8 @@
         "download": 100,
         "Date": "2024.03.08",
         "isWritingStudy" : 1,
-        "isSpeackingStudy" : 0
+        "isSpeackingStudy" : 0,
+        "iscompleted" : 1
     },
     {
         "title": "아멘 무시 죽이기",
@@ -17,17 +18,19 @@
         "download": 120,
         "Date": "2024.03.12",
         "isWritingStudy" : 1,
-        "isSpeackingStudy" : 0
+        "isSpeackingStudy" : 1,
+        "iscompleted" : 0
     },
     {
         "title": "아멘 무시 일까?",
         "author": "가짜야",
         "summary": "가짜 이야기입니다아아아",
-        "imageURL": "../library/sampleimg3.png",
+        "imageURL": "../library/sampleimg2.png",
         "download": 140,
         "Date": "2024.03.11",
         "isWritingStudy" : 1,
-        "isSpeackingStudy" : 0
+        "isSpeackingStudy" : 0,
+        "iscompleted" : 1
     },
     {
         "title": "아멘 무시 일까?",
@@ -36,8 +39,9 @@
         "imageURL": "../library/sampleimg4.png",
         "download": 140,
         "Date": "2024.03.15",
-        "isWritingStudy" : 1,
-        "isSpeackingStudy" : 0
+        "isWritingStudy" : 0,
+        "isSpeackingStudy" : 0,
+        "iscompleted" : 0
     },
     {
         "title": "아멘 무시 일까?",
@@ -45,7 +49,10 @@
         "summary": "진짜야",
         "imageURL": "../library/sampleimg.png",
         "download": 150,
-        "Date": "2024.03.14"
+        "Date": "2024.03.14",
+        "isWritingStudy" : 1,
+        "isSpeackingStudy" : 0,
+        "iscompleted" : 0
     },
     {
         "title": "위대한 개츠비",
@@ -53,23 +60,32 @@
         "summary": "위대한 개츠비는 미국 작가 F. 스콧 피츠제럴드의 소설입니다. 재즈 시대를 배경으로, 이 소설은 이상한 백만장자 제이 개츠비와 이야기꾼 닉 캐러웨이의 상호작용을 묘사합니다.",
         "imageURL": "../library/sampleimg2.png",
         "download": 180,
-        "Date": "2024.03.11"
+        "Date": "2024.03.11",
+        "isWritingStudy" : 0,
+        "isSpeackingStudy" : 0,
+        "iscompleted" : 1
     },
     {
         "title": "오만과 편견",
         "author": "제인 오스틴",
         "summary": "오만과 편견은 1813년에 제인 오스틴이 쓴 매력적인 로맨틱 소설입니다. 이 소설은 주인공 엘리자베스 베넷의 캐릭터 발전을 따릅니다.",
-        "imageURL": "../library/sampleimg3.png",
+        "imageURL": "../library/sampleimg4.png",
         "download": 150,
-        "Date": "2024.03.18"
+        "Date": "2024.03.18",
+        "isWritingStudy" : 0,
+        "isSpeackingStudy" : 0,
+        "iscompleted" : 1
     },
     {
         "title": "해리포터와 마법사의 돌",
         "author": "J.K. 롤링",
         "summary": "해리 포터와 마법사의 돌은 영국 작가 J. K. 롤링의 판타지 소설입니다. 해리 포터 시리즈의 첫 소설이자 롤링의 데뷔 소설입니다.",
-        "imageURL": "../library/sampleimg4.png",
+        "imageURL": "../library/sampleimg2.png",
         "download": 200,
-        "Date": "2024.03.10"
+        "Date": "2024.03.10",
+        "isWritingStudy" : 0,
+        "isSpeackingStudy" : 0,
+        "iscompleted" : 1
     }
   ]
   
