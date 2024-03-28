@@ -1,7 +1,7 @@
 import Background from "../components/common/Background";
 import background from "../assets/bookshelf/bookshelfbackimg.png";
 import BookImg from '../assets/bookshelf/bookimg2.png';
-import NotCompletedImg from '../assets/bookshelf/notstudybookimg.png'
+import NotCompletedImg from '../assets/bookshelf/notcompletedimg.png'
 import PlusImg from '../assets/bookshelf/plus.png'
 import styled from "styled-components";
 import { useState, useEffect } from "react";
@@ -38,10 +38,22 @@ const TextSector = styled.div`
     background-color : skyblue;
 `
 
+const NewBookCover = styled.div`
+    background-image: url(${BookImg});
+    cursor: pointer;
+    text-align: center;
+    height: 33.625vh;
+    width: 15.179vw;
+    margin-bottom: 3.5rem;
+    margin-left: 1.2rem;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+`
 
 const BookCover = styled.div`
-    background-image: url(${({ isCompleted }) =>
-        isCompleted ? BookImg : NotCompletedImg});
+    background-image: url(${({ isCompleted }) => isCompleted ? BookImg : NotCompletedImg});
     cursor: pointer;
     text-align: center;
     height: 33.625vh;
@@ -63,12 +75,14 @@ const BookTitle = styled.div`
     font-size : 1.4vw;
     overflow : hidden;
     max-height: 5vh;
+    word-wrap : break-word;
     
 `
 const BookAuthor = styled.div`
     margin-top : 4.9vw;
     overflow : hidden;
     font-size : 1.1vw;
+    word-wrap : break-word;
 
     `
 const PlusImage = styled.img`
@@ -160,8 +174,21 @@ const Btn = styled.div`
     justify-content : center;
     align-items : center;
 
-    
 
+`
+const NotCompletedStory = styled.div`
+    display : flex;
+    flex-direction : column;
+    margin-top : 6.9vw;
+    font-size : 1.3vw;
+  
+`
+const Writer = styled.div`
+
+    
+`
+const Script = styled.div`
+    
 `
 
 
@@ -228,15 +255,28 @@ const BookshelfPage = () => {
     return (
         <Background backgroundimage={background}>
             <BookContainer>
-                <BookCover>
+                <NewBookCover>
                     <PlusImage src={PlusImg} key="new" onClick={gotoMakeStory}/>
                     <BookTitle></BookTitle>
-                </BookCover>
+                </NewBookCover>
                 {books.map((book, index) => (
                     <BookCover isCompleted={book.iscompleted} key={index} onClick={() => handleBookClick(book)}>
-                        <BookTitle>{book.title}</BookTitle>
-                        <BookAuthor>{book.author}</BookAuthor>
-                    </BookCover>
+                    {book.iscompleted ? (
+                        <>
+                            <BookTitle>{book.title}</BookTitle>
+                            <BookAuthor>{book.author}</BookAuthor>
+                        </>
+                    ) : (
+                        <NotCompletedStory>
+                            <Writer>
+                            짱짱맨 작가님의
+                            </Writer>
+                            <Script>
+                            미완성 이야기
+                            </Script>
+                        </NotCompletedStory>
+                    )}
+                </BookCover>
                 ))}
             </BookContainer>
             {infoModalOpen && selectedBook && (
