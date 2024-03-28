@@ -1,5 +1,6 @@
 package com.kkirikkiri.domain.learning.controller;
 
+import com.kkirikkiri.domain.learning.dto.LearningRequest;
 import com.kkirikkiri.domain.learning.dto.SpeakingRequest;
 import com.kkirikkiri.domain.learning.dto.WritingRequest;
 import com.kkirikkiri.domain.learning.dto.StoryResponse;
@@ -42,7 +43,7 @@ public class LearningController {
     // 초기 학습 데이터 생성
     @PostMapping("/{storyId}")
     public ResponseEntity<?> createLearningData(
-            @PathVariable Long storyId) {
-        return ResponseEntity.ok(learningService.createLearningData(storyId));
+            @PathVariable Long storyId, @RequestBody LearningRequest learningRequest) {
+        return ResponseEntity.ok(learningService.createLearningData(storyId, learningRequest));
     }
 }
