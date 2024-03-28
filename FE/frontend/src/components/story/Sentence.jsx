@@ -9,11 +9,13 @@ const Sentence = styled.div`
 	font-size: 1.5rem;
 	font-family: "Ttangsbudaejjigae OTF";
 	font-weight: 300;
-	padding: 1.5rem;
+	/* padding: 1.5rem; */
+	/* padding: 1rem; */
 	text-align: center;
 	line-height: 2.5rem;
 	box-sizing: border-box;
 	margin: 1rem 0rem;
+	display: flex;
 `
 
 export default Sentence
