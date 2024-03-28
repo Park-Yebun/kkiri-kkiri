@@ -9,6 +9,7 @@ import com.kkirikkiri.domain.book.repository.StoryRepository;
 import com.kkirikkiri.domain.learning.entity.Learning;
 import com.kkirikkiri.domain.learning.repository.LearningRepository;
 import com.kkirikkiri.domain.member.entity.Member;
+import com.kkirikkiri.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class LearningService {
     private final LearningRepository learningRepository;
     private final StoryRepository storyRepository;
     private final ContentRepository contentRepository;
+    private final MemberRepository memberRepository;
 
     public StoryResponse getLearningBook(Long storyId) {
         Optional<Story> story = storyRepository.findById(storyId);
@@ -104,11 +106,12 @@ public class LearningService {
         }
     }
 
-    // 스토리 정보에서 member_id 가져와서 그 정보를 넣고 save해주기
-    public Long createLearningData(Long storyId) {
+    // 스토리id와 멤버id를 클라이언트에서 받아 데이터 save해주기
+    public Long createLearningData(Long storyId, LearningRequest learningRequest) {
         Story story = storyRepository.findById(storyId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 동화책이 없습니다."));
-        Member member = story.getMember();
+        Member member = memberRepository.findById(learningRequest.getMemberId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
         return learningRepository.save(
                         Learning.builder()
                                 .story(story)
