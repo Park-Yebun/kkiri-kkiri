@@ -13,10 +13,10 @@ import { useState } from "react";
 
 const CharacterBox = styled.div`
     position : relative;
-    width: 39.875rem;
+    width: 22.5rem;
     background-color : #A7A7A7;
-    height : 15.6rem;
-    border-radius : 2rem;
+    height : 9rem;
+    border-radius : 1rem;
     opacity : 85%;
     z-index : 11;
     display: flex;
@@ -28,9 +28,9 @@ const ImgFormat = styled.img`
     /* position : absolute; */
     left : ${props => props.left || '2.06rem'};
     top : ${props => props.top ||'0.62rem'};
-    width : 6.25rem;
-    height : 6.25rem;
-    outline : ${props => props.clicked ? '#29C325 solid 7px': 'none'}; 
+    width : 3.8rem;
+    height : 3.8rem;
+    outline : ${props => props.clicked ? '#29C325 solid 4px': 'none'}; 
     border-radius : 5rem;
     margin: 0 0.2rem;
 `
