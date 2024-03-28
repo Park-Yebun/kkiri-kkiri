@@ -34,17 +34,17 @@ public class Learning {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member;
 
-    @ColumnDefault("0")
-    private Integer writingLineNo;
+    @Builder.Default
+    private Integer writingLineNo = 0;
 
-    @ColumnDefault("0")
-    private Integer speakingLineNo;
+    @Builder.Default
+    private Integer speakingLineNo = 0;
 
-    @ColumnDefault("0")
-    private Integer writingCpltNo;
+    @Builder.Default
+    private Integer writingCpltNo = 0;
 
-    @ColumnDefault("0")
-    private Integer speakingCpltNo;
+    @Builder.Default
+    private Integer speakingCpltNo = 0;
 
 
 

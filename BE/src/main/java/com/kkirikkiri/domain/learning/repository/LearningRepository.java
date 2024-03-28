@@ -10,4 +10,7 @@ public interface LearningRepository extends JpaRepository <Learning, Long> {
     List<Learning> findAllByStoryId(Long storyId);
 
     Optional<Learning> findById(Long learningId);
+
+    List<Learning> findAllByStoryIdAndMemberId(Long storyId, Long memberId);
+
 }
