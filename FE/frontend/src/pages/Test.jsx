@@ -3,6 +3,7 @@ import FlipPage from 'react-pageflip';
 import styled from 'styled-components';
 import bookcover from '../assets/book/bookcover.png'
 import bookcover2 from '../assets/book/bookcover2.png'
+import bookData from '../../public/dummydata/book.json';
 
 const Container = styled.div`
   position: fixed;
@@ -13,7 +14,7 @@ const Container = styled.div`
 const PageCoverStyle = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   width: 100%;
   height: 100%;
   background-image: url(${bookcover});
@@ -25,6 +26,7 @@ const PageCoverStyle = styled.div`
     0 0 50px 10px rgba(0, 0, 0, 0.3);
   font-size: large;
   color: black;
+  flex-direction: column;
 `;
 
 const LastPageCoverStyle = styled(PageCoverStyle)`
@@ -43,17 +45,22 @@ const BookContainer = styled.div`
 
 const Page = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  border-radius: 0.2rem;
+  border-radius: 0.3rem;
   font-size: 20px;
   width: 100%;
   height: 100%;
-  background-color: rgb(226, 223, 204);
+  background-color: rgb(236, 235, 228);
   border: 0.1rem solid #6d6d6d;
   box-shadow: inset 0 0 50px 10px rgba(0, 0, 0, 0.5);
   font-size: large;
   color: black;
+  position: relative;
+  background-image: url(${props => props.image});
+  background-size: cover;
+  flex-direction: column;
+
 `;
 
 const ButtonContainer = styled.div`
@@ -76,7 +83,19 @@ const PageButton = styled.button`
     background-color: #e7e7e7;
   }
 `;
-
+const BookTitle = styled.span`
+  font-size: 2.3rem;
+`;  
+const BookAuthor = styled.span`
+  font-size: 1.7rem;
+`;  
+const BookContent = styled.span`
+  margin: 2rem;
+  font-size: 1.5rem;
+`;  
+const BookImage = styled.img`
+  width: 20rem;
+`;  
 const Test = () => {
   const bookRef = useRef(null);
 
@@ -91,23 +110,20 @@ const Test = () => {
           width={450} height={600} ref={bookRef} showCover={true}>
           <div data-density='hard'>
             <PageCoverStyle>
-              시작
+              <BookTitle>{bookData.title}</BookTitle>
+              <BookAuthor>{bookData.author} 작가님</BookAuthor>
             </PageCoverStyle>
           </div>
-          <Page className="page">페이지 1</Page>
-          <Page className="page">페이지 2</Page>
-          <Page className="page">페이지 3</Page>
-          <Page className="page">페이지 4</Page>
-          <Page className="page">페이지 5</Page>
-          <Page className="page">페이지 6</Page>
-          <Page className="page">페이지 7</Page>
-          <Page className="page">페이지 8</Page>
-          <Page className="page">페이지 9</Page>
-          <Page className="page">페이지 10</Page>
+          {bookData.pages.map((page, index) => (
+            <div key={index}>
+              <Page>
+                <BookImage src={`/dummydata/${page.image}`} alt={`Page ${index + 1}`}/>
+                <BookContent>{page.content}</BookContent>
+              </Page>
+            </div>
+          ))}
           <div data-density='hard'>
-            <LastPageCoverStyle>
-              끝
-            </LastPageCoverStyle>
+            <LastPageCoverStyle/>
           </div>
         </FlipPage>
 
