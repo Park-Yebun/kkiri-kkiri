@@ -37,7 +37,7 @@ const Dropdown = styled.select`
     left : ${props => props.left ||'61.12rem'};
     border-radius: 1.875rem;
     border: 1px solid #A7A7A7;
-    background: rgba(167, 167, 167, 0.50) url(${downbtn}) no-repeat;;
+    background: rgba(167, 167, 167, 0.50) url(${downbtn}) no-repeat;
     background-position: right 1rem center;
     background-size: 3rem;
     font-family: 'Ttangsbudaejjigae OTF';
