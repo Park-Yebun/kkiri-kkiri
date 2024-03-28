@@ -3,6 +3,8 @@ package com.kkirikkiri.domain.book.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 public class LibraryResponse {
@@ -12,7 +14,7 @@ public class LibraryResponse {
     private String summary;
     private String imageURL;
     private Integer download;
-    private String date;
-    private Boolean possession;
+    private LocalDateTime createdAt;
+    private boolean isMine;
 
 }

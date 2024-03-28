@@ -14,10 +14,5 @@ public interface StoryRepository extends JpaRepository<Story, Long> {
     List<Story> findAllByMemberId(Long memberId);
     Optional<Story> findById(Long storyId);
 
-    List<Story> findAllByOpenState(OpenState openState);
-
-    @Query("SELECT s FROM Story s WHERE s.openState = :openState and s.title LIKE CONCAT('%', :text, '%')")
-    List<Story> findAllByOpenState(OpenState openState, String text);
-
-    List<Story> findAllByOpenStateAndMember(OpenState openState, Member author);
+    List<Story> findByOpenState(OpenState openState);
 }

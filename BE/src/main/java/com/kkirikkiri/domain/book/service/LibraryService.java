@@ -1,6 +1,7 @@
 package com.kkirikkiri.domain.book.service;
 
 import com.kkirikkiri.domain.book.dto.LibraryResponse;
+import com.kkirikkiri.domain.book.entity.Content;
 import com.kkirikkiri.domain.book.entity.Story;
 import com.kkirikkiri.domain.book.entity.enums.OpenState;
 import com.kkirikkiri.domain.book.repository.BookRedisRepository;
@@ -15,72 +16,57 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class LibraryService {
 
     private final StoryRepository storyRepository;
-    private final BookshelfRepository bookshelfRepository;
     private final MemberRepository memberRepository;
     private final ContentRepository contentRepository;
+    private final BookshelfRepository bookshelfRepository;
 
-    // 다른사람이 공유한 동화책
-    public List<LibraryResponse> getAllLibraries(
-            String loginId,
-            String filter,
-            String orderby,
-            String type,
-            String text
-    ) {
+
+    public List<LibraryResponse> getAllBooks(String loginId) {
 
         Member member = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 
-        List<Story> stories = null;
-        if(type.isEmpty() || text.isEmpty()) {    // 검색필터와 검색어가 하나라도 없으면 전체 조회
-            stories = storyRepository.findAllByOpenState(OpenState.PUBLIC);
-        } else {    // 검색필터와 검색어가 둘 다 있을 때
-            if (type.equals("title")) { //  검색필터가 title이면 제목으로 검색
-                stories = storyRepository.findAllByOpenState(OpenState.PUBLIC, text);
-            } else if (type.equals("author")) { // 검색필터가 author이면 작가명으로 검색.
-                Member author = memberRepository.findByNickname(text)
-                        .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+        // Open State가 PUBLIC인 책을 전부 보내줌.
+        // 그런데 이 책이 내가 만든 책이 아니면, isMine = False, isMine = True
+        List<Story> publicStories = storyRepository.findByOpenState(OpenState.PUBLIC);
+        
+        // bookshelf에서 download 수 구하기
+        Map<Long, Integer> downloadCounts = calculateDownloadCounts(publicStories);
 
-                stories = storyRepository.findAllByOpenStateAndMember(OpenState.PUBLIC, author);
-            }
-        }
+        return publicStories.stream()
+                .map(story -> {
+                    boolean isMine = isStoryMine(story, member);
+                    return LibraryResponse.builder()
+                            .title(story.getTitle())
+                            .author(story.getMember().getNickname())
+                            .summary(story.getSummary())
+                            .imageURL(contentRepository.findByStoryIdAndLineId(story.getId(), 1).getImageUrl())
+                            .download(downloadCounts.getOrDefault(story.getId(), 0))
+                            .createdAt(story.getCreatedAt())
+                            .isMine(isMine)
+                            .build();
+                })
+                .collect(Collectors.toList());
 
-        assert stories != null;
-        List<LibraryResponse> libraries = new java.util.ArrayList<>(stories.stream()
-                .map(story -> LibraryResponse.builder()
-                        .title(story.getTitle())
-                        .author(story.getMember().getNickname())
-                        .summary(story.getSummary())
-                        .imageURL(contentRepository.findByStoryIdAndLineId(story.getId(), 1).getImageUrl())
-                        .download(bookshelfRepository.findByStoryId(story.getId()).size())
-                        .possession(bookshelfRepository.findByMemberIdAndStoryId(member.getId(), story.getId()) != null)
-                        .build())
-                .toList());
+    }
+    
+    private boolean isStoryMine(Story story, Member loggedInMember) {
+        return story.getMember().equals(loggedInMember);
+    }
 
-        if (filter.equals("date") ) {
-            if(orderby.equals("ASC")) {
-                libraries.sort(Comparator.comparing(LibraryResponse::getDate));
-            } else if (orderby.equals("DESC")) {
-                libraries.sort(Comparator.comparing(LibraryResponse::getDate).reversed());
-            }
-        } else if(filter.equals("download")) {
-            if (orderby.equals("ASC")) {
-                libraries.sort(Comparator.comparing(LibraryResponse::getDownload));
-            } else if (orderby.equals("DESC")) {
-                libraries.sort(Comparator.comparing(LibraryResponse::getDownload).reversed());
-            }
-        }
-
-        return libraries;
+    private Map<Long, Integer> calculateDownloadCounts(List<Story> stories) {
+        return stories.stream()
+                .collect(Collectors.toMap(
+                        Story::getId,
+                        bookshelfRepository::countMembersByStory
+                ));
     }
 }

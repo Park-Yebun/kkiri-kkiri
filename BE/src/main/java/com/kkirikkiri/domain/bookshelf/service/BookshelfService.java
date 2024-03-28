@@ -45,7 +45,7 @@ public class BookshelfService {
                 .title(story.getTitle())
                 .author(member.getNickname())
                 .imageURL(contentRepository.findByStoryIdAndLineId(story.getId(), 1).getImageUrl())
-                .summery(story.getSummary())
+                .summary(story.getSummary())
                 .build())
             .toList();
 
@@ -58,7 +58,7 @@ public class BookshelfService {
                 .title(bookshelf.getStory().getTitle())
                 .author(bookshelf.getStory().getMember().getNickname())
                 .imageURL(contentRepository.findByStoryIdAndLineId(bookshelf.getStory().getId(), 1).getImageUrl())
-                .summery(bookshelf.getStory().getSummary())
+                .summary(bookshelf.getStory().getSummary())
                 .build())
             .toList();
 

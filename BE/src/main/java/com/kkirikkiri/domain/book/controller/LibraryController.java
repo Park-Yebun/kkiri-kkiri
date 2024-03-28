@@ -18,13 +18,9 @@ public class LibraryController {
     private final LibraryService libraryService;
 
     @GetMapping("/{loginId}")
-    public ResponseEntity<List<LibraryResponse>> getAllLibraries(
-            @PathVariable String loginId,
-            @RequestParam(value = "filter", required = false, defaultValue = "date") String filter,
-            @RequestParam(value = "orderby", required = false, defaultValue = "DESC") String orderby,
-            @RequestParam(value = "type", required = false, defaultValue = "") String type,
-            @RequestParam(value = "text", required = false, defaultValue = "") String text
+    public ResponseEntity<List<LibraryResponse>> getAllBooks(
+            @PathVariable String loginId
     ) {
-        return ResponseEntity.ok(libraryService.getAllLibraries(loginId, filter, orderby, type, text));
+        return ResponseEntity.ok(libraryService.getAllBooks(loginId));
     }
 }
