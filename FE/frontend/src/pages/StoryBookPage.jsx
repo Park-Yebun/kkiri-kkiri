@@ -32,7 +32,7 @@ const PageContent = styled.div`
   font-size: large;
   color: black;
 `;
-const StorybookPage = () => {
+const StoryBookPage = () => {
   // const navigate = useNavigate();
   const flipBookRef = useRef(null);
 

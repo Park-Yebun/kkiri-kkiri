@@ -2,10 +2,11 @@ import { useRef } from 'react';
 import FlipPage from 'react-pageflip';
 import styled from 'styled-components';
 import bookcover from '../assets/book/bookcover.png'
+import bookcover2 from '../assets/book/bookcover2.png'
 
 const Container = styled.div`
   position: fixed;
-  top: 14rem;
+  top: 8rem;
   width: 100vw;
 `;
 
@@ -17,12 +18,17 @@ const PageCoverStyle = styled.div`
   height: 100%;
   background-image: url(${bookcover});
   background-size: 100% 100%;;
-  border: 0.2rem solid #6d6d6d;
+  border: 0.1rem solid #6d6d6d;
+  border-radius: 0.6rem;
   box-shadow:
     inset 0 0 100px 30px rgba(0, 0, 0, 0.4),
     0 0 50px 10px rgba(0, 0, 0, 0.3);
   font-size: large;
   color: black;
+`;
+
+const LastPageCoverStyle = styled(PageCoverStyle)`
+  background-image: url(${bookcover2});  
 `;
 
 const BookContainer = styled.div`
@@ -39,6 +45,7 @@ const Page = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 0.2rem;
   font-size: 20px;
   width: 100%;
   height: 100%;
@@ -55,8 +62,8 @@ const ButtonContainer = styled.div`
 `;
 
 const PageButton = styled.button`
-  width: 5rem;
-  height: 6rem;
+  width: 2rem;
+  height: 3rem;
   margin: 0 5px;
   padding: 5px 10px;
   font-size: 16px;
@@ -81,7 +88,7 @@ const Test = () => {
     <Container>
       <BookContainer>
         <FlipPage 
-          width={900} height={1200} ref={bookRef} showCover={true}>
+          width={450} height={600} ref={bookRef} showCover={true}>
           <div data-density='hard'>
             <PageCoverStyle>
               시작
@@ -98,9 +105,9 @@ const Test = () => {
           <Page className="page">페이지 9</Page>
           <Page className="page">페이지 10</Page>
           <div data-density='hard'>
-            <PageCoverStyle>
+            <LastPageCoverStyle>
               끝
-            </PageCoverStyle>
+            </LastPageCoverStyle>
           </div>
         </FlipPage>
 
