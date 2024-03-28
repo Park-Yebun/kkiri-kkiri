@@ -2,14 +2,12 @@ package com.kkirikkiri.domain.learning.entity;
 
 import com.kkirikkiri.domain.book.entity.Story;
 import com.kkirikkiri.domain.member.entity.Member;
-import com.kkirikkiri.domain.member.entity.enums.EnglishLevel;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 

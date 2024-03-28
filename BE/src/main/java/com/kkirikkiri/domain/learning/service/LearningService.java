@@ -1,12 +1,11 @@
 package com.kkirikkiri.domain.learning.service;
 
-import com.kkirikkiri.domain.bookshelf.entity.Bookshelf;
+import com.amazonaws.services.s3.AmazonS3;
 import com.kkirikkiri.domain.learning.dto.*;
 import com.kkirikkiri.domain.book.entity.Content;
 import com.kkirikkiri.domain.book.entity.Story;
 import com.kkirikkiri.domain.book.repository.ContentRepository;
 import com.kkirikkiri.domain.book.repository.StoryRepository;
-import com.kkirikkiri.domain.member.repository.MemberRepository;
 import com.kkirikkiri.domain.learning.entity.Learning;
 import com.kkirikkiri.domain.learning.repository.LearningRepository;
 import com.kkirikkiri.domain.member.entity.Member;
@@ -24,7 +23,6 @@ public class LearningService {
     private final LearningRepository learningRepository;
     private final StoryRepository storyRepository;
     private final ContentRepository contentRepository;
-    private final MemberRepository memberRepository;
 
     public StoryResponse getLearningBook(Long storyId) {
         Optional<Story> story = storyRepository.findById(storyId);
@@ -46,7 +44,7 @@ public class LearningService {
             List<Learning> learnings = learningRepository.findAllByStoryId(storyId);
             List<LearningResponse> learningResponses = learnings.stream()
                     .map(learning -> LearningResponse.builder()
-                            .learingId(learning.getId())
+//                            .id(learning.getId())
                             .storyId(learning.getStory().getId())
                             .writingLineNo(learning.getWritingLineNo())
                             .speakingLineNo(learning.getSpeakingLineNo())
