@@ -6,7 +6,8 @@ import background from '../assets/story/backimgstory.png';
 import quill from '../assets/story/quill.png';
 import { useState, useRef, useEffect } from 'react';
 import  dummyjson  from '../pages/storydummy.json';
-
+import gptimg from '../assets/main/simplebookshelf.png';
+import userimg from '../assets/user/profile_dog.png';
 
 const StoryContainer = styled.div`
 	max-width: 125rem;
@@ -105,10 +106,15 @@ const StoryInputBox = styled.div`
 `
 
 const Sentence2 = styled(Sentence)`
+	padding: 1.5rem;
 	min-height: 90%;
 	width: 95%;
 	margin: 0;
 	padding-bottom: 0;
+	&.writingstyle {
+		/* background-color: red; */
+		filter: brightness(0.8);
+	}
 `
 const UserInput = styled.textarea`
 	width: 100%;
@@ -139,9 +145,10 @@ position: relative;
 const Capa = styled.div`
 position: absolute;
 /* background-color: aqua; */
+text-align: right;
 height: 3rem;
 width: 9rem;
-right: 0;
+right: 4rem;
 bottom: 0;
 
 font-size: 1.5rem;
@@ -218,6 +225,11 @@ font-weight: 300;
 	box-shadow: none;
 	filter: brightness(0.8);
 }
+&.writingstyle {
+	/* box-shadow: none; */
+	filter: brightness(0.8);
+	/* background-color: red; */
+}
 `
 
 const SendBtn = styled.div``
@@ -229,31 +241,74 @@ const SendBtn = styled.div``
 // 	)
 // })
 
+const WriterDiv = styled.div`
+	margin-left: 1.5rem;
+	height: 8rem;
+	width: 6rem;
+	/* background-color: red; */
+	/* opacity: 0.5; */
+	margin-right: 2rem;
+`
+const WriterName = styled.div`
+	display: flex;
+	justify-content: center;
+	font-size: 1.25rem;
+	height: 2rem;
+	width: 100%;
+	/* background-color: yellow; */
+	/* overflow: visible; */
+	/* text-align: center; */
+	white-space: nowrap;
+`
+
+const WriterImg = styled.img`
+	margin-top: 0.5rem;
+	width: 5rem;
+	height: 5rem;
+	border-radius: 50%;
+	background-color: white;
+	/* border: 1px solid grey; */
+`
+
+const WriterText = styled.div`
+	margin-left: auto;
+	font-size: 1.5rem;	
+	/* height: 5rem; */
+	min-height: 6rem;
+	height: auto;
+	width: 85%;
+	/* background-color: blue; */
+	/* opacity: 0.5; */
+	padding-top: 1rem;
+	padding-right: 1rem;
+`
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+
+
 let convUser = [
 	{
 		"role": "system",
-		"content": "나는 10살 한국 아이로, 동화를 좋아해."
+		"content": "나는 10살 한국 아이로, 동화를 좋아해. 그리고 너는 아이들을 좋아하고 동화를 만드는 창의적이고 동화작가야"
 	},
 	{
 		"role": "system",
-		"content": "너는 아이들을 좋아하고 동화를 만드는 창의적이고 동화작가야."
+		"content": "너의 100글자를 넘지 않도록 한국어로 대답해야 해."
 	},
 	{
 		"role": "system",
 		"content": "지금부터 나와 함께 동화를 만들어보자.내가 먼저 한 문장 길이의 동화를 입력하면, 너는 그 동화를 이어서 대답하는거야."
 	},
-	{
-		"role": "system",
-		"content": "함께 만들 동화는 10 번의 정도의 대화를 오가면서 만들어질거야. 내가 끝이라고 말하면, 동화를 마무리 지어줘"
-	},
-	{
-		"role": "system",
-		"content": "너의 대답은 100글자를 넘지 않아야 하고, 공손해야 해."
-	},
+	// {
+	// 	"role": "system",
+	// 	"content": "함께 만들 동화는 10 번의 정도의 대화를 오가면서 만들어질거야. 내가 끝이라고 말하면, 동화를 마무리 지어줘"
+	// },
+	// {
+	// 	"role": "system",
+	// 	"content": ""
+	// },
 	// {
 	// 	"role": "system",
 	// 	"content": ""
@@ -306,75 +361,161 @@ let convUser = [
 
 const StoryPage = () => {
 	// console.log("찰초공")
-	const [writer, setWriter]	= useState("짱짱맨");
+	const [userName, setUserName]	= useState("짱짱맨");
+	const [gptName, setGptName]	= useState("끼리코");
+
 	const openaiUser = new OpenAI({apiKey: "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", dangerouslyAllowBrowser: true});
-	
+	const isWriting = useRef(false);
+	const scrollBoxRef = useRef();
 	const [messages, setMessages] = useState([
 		
 	]);
 	// const {conv, setConv} = setState([]);
+	const translateChat = async (input) => {
+		const translation = await openaiUser.chat.completions.create({
+			messages: [
+				{
+					role: "system",
+					content: "Translate the following input into English"
+				},
+				{
+					role: "user",	
+					content: input
+				},
+			],
+			model: "gpt-3.5-turbo",
+			// max_tokens: 200,
+			temperature: 0.7
+		});
+		return translation.choices[0].message.content;
+	};
+	const descriptChat = async (input) => {
+		const description = await openaiUser.chat.completions.create({
+			messages: [
+				{
+					role: "system",
+					content: "Write an image description to be used for image generation AI in English based on the following input."
+				},
+				{
+					role: "user",	
+					content: input
+				},
+			],
+			model: "gpt-3.5-turbo",
+			max_tokens: 150,
+			temperature: 0.7
+		});
+		return description.choices[0].message.content;
+	}
 
-	const chatWithGpt = async (ii) => {
-		convUser.push({role: "user", content: ii})
-		console.log(quillNum)
-		if (quillNum === 0) { 
+
+	const chatWithGpt = async (input) => {
+		convUser.push({role: "user", content: input})
+		// console.log(quillNum)
+		// if (quillNum === 0) { 
+		if (quillNum.current === 0) { 
 			convUser = [{role: "assistant", content: "이 동화를 100글자 이내로 마무리 해줘 "}, ... convUser]
 		}
 		// let xxxx = [1234]
 		// console.log(xxxx)
-		sleep(50);
+		// sleep(50);
 		// setConv(xxxx);
 		const completionUser = await openaiUser.chat.completions.create({
 			messages: convUser,
 			model: "gpt-3.5-turbo",
-			// max_tokens: 50,
+			max_tokens: 200,
 			temperature: 0.7
 		});
 		const responseUser = completionUser.choices[0].message.content;
+		// const translated= await translateChat(responseUser);
 		convUser.push({role: "assistant", content: responseUser})
+		
 		return responseUser;
 		}
-		// console.log("대화록:", ii);}
+		// console.log("대화록:", input);}
 
 		
-  const [quillNum, setQuillNum] = useState(5);
+//   const [quillNum, setQuillNum] = useState(5);
+  const quillNum = useRef(5);
 
-	const writeGptStory = async () => {
+	const writeGptStory = async (input) => {
 		console.log("배고파")
-		const xx = await chatWithGpt(inputUser);
-		// await sleep(3000);
-	setMessages(messages => [...messages, xx]);
+		const gptResponse = await chatWithGpt(input);
+		console.log("gpt의 대답:", gptResponse)
+		const translatedSentence = await translateChat(gptResponse);
+		const imageDescription = await descriptChat(gptResponse);
+		// await sleep(5000);
+		
+		setMessages(messages => [...messages, 
+									{ 
+									"writer": "끼리코", 
+									// "koreanSentence": gptResponse, 
+									"koreanSentence": gptResponse, 
+									"translatedSentence": translatedSentence,
+									"imageDescription": imageDescription
+									}
+								]
+					);
+		console.log("메세지: ", messages);	
+	userInputRef.current.focus();
+	// scrollBoxRef.current.scrollTop = await scrollBoxRef.current.scrollHeight;
+	
+	// console.log(scrollBoxRef.current.scrollHeight);
 	}
 	
 
-  const writeStory = () => {
-		inputX.current.disabled = true;
+  const writeStory = async () => {
+		// console.log("버튼레퍼런스:", isWriting)
+		if (!isWriting.current && quillNum.current) {
+		userInputRef.current.disabled = true;
+		isWriting.current = true;
+		buttonRef.current = true;
+
 		console.log("입력메세지: ", inputUser)
-		setMessages(messages => [...messages, inputUser]);
-		// useEffect(() => {setMessages([...messages, inputUser])}, [messages]);
-		console.log("메세지: ", messages);
-		inputX.current.value = "";
+		const translatedSentence = await translateChat(inputUser);
+		const imageDescription = await descriptChat(inputUser);
+		console.log(translatedSentence)
+		setMessages(messages => [...messages, 
+									{ 
+									"writer": userName, 
+									"koreanSentence": inputUser, 
+									"translatedSentence":translatedSentence,
+									"imageDescription": imageDescription
+									}
+								]
+					);
+		// console.log("메세지: ", messages);
+		userInputRef.current.value = "";
 		setInputLength(0);
-		inputX.current.focus();
+		userInputRef.current.focus();
 		setInputUser("");
-		if (quillNum > 0) {
-			setQuillNum(quillNum - 1);
+		// if (quillNum > 0) {
+		if (quillNum.current > 0) {
+			// setQuillNum(quillNum - 1);
+			quillNum.current--;
+			console.log("현재 퀼넘:", quillNum.current);
 		}
 		else {
 			console.log("우리의 이야기는 여기까지.");
 		}
 
-		writeGptStory();
-		inputX.current.disabled = false;
+		await writeGptStory(inputUser);
+		userInputRef.current.disabled = false;
+		isWriting.current = false;
+		buttonRef.current = false;}
+		
+		
 	}
 
 	
 
 	const [inputUser, setInputUser] = useState("");
 	const [inputLength, setInputLength] = useState(0);
-	const inputX = useRef();
-	const buttonRef = useRef();
-	// useEffect(() => {setConvUser([...convUser,{role: "user", content: ii}])}, [inputUser]);
+	const userInputRef = useRef();
+	const buttonRef = useRef(false);
+	useEffect(() => {scrollBoxRef.current.scrollTop = scrollBoxRef.current.scrollHeight;
+					userInputRef.current.focus();}, [messages]);
+	// useEffect(() => {setConvUser([...convUser,{role: "user", content: input}])}, [inputUser]);
 	// useEffect(() => console.log("정열맨"), [inputUser]);
 	const CheckLength = (e) => {
 		if (inputLength > 100) {
@@ -392,25 +533,36 @@ const StoryPage = () => {
 			writeStory();
 		}
 	}
+
+		
   return (
 		<Background backgroundimage={background}>
 			<StoryContainer>
 				<StoryTitlebox>
 					<StoryTitleText>짱짱맨과 끼리코가 만드는 이야기</StoryTitleText>
 				</StoryTitlebox>	
-				<StoryScrollbox>
+				<StoryScrollbox ref={scrollBoxRef}>
 					{messages.map((message,index) => {
 						return (
 							<Sentence key={index}>
-								{message}
+								<WriterDiv>
+									<WriterName>{message.writer}</WriterName>
+									<WriterImg src={message.writer === userName ?  userimg: gptimg}></WriterImg>
+								</WriterDiv>
+								<WriterText>{message.koreanSentence}{message.translatedSentence}{message.imageDescription}</WriterText>
+								{/* <WriterText>{message.KoreanSentence}</WriterText> */}
+								<WriterText></WriterText>
+								{/* <WriterText>{message}</WriterText> */}
+								
 							</Sentence>
 						)
 					})}
 				</StoryScrollbox>
 				<StoryInputBox>
 					<StoryInput>
-						<Sentence2>
-							<UserInput onChange={CheckLength} ref={inputX} onKeyDown={handleOnKeyDown}></UserInput>
+						{/* <Sentence2 className={`${ userInputRef.current.disabled ? "writingstyle":""}`}> */}
+						<Sentence2 className={`${ isWriting.current ? "writingstyle":""}`}>
+							<UserInput onChange={CheckLength} ref={userInputRef} onKeyDown={handleOnKeyDown}></UserInput>
 						</Sentence2>
 						{/* <Capa style={{color: inputLength > 100 ? "red" : "black"}} ref={capaRef}>{inputLength}</Capa> */}
 						<Capa>{inputLength}</Capa>
@@ -418,9 +570,10 @@ const StoryPage = () => {
 					<MiniBox>
 						<Quill>
 							<QuillImg src={quill}></QuillImg>
-							<QuillNum>{quillNum}</QuillNum>
+							<QuillNum>{quillNum.current}</QuillNum>
 						</Quill>
-						<WriteBtn onClick={writeStory} ref={buttonRef}>작성</WriteBtn>
+						{/* <WriteBtn onClick={writeStory} ref={buttonRef} className={`${ isWriting.current ? "writingstyle":""}`}>작성</WriteBtn> */}
+						<WriteBtn className={`${ isWriting.current? "writingstyle":""}`} ref={buttonRef} onClick={writeStory}>작성</WriteBtn>
 					</MiniBox>
 				</StoryInputBox>
 			</StoryContainer>
