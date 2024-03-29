@@ -1,7 +1,7 @@
 {
   "name": "끼리끼리",
   "short_name": "끼리끼리",
-  "start_url": "j10c104.p.ssafy.io",
+  "start_url": "",
   "display": "standalone",
   "background_color": "#00FF1A",
   "theme_color": "#009A06",
@@ -29,11 +29,6 @@
     },
     {
       "src": "icons/favicon-512x512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    },
-    {
-      "src": "icons/logo-512x512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
