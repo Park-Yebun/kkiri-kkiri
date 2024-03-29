@@ -8,7 +8,8 @@ import { useState, useRef, useEffect } from 'react';
 import  dummyjson  from '../pages/storydummy.json';
 import gptimg from '../assets/main/simplebookshelf.png';
 import userimg from '../assets/user/profile_dog.png';
-import * as fs from 'fs';
+
+
 const StoryContainer = styled.div`
 	max-width: 125rem;
 	width: 80%;
