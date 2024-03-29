@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/learn")
+@RequestMapping("/api/learn")
 @RestController
 public class LearningController {
 
