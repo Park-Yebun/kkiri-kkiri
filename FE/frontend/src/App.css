@@ -5,4 +5,6 @@
 
 body {
   font-family : 'Ttangsbudaejjigae OTF';
+  touch-action: manipulation;
+  overflow: hidden;
 }
