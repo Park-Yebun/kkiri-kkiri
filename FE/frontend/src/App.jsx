@@ -8,7 +8,7 @@ import MainPage from "./pages/MainPage.jsx";
 import StoryPage from "./pages/StoryPage.jsx"
 import BookshelfPage from './pages/BookshelfPage.jsx';
 import StudyPage from './pages/StudyPage.jsx'
-// import StorybookPage from "./pages/StorybookPage.jsx";
+import StorybookPage from "./pages/StoryBookPage.jsx";
 import Test from "./pages/Test.jsx";
 
 // 쓸 때 주석해제하세요
@@ -31,7 +31,7 @@ const App = () => {
         <Route path="/" element={<MainPage/>} />
         <Route path="/story/:user-id?story-id" element={<StoryPage/>}/>
         <Route path="/library" element={<LibraryPage/>} />
-        {/* <Route path="/Storybook" element={<StorybookPage/>} /> */}
+        <Route path="/Storybook/:story-id" element={<StorybookPage/>} />
         <Route path="/bookshelf" element={<BookshelfPage/>} />
         <Route path="/test" element={<Test/>} />
         <Route path="/study" element={<StudyPage/>} />
