@@ -21,8 +21,15 @@ public class TestController {
     private final LibraryService libraryService;
 
     @GetMapping("/{A}")
-    public ResponseEntity<String> getAllBooks(@PathVariable String A) {
+    public ResponseEntity<String> getA(@PathVariable String A) {
         System.out.println("/" + A);
-        return ResponseEntity.ok("ㅁㄴㅇㄹ");
+        return ResponseEntity.ok("/" + A);
+    }
+
+    @GetMapping("/{A}/{B}")
+    public ResponseEntity<String> getB(@PathVariable String A, @PathVariable String B) {
+        System.out.println("/" + A + "/" + B);
+        return ResponseEntity.ok("/" + A + "/" + B);
+
     }
 }
