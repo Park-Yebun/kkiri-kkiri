@@ -243,7 +243,6 @@ const BookshelfPage = () => {
     const [infoModalOpen, setInfoModalOpen] = useState(false);
     const [study, setStudy] = useState(null);
     const [writingModalOpen, setWritingModalOpen] = useState(false);
-    const [storyId, setStoryId] = useState(null);
     
 
 
@@ -274,10 +273,10 @@ const BookshelfPage = () => {
     },[]);
 
     const handleBookClick = (book) => {
-        console.log('선택된 책', book)
         if(book.isCompleted){     //이야기 완성된 경우
             setSelectedBook(book);
             setInfoModalOpen(true);
+            console.log('선택된 책', book)
             if(book.isLearned){
                 const isStudy = 1
                 setStudy(isStudy);
@@ -288,8 +287,9 @@ const BookshelfPage = () => {
                 console.log('공부여부',isStudy);
             }
         } else {      
+            setSelectedBook(book);
+            console.log('선택된 책', book)
             setWritingModalOpen(true);
-            setStoryId(book.storyId)
         }
     };
 
@@ -301,9 +301,9 @@ const BookshelfPage = () => {
         setWritingModalOpen(false);
     };
     
-    const gotoMakeStory = (userId, storyId) => {
-        console.log('새이야기 생성하기')
-        navigate(`/story/${userId}?storyId=${storyId}`)
+    const gotoMakeStory = (storyId) => {
+        console.log('이야기 생성하기')
+        navigate(`/story/${storyId}`)
     };
 
     const gotoStudy = () =>  {
@@ -375,11 +375,10 @@ const BookshelfPage = () => {
                     <CloseBtn onClick={closeWritingModal} src={closeBtn}></CloseBtn>
                     <CheckMessage>"작성하던 이야기가 있어. 이어서 작성해볼래?"</CheckMessage>
                     <ButtonContent>
-                        {/* <CheckBtn onClick={gotoMakeStory(1, storyId)}> */}
-                        <CheckBtn>
+                        <CheckBtn onClick={() => gotoMakeStory(selectedBook.storyId)}>
                             YES
                         </CheckBtn>
-                        <CheckBtn>
+                        <CheckBtn onClick={closeWritingModal} src={closeBtn}>
                             NO
                         </CheckBtn>
                     </ButtonContent>
