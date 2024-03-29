@@ -4,7 +4,8 @@ import sketchbook from '../assets/user/sketchbookImg2.png'
 import styled from 'styled-components';
 import Character from '../components/common/Character';
 import downbtn from '../assets/user/downicon.png';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 const SketchbookImg = styled.img`
@@ -136,7 +137,27 @@ const SignOut = styled.span`
 
 const MypagePage = () => {
     const [selectedAge, setSelectedAge] = useState('');
-    const [selectedGrade, setSelectedGrade] = useState('')
+    const [selectedGrade, setSelectedGrade] = useState('');
+    const navigate = useNavigate();
+
+    // 로그인 상태 확인
+    useEffect(() => {
+        (async () => {
+          try {
+            let isLogin = document.cookie.match(new RegExp(
+              "(?:^|; )" + "memberId".replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+            ));
+            if (!isLogin) {
+              navigate('/login');
+            } else {
+              console.log('로그인 상태 확인됨');
+            }
+          } catch (error) {
+            console.error('오류 발생:', error);
+          }
+        })();
+      }, [navigate]);
+
     const handleAgeChange = (event) => {
         setSelectedAge(event.target.value);
     };

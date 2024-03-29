@@ -243,15 +243,35 @@ const BookshelfPage = () => {
     const [infoModalOpen, setInfoModalOpen] = useState(false);
     const [study, setStudy] = useState(null);
     const [writingModalOpen, setWritingModalOpen] = useState(false);
+    const [loginId, setLoginId] = useState(null);
     
 
 
     const navigate = useNavigate();
 
+    // 로그인 정보 확인하고 비로그인상태=>로그인페이지, 로그인상태 => 변수에 저장
+    // useEffect(() => {
+    //     (async () => {
+    //       try {
+    //         let isLogin = document.cookie.match(new RegExp(
+    //           "(?:^|; )" + "loginId".replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    //         ));
+    //         if (!isLogin) {
+    //           setLoginId(null)
+    //           navigate('/login');
+    //         } else {
+    //           const loginId = document.cookie.split('; ').find(row => row.startsWith('loginId=')?.split('=')[1]);
+    //           setLoginId(loginId)
+    //         }
+    //       } catch (error) {
+    //         console.error('오류 발생:', error);
+    //       }
+    //     })();
+    //   }, [navigate]);
+
+
     useEffect(() => {
         const fetchData = async () => {
-            // Zustand에서 현재 로그인한 유저의 loginId 가져와야함
-            const loginId = "user1"
             try{
                 const response = await fetch(`https://kkirikkiri.shop/api/bookshelves/${loginId}`, {
                     method: 'GET',
@@ -316,9 +336,7 @@ const BookshelfPage = () => {
         <Background backgroundimage={background}>
             <BookContainer>
                 <NewBookCover>
-                    {/* zustand에서 memberId(int) 가져와서 함수 인자로 꼬옥 넣어줘야되,, */}
-                    {/* <PlusImage src={PlusImg} key="new" onClick={gotoMakeStory(1, null)}/> */}
-                    <PlusImage src={PlusImg} key="new"/>
+                    <PlusImage src={PlusImg} key="new" onClick={() => gotoMakeStory(selectedBook.storyId)}/>
                     <BookTitle></BookTitle>
                 </NewBookCover>
                 {books.map((book, index) => (
