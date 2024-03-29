@@ -328,8 +328,10 @@ const LibraryPage = () => {
     const [sortedKeyword, setSortedKeyword] = useState("");
     const [selectedBook, setSelectedBook] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [loginId, setLoginId] = useState(null);
     
 
+    const navigate = useNavigate()
 
     const NextBook = () => {
         setCurrentIndex(prevIndex => (prevIndex + 1) % topBooks.length);
@@ -339,10 +341,29 @@ const LibraryPage = () => {
         setCurrentIndex(prevIndex => (prevIndex - 1 + topBooks.length) %  topBooks.length)
     };
 
+    // 로그인 정보 확인하고 비로그인상태=>로그인페이지, 로그인상태=>loginId 저장
+    // useEffect(() => {
+    //     (async () => {
+    //       try {
+    //         let isLogin = document.cookie.match(new RegExp(
+    //           "(?:^|; )" + "loginId".replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    //         ));
+    //         if (!isLogin) {
+    //           setLoginId(null)
+    //           navigate('/login');
+    //         } else {
+    //           const loginId = document.cookie.split('; ').find(row => row.startsWith('loginId=')?.split('=')[1]);
+    //           setLoginId(loginId)
+    //         }
+    //       } catch (error) {
+    //         console.error('오류 발생:', error);
+    //       }
+    //     })();
+    //   }, [navigate]);
+
+
     useEffect(() => {
     const fetchData = async () => {
-        // 쿠키에서 현재 로그인한 유저의 loginId 가져와야함
-        const loginId = "user1"
         try {
             const response = await fetch(`https://kkirikkiri.shop/api/library/${loginId}`, {
                 method: 'GET',
@@ -475,8 +496,6 @@ const LibraryPage = () => {
             }
     }
 
-    const navigate = useNavigate()
-
     const goDetail = (storyId) => {
         console.log('동화책 상세 페이지로 이동')
         navigate(`/storybook/${storyId}`)
@@ -580,8 +599,7 @@ const LibraryPage = () => {
                 </PrevTextSector>
             </PreviewContent>
             <ButtonContent>
-                {/* 쿠키에서 현재 로그인한 유저의 loginId 가져와야함 */}
-                <PrevBtn onClick={() => collectStory(selectedBook.storyId, "user1")}>소장하기</PrevBtn>
+                <PrevBtn onClick={() => collectStory(selectedBook.storyId, loginId)}>소장하기</PrevBtn>
                 <PrevBtn onClick={() => goDetail(selectedBook.storyId)}>그림책 보기</PrevBtn>
             </ButtonContent>
         </>

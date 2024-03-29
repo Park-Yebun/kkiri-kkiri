@@ -190,6 +190,32 @@ const LoginPage = () => {
 
   let navigate = useNavigate();
 
+  // 쿠키 저장하는 함수
+  function setCookie(name, value) {
+    // 옵션의 기본값 설정
+    const options = {
+      path: '/',
+      maxAge: 86400,
+      secure: true
+    };
+    // 쿠키 문자열 구성
+    let cookieString = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+  
+    // 옵션을 문자열에 추가
+    for (let key in options) {
+      cookieString += "; " + key;
+      let optionValue = options[key];
+      if (optionValue !== true) {
+        // true가 아닌 경우, 값을 추가
+        cookieString += "=" + optionValue;
+      } else {
+
+      }
+    }
+    // 쿠키 설정
+    document.cookie = cookieString;
+  }
+
   const handleId = (event) => {
      const id = event.target.value;
      setUserId(id);
@@ -206,18 +232,26 @@ const LoginPage = () => {
                   password: password};
     const fetchData = async () => {
       try {
-        const response = await fetch('https://kkirikkiri.shop/api/members',{
+        const response = await fetch('https://kkirikkiri.shop/api/members/login',{
           method : 'POST',
           headers : {
             'Content-type' : 'application/json'
           },
           body : JSON.stringify(data)
         });
-
         if(response.ok) {
           console.log('로그인완료')
           const responseData = await response.json();
           console.log(responseData);
+          
+          // 로그인 유저 정보 쿠키에 저장하기
+          try {
+            setCookie('memberId', responseData.id);
+            setCookie('loginId', responseData.loginId);
+          } catch (error) {
+            console.log(error)
+          }
+
         } else {
           console.log('에러발생', response.status);
         }
