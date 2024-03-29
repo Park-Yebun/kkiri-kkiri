@@ -1,6 +1,8 @@
-import { useRef } from 'react';
+import { useState, useRef } from 'react';
 import FlipPage from 'react-pageflip';
 import styled from 'styled-components';
+import Background from '../components/common/Background';
+import background from '../assets/book/backimg.png';
 import bookcover from '../assets/book/bookcover.png'
 import bookcover2 from '../assets/book/bookcover2.png'
 import bookData from '../../public/dummydata/book.json';
@@ -90,53 +92,136 @@ const BookAuthor = styled.span`
   font-size: 1.7rem;
 `;  
 const BookContent = styled.span`
+  height: 10%;
   margin: 2rem;
   font-size: 1.5rem;
 `;  
+const PageNumber = styled.span`
+  position: absolute;
+  bottom: 3%;
+  font-size: 1rem;
+`;  
 const BookImage = styled.img`
   width: 20rem;
-`;  
+`; 
+
+const ToggleSwitch = styled.label`
+  position: absolute;
+  display: flex;
+  width: 60px;
+  height: 34px;
+  top: 65%;
+  left: 70%;
+  z-index: 2;
+
+  & input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  & .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+  }
+
+  & input:checked + .slider {
+    background-color: #2196F3;
+  }
+
+  & .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+
+  & input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+`;
+
+
 const Test = () => {
   const bookRef = useRef(null);
+  const [language, setLanguage] = useState(() => bookData.pages.reduce((acc, _, index) => ({
+    ...acc,
+    [index]: 'kr',
+  }), {}));
 
-  const goToPage = (pageNumber) => {
+  const toggleLanguage = (index, event) => {
+    event.stopPropagation();
+    setLanguage((prevLanguage) => ({
+      ...prevLanguage,
+      [index]: prevLanguage[index] === 'kr' ? 'en' : 'kr',
+    }));
+  };
+
+  const goToPage = (pageNumber, event) => {
+    event.stopPropagation();
     bookRef.current.pageFlip().flip(pageNumber - 1);
   };
 
   return (
-    <Container>
-      <BookContainer>
-        <FlipPage 
-          width={450} height={600} ref={bookRef} showCover={true}>
-          <div data-density='hard'>
-            <PageCoverStyle>
-              <BookTitle>{bookData.title}</BookTitle>
-              <BookAuthor>{bookData.author} 작가님</BookAuthor>
-            </PageCoverStyle>
-          </div>
-          {bookData.pages.map((page, index) => (
-            <div key={index}>
-              <Page>
-                <BookImage src={`/dummydata/${page.image}`} alt={`Page ${index + 1}`}/>
-                <BookContent>{page.content}</BookContent>
-              </Page>
+    <Background backgroundimage={background}>
+      <Container>
+        <BookContainer>
+          <FlipPage 
+            width={450} height={600} ref={bookRef} showCover={true} onClick={(event) => event.stopPropagation()}>
+            <div data-density='hard'>
+              <PageCoverStyle>
+                <BookTitle>{bookData.title}</BookTitle>
+                <BookAuthor>{bookData.author} 작가님</BookAuthor>
+              </PageCoverStyle>
             </div>
-          ))}
-          <div data-density='hard'>
-            <LastPageCoverStyle/>
-          </div>
-        </FlipPage>
+            {bookData.pages.map((page, index) => (
+              <div key={index}>
+                <Page>
+                  <BookImage src={`/dummydata/${page.image}`} alt={`Page ${index + 1}`}/>
+                  <BookContent>{language[index] === 'kr' ? page.contentkr : page.contenten}</BookContent>
+                  <PageNumber>{page.page}</PageNumber>
+                  {/* onClick을 제거하고, input의 onChange 핸들러에만 event.stopPropagation을 적용 */}
+                  <ToggleSwitch>
+                    <input
+                      type="checkbox"
+                      checked={language[index] === 'en'}
+                      onChange={(event) => {
+                        event.stopPropagation();
+                        toggleLanguage(index, event);
+                      }}
+                    />
+                    <span className="slider"></span>
+                  </ToggleSwitch>
+                </Page>
+              </div>
+            ))}
+            <div data-density='hard'>
+              <LastPageCoverStyle/>
+            </div>
+          </FlipPage>
 
-        <ButtonContainer>
-          {[...Array(10).keys()].map((number) => (
-            <PageButton key={number} onClick={() => goToPage(number+2)}>
-              {number+1}
-            </PageButton>
-          ))}
-        </ButtonContainer>
-      </BookContainer>
-    </Container>
-    
+          <ButtonContainer> 
+            {[...Array(10).keys()].map((number) => (
+              <PageButton key={number} onClick={() => goToPage(number+2)}>
+                {number+1}
+              </PageButton>
+            ))}
+          </ButtonContainer>
+        </BookContainer>
+      </Container>
+    </Background>
   );
 };
 

@@ -4,52 +4,62 @@
   "pages": [
     {
       "page": 1,
-      "content": "아기 포도가 태어났어요.",
+      "contentkr": "아기 포도가 태어났어요.",
+      "contenten": "Baby grapes were born",
       "image": "../book/1.png"
     },
     {
       "page": 2,
-      "content": "아기 포도는 멋진 포도가 되고 싶었어요.",
+      "contentkr": "아기 포도는 멋진 포도가 되고 싶었어요.",
+      "contenten": "Baby grapes wanted to be nice grapes",
       "image": "../book/2.png"
     },
     {
       "page": 3,
-      "content": "그래서 여행을 떠나기로 했어요",
+      "contentkr": "그래서 여행을 떠나기로 했어요",
+      "contenten": "So he decided to go on a trip",
       "image": "../book/3.png"
     },
     {
       "page": 4,
-      "content": "물도 맞고",
+      "contentkr": "물도 맞고",
+      "contenten": "He got wet",
       "image": "../book/4.png"
     },
     {
       "page": 5,
-      "content": "햇빛도 맞았어요.",
+      "contentkr": "햇빛도 맞았어요.",
+      "contenten": "He got some sunlight",
       "image": "../book/5.png"
     },
     {
       "page": 6,
-      "content": "점점 멋진 포도로 자랐어요.",
+      "contentkr": "점점 멋진 포도로 자랐어요.",
+      "contenten": "He grew into a wonderful grape",
       "image": "../book/6.png"
     },
     {
       "page": 7,
-      "content": "새도 만나고",
+      "contentkr": "새도 만나고",
+      "contenten": "He met birds",
       "image": "../book/7.png"
     },
     {
       "page": 8,
-      "content": "다른 과일 친구들도 생겼어요.",
+      "contentkr": "다른 과일 친구들도 생겼어요.",
+      "contenten": "He made other fruit friends",
       "image": "../book/8.png"
     },
     {
       "page": 9,
-      "content": "사람을 만나게 되어서",
+      "contentkr": "사람을 만나게 되어서",
+      "contenten": "He met people",
       "image": "../book/9.png"
     },
     {
       "page": 10,
-      "content": "멋진 탕후루가 되었어요.",
+      "contentkr": "멋진 탕후루가 되었어요.",
+      "contenten": "He became a wonderful Tanghulu",
       "image": "../book/10.png"
     }
   ]
