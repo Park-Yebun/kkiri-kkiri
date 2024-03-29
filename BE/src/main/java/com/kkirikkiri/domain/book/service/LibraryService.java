@@ -45,6 +45,7 @@ public class LibraryService {
                 .map(story -> {
                     boolean isMine = isStoryMine(story, member);
                     return LibraryResponse.builder()
+                            .storyId(story.getId())
                             .title(story.getTitle())
                             .author(story.getMember().getNickname())
                             .summary(story.getSummary())

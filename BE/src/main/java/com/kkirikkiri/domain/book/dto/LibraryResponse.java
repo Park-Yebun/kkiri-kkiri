@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 public class LibraryResponse {
 
+    private Long storyId;
     private String title;
     private String author;
     private String summary;
