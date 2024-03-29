@@ -1,3 +1,5 @@
+//테스트용입니다 지울거예요
+
 import Background from '../components/common/Background';
 import background from '../assets/main/backimg.png';
 import sketchbook from '../assets/user/sketchbookImg2.png'
@@ -133,7 +135,7 @@ const SaveBtn = styled.div`
 `
 
 
-const SignupPage2 = () => {
+const MypagePage = () => {
     const [selectedAge, setSelectedAge] = useState('');
     const [selectedGrade, setSelectedGrade] = useState('')
     const handleAgeChange = (event) => {
@@ -189,4 +191,6 @@ const SignupPage2 = () => {
     );
 };
 
-export default SignupPage2;
+export default MypagePage;
+
+

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import 'animate.css';
 import Background from "../components/common/Background";
 import background from '../assets/user/backimg.png';
-import SketchBookImg from '../assets/user/sketchbookImg.png';
+import SketchBook from '../assets/user/sketchbookImg2.png';
 import pig from '../assets/user/pig.png';
 import dear from '../assets/user/dear.png';
 import cat from '../assets/user/cat.png';
@@ -199,8 +199,9 @@ const handleConfirmPasswordChange = (event) => {
   console.log(passwordMatch)
 };
 
-const hnadleCharacterSelection = (charactedrId) => {
-  setSelectedCharacter(charactedrId);
+const hnadleCharacterSelection = (characterName) => {
+  setSelectedCharacter(characterName);
+  console.log(selectedCharacter);
 };
 
 const handleNicknameChange = (event) => {
@@ -230,7 +231,7 @@ const handleSubmit = async () => {
   };
 
   try {
-    const response = await fetch('http://j10c104.p.ssafy.io:8080/members', {
+    const response = await fetch('http://j10c104.p.ssafy.io/api/members', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -298,21 +299,21 @@ const handleSubmit = async () => {
           <CategoryText>나이</CategoryText>
           <Dropdown value={selectedAge} onChange={(event) => setSelectedAge(event.target.value)}>
             <Option value="">나이를 선택해주세요</Option>
-            <Option value="6세">6세</Option>
-            <Option value="7세">7세</Option>
-            <Option value="8세">8세</Option>
-            <Option value="9세">9세</Option>
-            <Option value="10세">10세</Option>
-            <Option value="11세">11세</Option>
-            <Option value="12세">12세</Option>
-            <Option value="13세">13세</Option>
+            <Option value="6">6세</Option>
+            <Option value="7">7세</Option>
+            <Option value="8">8세</Option>
+            <Option value="9">9세</Option>
+            <Option value="10">10세</Option>
+            <Option value="11">11세</Option>
+            <Option value="12">12세</Option>
+            <Option value="13">13세</Option>
           </Dropdown>
           <CategoryText>영어수준</CategoryText>
           <Dropdown value={selectedGrade} onChange={(event) => setSelectedGrade(event.target.value)}>
             <Option value="">영어수준을 선택해주세요</Option>
-            <Option value="상">상(중등이상)</Option>
-            <Option value="중">중(초등 3~초등 6)</Option>
-            <Option value="하">하(초등 2 이하)</Option>
+            <Option value="BEGINNER">상(중등이상)</Option>
+            <Option value="INTERMEDIATE">중(초등 3~초등 6)</Option>
+            <Option value="ADVANCED">하(초등 2 이하)</Option>
           </Dropdown>
           <Button onClick={handleSubmit}>가입하기</Button>
         </Modal>
