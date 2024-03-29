@@ -3,6 +3,7 @@ import background from "../assets/library/librarybackimg.png"
 import styled from "styled-components";
 import crown from '../assets/library/crown.png'
 import { useState, useEffect } from "react";
+import {useNavigate} from 'react-router-dom';
 import LeftButtonImg from '../assets/library/arrow_left.png'
 import RightButtonImg from '../assets/library/arrow_right.png'
 import BookPreviewModal from "../components/Modal/BookPreviewModal";
@@ -340,10 +341,19 @@ const LibraryPage = () => {
 
     useEffect(() => {
     const fetchData = async () => {
+        // 쿠키에서 현재 로그인한 유저의 loginId 가져와야함
+        const loginId = "user1"
         try {
-            const response = await fetch('/dummydata/librarystory.json');
+            const response = await fetch(`https://kkirikkiri.shop/api/library/${loginId}`, {
+                method: 'GET',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                params: {
+                    loginId: loginId
+                }
+            });
             const data = await response.json();
-            console.log(data);
             setBooks(data);
             console.log(books);
 
@@ -442,6 +452,37 @@ const LibraryPage = () => {
     openModal();
    };
 
+   const collectStory = async (storyId, loginId) => {
+    const bodyData = {
+        storyId: storyId,
+        loginId: loginId
+    }
+        try {
+            const response = await fetch('https://kkirikkiri.shop/api/bookshelves', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bodyData)
+            });
+            if (response.ok) {
+                console.log('내 책장에 추가되었습니다.');
+              } else {
+                console.error('요청이 실패했습니다.');
+              }
+        } catch (error) {
+            console.error(error);
+            }
+    }
+
+    const navigate = useNavigate()
+
+    const goDetail = (storyId) => {
+        console.log('동화책 상세 페이지로 이동')
+        navigate(`/storybook/${storyId}`)
+    }
+
+
     return (
         <Background backgroundimage={background}>
             <Container>
@@ -501,7 +542,7 @@ const LibraryPage = () => {
                                 <TotalText width='31%'>{book.title}</TotalText>
                                 <TotalText width='34%'>{book.author} 작가님</TotalText>
                                 <TotalText width='15%'>소장수 {book.download}</TotalText>
-                                <TotalText width='20%'>{book.Date}</TotalText>
+                                <TotalText width='20%'>{book.createdAt.split('T')[0]}</TotalText>
 
                             </Lists>
                         ))}
@@ -510,7 +551,7 @@ const LibraryPage = () => {
                                 <TotalText width='31%'>{book.title}</TotalText>
                                 <TotalText width='34%'>{book.author} 작가님</TotalText>
                                 <TotalText width='15%'>소장수 {book.download}</TotalText>
-                                <TotalText width='20%'>{book.Date}</TotalText>
+                                <TotalText width='20%'>{book.createdAt.split('T')[0]}</TotalText>
 
                             </Lists>
                         ))}
@@ -539,8 +580,9 @@ const LibraryPage = () => {
                 </PrevTextSector>
             </PreviewContent>
             <ButtonContent>
-                <PrevBtn>소장하기</PrevBtn>
-                <PrevBtn>그림책 보기</PrevBtn>
+                {/* 쿠키에서 현재 로그인한 유저의 loginId 가져와야함 */}
+                <PrevBtn onClick={() => collectStory(selectedBook.storyId, "user1")}>소장하기</PrevBtn>
+                <PrevBtn onClick={() => goDetail(selectedBook.storyId)}>그림책 보기</PrevBtn>
             </ButtonContent>
         </>
     )}
