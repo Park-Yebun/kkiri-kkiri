@@ -50,9 +50,13 @@ public class BookshelfService {
                     boolean isLearned = learningOptional
                             .map(learning -> learning.getWritingCpltNo() != 0 && learning.getSpeakingCpltNo() != 0)
                             .orElse(false);
-                    // 특정 스토리 아이디와 라인 아이디를 가지는 문장 가져오고 비어있는 값과 아닌값 구분해 넣어주기
-                    Content content = contentRepository.findByStoryIdAndLineId(story.getId(), 1);
-                    String imageUrl = content != null ? content.getImageUrl() : null;
+                    // 스토리별로 첫번째 이미지를 가져와서 비어있는 값과 아닌값 구분해 넣어주기
+                    Content content1 = contentRepository.findByStoryIdAndLineId(story.getId(), 1);
+                    String imageUrl = content1 != null ? content1.getImageUrl() : null;
+
+                    // 이야기 미완성 여부 확인 -- 스토리별로 10번째 문장이 비어있는지 아닌지 여부 확인
+                    Content content2 = contentRepository.findByStoryIdAndLineId(story.getId(), 10);
+                    Boolean isCompleted = content2 != null;
 
                     return BookshelfResponse.builder()
                             .storyId(story.getId())
@@ -61,6 +65,7 @@ public class BookshelfService {
                             .imageURL(imageUrl)
                             .summary(story.getSummary())
                             .isLearned(isLearned)
+                            .isCompleted(isCompleted)
                             .build();
                 })
                 .toList();
