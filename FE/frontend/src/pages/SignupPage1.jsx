@@ -17,8 +17,8 @@ const Sketchbook = styled.div`
   background-size : contain;
   background-repeat : no-repeat;
   background-position : center;
-  width : 33.2vw;
-  height : 64.5vh;
+  width : 31.26vw;
+  height : 62.5vh;
   /* background-color : pink; */
   display: flex;
   flex-direction : column;
@@ -38,7 +38,7 @@ const SignupText = styled.div`
   height : 9.56vh;
   /* background-color : skyblue; */
   align-items : center;
-  font-size : 2.5vw;
+  font-size : 3.1vw;
   line-height : 9.56vh;
 
 `
@@ -48,7 +48,7 @@ const MemberInfoArea = styled.div`
   /* background-color : gray;  */
   display : flex;
   flex-direction : column;
-
+  margin-left : 2rem;
   `
 const CategoryText = styled.div`
   width : 24.84vw;
@@ -73,7 +73,7 @@ const Box = styled.div`
 `
 const InputBox = styled.input`
  height : 5vh;
- width : 19.52vw;
+ width : 17.52vw;
  background: rgba(167, 167, 167, 0.40);
  margin-right : 0.23rem;
  border-radius: 1.875rem;
@@ -115,6 +115,9 @@ const NextBtn = styled.div`
 `
 
 const ErrorId = styled.div`
+  color : red;
+  font-size : 1vw;
+  margin-left : 6vw;
   
 `
 
@@ -256,11 +259,11 @@ const handleSubmit = async () => {
             <CategoryTitle>아이디</CategoryTitle>
             <Box>
               <InputBox onChange={handleIdChange} type="text" placeholder="5~10자리 영어, 특수문자 불가"/>
-              {!validUserId && userId.length > 0 && <ErrorId>사용할 수 없는 아이디입니다.</ErrorId>}
               <DoubleCheckBtn>
                 <BtnText>중복</BtnText>
               </DoubleCheckBtn>
             </Box>
+            {!validUserId && userId.length > 0 && <ErrorId>사용할 수 없는 아이디입니다.</ErrorId>}
           </CategoryText>
           <CategoryText>
             <CategoryTitle>닉네임</CategoryTitle>
