@@ -80,13 +80,20 @@ public class BookshelfService {
                             .map(learning -> learning.getWritingCpltNo() != 0 && learning.getSpeakingCpltNo() != 0)
                             .orElse(false);
 
+                    Content content1 = contentRepository.findByStoryIdAndLineId(bookshelf.getId(), 1);
+                    String imageUrl = content1 != null ? content1.getImageUrl() : null;
+
+                    Content content2 = contentRepository.findByStoryIdAndLineId(bookshelf.getId(), 10);
+                    Boolean isCompleted = content2 != null;
+
                     return BookshelfResponse.builder()
                             .storyId(bookshelf.getStory().getId())
                             .title(bookshelf.getStory().getTitle())
                             .author(bookshelf.getStory().getMember().getNickname())
-                            .imageURL(contentRepository.findByStoryIdAndLineId(bookshelf.getStory().getId(), 1).getImageUrl())
+                            .imageURL(imageUrl)
                             .summary(bookshelf.getStory().getSummary())
                             .isLearned(isLearned)
+                            .isCompleted(isCompleted)
                             .build();
                 })
                 .toList();
