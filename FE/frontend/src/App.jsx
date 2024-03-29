@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 import Header from "./components/header/Header.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import SignupPage2 from "./pages/SignupPage2.jsx";
@@ -38,6 +38,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/story/:user-id" element={<StoryPage />} />
           <Route path="/library" element={<LibraryPage />} />
+          <Route path="/Storybook/:story-id" element={<StorybookPage/>} />
           <Route path="/bookshelf" element={<BookshelfPage />} />
           <Route path="/test" element={<Test />} />
           <Route path="/study" element={<StudyPage />} />
