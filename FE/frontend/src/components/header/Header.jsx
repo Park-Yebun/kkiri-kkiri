@@ -114,6 +114,9 @@ const Header = () => {
       <Link to='/test'>
         테스트
       </Link>
+      <Link to='/asd'>
+        에러페이지
+      </Link>
       <Profile onClick={() => setShowDropdown(!showDropdown)}>
         <ProfileAnimal src={ProfilePic}/>
         <NameInfo>
