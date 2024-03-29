@@ -132,7 +132,7 @@ const Description = () => {
       img4: storybg2, 
       img3Style: { left: '0%', top: '7%', width: '30%'}, 
       img4Style: { right: '-5%', top: '3%', width: '30%' }, 
-      animate1: 'animate__animated animate__shakeX animate__infinite animate__slower animate__delay-2s',
+      animate1: 'animate__animated animate__shakeX animate__infinite animate__slower animate__delay-1s',
       animate2: 'animate__animated animate__shakeX animate__infinite animate__slower',
       backgroundColor :'rgba(255, 242, 216, 0.80)', 
       explain: '“AI 친구인 끼리코와 함께 한문장씩 번갈아가며\n나만의 이야기를 쓸 수 있어!“'},
