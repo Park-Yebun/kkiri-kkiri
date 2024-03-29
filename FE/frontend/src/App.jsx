@@ -10,47 +10,42 @@ import BookshelfPage from './pages/BookshelfPage.jsx';
 import StudyPage from './pages/StudyPage.jsx'
 import StorybookPage from "./pages/StoryBookPage.jsx";
 import Test from "./pages/Test.jsx";
+import ErrorPage from "./pages/ErrorPage.jsx";
+import LibraryPage from "./pages/LibraryPage.jsx";
 
-// 쓸 때 주석해제하세요
-// import BookshelfPage from "./pages/BookshelfPage.jsx"
-import LibraryPage from "./pages/LibraryPage.jsx"
-
-
-const App = () => {
-
-  return(
-  <BrowserRouter>
-    <div className="header">
-      <Header/>
-    </div>
-    <div className="app-container">
-      <Routes>
-        <Route path="/login" element={<LoginPage/>} />
-        <Route path="/signup" element={<SignupPage2/>} />
-        <Route path="/mypage" element={<MypagePage/>} />
-        <Route path="/" element={<MainPage/>} />
-        <Route path="/story/:story-id" element={<StoryPage/>}/>
-        <Route path="/library" element={<LibraryPage/>} />
-        <Route path="/Storybook/:story-id" element={<StorybookPage/>} />
-        <Route path="/bookshelf" element={<BookshelfPage/>} />
-        <Route path="/test" element={<Test/>} />
-        <Route path="/study" element={<StudyPage/>} />
-
-
-
-
-        {/*
-        <Route path="/bookshelf" element={<BookshelfPage/>} />
-        // <Route path="/library" element={<LibraryPage/>} /> */}
-
-      {/* 동적경로 포함된 라우터는 나중에 추가하세요 */}
-      {/* 이야기, 동화책, 학습 페이지입니다 */}
-      </Routes>
-    </div>
-  </BrowserRouter>
-
+function LayoutWithHeader() {
+  return (
+    <>
+      <div className="header">
+        <Header />
+      </div>
+      <div className="app-container">
+        <Outlet />
+      </div>
+    </>
   );
-
 }
 
-export default App
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<LayoutWithHeader />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage2 />} />
+          <Route path="/mypage" element={<MypagePage />} />
+          <Route path="/" element={<MainPage />} />
+          <Route path="/story/:user-id" element={<StoryPage />} />
+          <Route path="/library" element={<LibraryPage />} />
+          <Route path="/bookshelf" element={<BookshelfPage />} />
+          <Route path="/test" element={<Test />} />
+          <Route path="/study" element={<StudyPage />} />
+        </Route>
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
