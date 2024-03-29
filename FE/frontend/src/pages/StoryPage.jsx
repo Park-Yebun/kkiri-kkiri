@@ -8,7 +8,7 @@ import { useState, useRef, useEffect } from 'react';
 import  dummyjson  from '../pages/storydummy.json';
 import gptimg from '../assets/main/simplebookshelf.png';
 import userimg from '../assets/user/profile_dog.png';
-
+import * as fs from 'fs';
 const StoryContainer = styled.div`
 	max-width: 125rem;
 	width: 80%;
@@ -139,6 +139,10 @@ const UserInput = styled.textarea`
 	&:disabled {
 		filter: brightness(0.8);
 	}
+	&.stopwrite {
+	pointer-events: none;
+	/* filter: brightness(0.5); */
+}
 `
 const StoryInput = styled.div`
 width: 104rem;
@@ -333,7 +337,7 @@ let convUser = [
 	},
 	{
 		"role": "system",
-		"content": "너의 100글자를 넘지 않도록 한국어로 대답해야 해."
+		"content": "너는 100글자를 넘지 않도록 한국어로 대답해야 해."
 	},
 	{
 		"role": "system",
@@ -343,17 +347,15 @@ let convUser = [
 
 
 const StoryPage = () => {
-	// console.log("찰초공")
 	const [userName, setUserName]	= useState("짱짱맨");
 	const [gptName, setGptName]	= useState("끼리코");
-
+	const [storyId, setstoryId] = useState(1);
 	const openaiUser = new OpenAI({apiKey: "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", dangerouslyAllowBrowser: true});
 	const isWriting = useRef(false);
 	const scrollBoxRef = useRef();
 	const [messages, setMessages] = useState([
 		
 	]);
-	// const {conv, setConv} = setState([]);
 	const translateChat = async (input) => {
 		const translation = await openaiUser.chat.completions.create({
 			messages: [
@@ -381,7 +383,8 @@ const StoryPage = () => {
 				},
 				{
 					role: "system",
-					content: "your image description should be 100 characters or less in English. also, write the image description one sentence of noun form"
+					// content: "your image description should be 100 characters or less in English. also, write the image description one sentence of noun form"
+					content: "your image description should be 50 characters or less in English. also, this image description must be simple and easy to understand."
 				},
 				{
 					role: "user",	
@@ -389,7 +392,7 @@ const StoryPage = () => {
 				},
 			],
 			model: "gpt-3.5-turbo",
-			max_tokens: 25,
+			max_tokens: 40,
 			temperature: 0.7
 		});
 		return "lvngvncnt, " + description.choices[0].message.content;
@@ -401,28 +404,19 @@ const StoryPage = () => {
 		// console.log(quillNum)
 		// if (quillNum === 0) { 
 		if (quillNum.current === 0) { 
-			convUser = [{role: "assistant", content: "이 동화를 100글자 이내로 마무리 해줘 "}, ... convUser]
+			convUser = [{role: "assistant", content: "이 동화를 80글자 이내로 마무리 해줘 "}, ... convUser]
 		}
-		// let xxxx = [1234]
-		// console.log(xxxx)
-		// sleep(50);
-		// setConv(xxxx);
 		const completionUser = await openaiUser.chat.completions.create({
 			messages: convUser,
 			model: "gpt-3.5-turbo",
-			max_tokens: 150,
+			max_tokens: 120,
 			temperature: 0.7
 		});
 		const responseUser = completionUser.choices[0].message.content;
-		// const translated= await translateChat(responseUser);
 		convUser.push({role: "assistant", content: responseUser})
 		
 		return responseUser;
 		}
-		// console.log("대화록:", input);}
-
-		
-//   const [quillNum, setQuillNum] = useState(5);
   const quillNum = useRef(5);
 
 	const writeGptStory = async (input) => {
@@ -431,11 +425,14 @@ const StoryPage = () => {
 		console.log("gpt의 대답:", gptResponse)
 		const translatedSentence = await translateChat(gptResponse);
 		const imageDescription = await descriptChat(gptResponse);
+		const lineId = (6 - quillNum.current) * 2 - 2;
 		// await sleep(5000);
 		
 		setMessages(messages => [...messages, 
 									{ 
-									"writer": "끼리코", 
+									// "writer": "끼리코", 
+									"storyId": storyId,
+									"lineId": lineId,
 									// "koreanSentence": gptResponse, 
 									"koreanSentence": gptResponse, 
 									"translatedSentence": translatedSentence,
@@ -445,26 +442,24 @@ const StoryPage = () => {
 					);
 		console.log("메세지: ", messages);	
 	userInputRef.current.focus();
-	// scrollBoxRef.current.scrollTop = await scrollBoxRef.current.scrollHeight;
-	
-	// console.log(scrollBoxRef.current.scrollHeight);
 	}
 	
 
   const writeStory = async () => {
-		// console.log("버튼레퍼런스:", isWriting)
 		if (!isWriting.current && quillNum.current) {
 		userInputRef.current.disabled = true;
 		isWriting.current = true;
 		buttonRef.current = true;
-
+		const lineId = (6 - quillNum.current) * 2 - 1;
 		console.log("입력메세지: ", inputUser)
 		const translatedSentence = await translateChat(inputUser);
 		const imageDescription = await descriptChat(inputUser);
 		console.log(translatedSentence)
 		setMessages(messages => [...messages, 
 									{ 
-									"writer": userName, 
+									// "writer": userName, 
+									"storyId": storyId,
+									"lineId": lineId,
 									"koreanSentence": inputUser, 
 									"translatedSentence":translatedSentence,
 									"imageDescription": imageDescription
@@ -521,6 +516,16 @@ const StoryPage = () => {
 		}
 	}
 
+	const sendStory = () => {
+		// const fs = require('fs');
+		// fs.writeFile('story.json', JSON.stringify(messages), (err) => {
+		// 	if (err) {
+		// 		console.log(err);
+		// 	}
+			
+		// });
+		console.log(JSON.stringify(messages));
+	}
 		
   return (
 		<Background backgroundimage={background}>
@@ -533,8 +538,10 @@ const StoryPage = () => {
 						return (
 							<Sentence key={index}>
 								<WriterDiv>
-									<WriterName>{message.writer}</WriterName>
-									<WriterImg src={message.writer === userName ?  userimg: gptimg}></WriterImg>
+									{/* <WriterName>{message.lineId}</WriterName> */}
+									<WriterName>{(message.lineId % 2) ? userName: gptName}</WriterName>
+									{/* <WriterImg src={message.writer === userName ?  userimg: gptimg}></WriterImg> */}
+									<WriterImg src={(message.lineId % 2) ?  userimg : gptimg}></WriterImg>
 								</WriterDiv>
 								<WriterText>{message.koreanSentence}</WriterText>
 								{/* <WriterText>{message.koreanSentence}{message.translatedSentence}{message.imageDescription}</WriterText> */}
@@ -549,8 +556,9 @@ const StoryPage = () => {
 				<StoryInputBox>
 					<StoryInput>
 						{/* <Sentence2 className={`${ userInputRef.current.disabled ? "writingstyle":""}`}> */}
-						<Sentence2 className={`${ isWriting.current ? "writingstyle":"", quillNum.current?"":"stopwrite" }`}>
-							<UserInput onChange={CheckLength} ref={userInputRef} onKeyDown={handleOnKeyDown}></UserInput>
+						{/* <Sentence2 className={`${ isWriting.current ? "writingstyle":"", quillNum.current?"":"stopwrite" }`}> */}
+						<Sentence2 className={`${ isWriting.current ? "writingstyle":""} ${quillNum.current?"":"stopwrite"}`}>
+							<UserInput className={`${quillNum.current?"":"stopwrite"}`} onChange={CheckLength} ref={userInputRef} onKeyDown={handleOnKeyDown}></UserInput>
 						</Sentence2>
 						{/* <Capa style={{color: inputLength > 100 ? "red" : "black"}} ref={capaRef}>{inputLength}</Capa> */}
 						<Capa>{inputLength}</Capa>
@@ -561,12 +569,13 @@ const StoryPage = () => {
 							<QuillNum>{quillNum.current}</QuillNum>
 						</Quill>
 						{/* <WriteBtn onClick={writeStory} ref={buttonRef} className={`${ isWriting.current ? "writingstyle":""}`}>작성</WriteBtn> */}
-						<WriteBtn className={`${ isWriting.current? "writingstyle":"", quillNum.current?"":"stopwrite"}`} ref={buttonRef} onClick={writeStory}>작성</WriteBtn>
+						{/* <WriteBtn className={`${ isWriting.current? "writingstyle":"", quillNum.current?"":"stopwrite"}`} ref={buttonRef} onClick={writeStory}>작성</WriteBtn> */}
+						<WriteBtn className={`${ isWriting.current? "writingstyle":""} ${quillNum.current?"":"stopwrite"}`} ref={buttonRef} onClick={writeStory}>작성</WriteBtn>
 					</MiniBox>
 				</StoryInputBox>
 			</StoryContainer>
 			{/* <SendBtn className={`${ quillNum.current?"":"writingstyle"}`} onClick={console.log(messages)}>{quillNum.current?"이야기 계속하기":"이야기 작성하기"}</SendBtn> */}
-			<SendBtn className={`${ quillNum.current?"":"writingstyle"}`}>{quillNum.current?"이야기 계속하기":"이야기 작성하기"}</SendBtn>
+			<SendBtn className={`${ quillNum.current?"":"writingstyle"}`} onClick={sendStory}>{quillNum.current?"이야기 계속하기":"이야기 작성하기"}</SendBtn>
 		</Background>
   );
 };
