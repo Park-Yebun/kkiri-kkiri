@@ -2,7 +2,7 @@
   "name": "끼리끼리",
   "short_name": "끼리끼리",
   "start_url": "./",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#00FF1A",
   "theme_color": "#009A06",
   "description": "PWA with Vite.js, React.js and TypeScript",
