@@ -154,6 +154,7 @@ const Button = styled.div`
 `
 
 
+
 const SignupPage1 = () => {
   const [validUserId, setValidUserId] = useState(true);
   const [userId, setUserId] = useState('');
@@ -250,6 +251,7 @@ const handleSubmit = async () => {
 };
 
   return(
+
     <Background backgroundimage={background}>
       <Sketchbook>
         <TitleArea>
