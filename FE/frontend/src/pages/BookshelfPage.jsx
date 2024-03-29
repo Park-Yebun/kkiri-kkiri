@@ -106,6 +106,23 @@ const InfoModal = styled.div`
     height: 55.8125vh; 
     color : black;
 `
+const WritingModal = styled.div`
+     display : flex;
+    flex-direction : column;
+    align-items : center;
+    position : fixed;
+    top : 50%;
+    left : 50%;
+    transform : translate(-50%, -50%);
+    z-index : 1000;
+    background-color :rgba(226, 210, 210, 0.90);
+    opacity : 91%;
+    border-radius : 2rem;
+    width: 63.397vw;
+    height: 55.8125vh; 
+    color : black;
+`
+
 const CloseBtn = styled.img`
     width : 2.9vw;
     height : 3.9vh;
@@ -162,11 +179,32 @@ const PrevBtn = styled.div`
     cursor: pointer;
 
 `
+
+const CheckBtn = styled.div`
+
+    width : 10.199vw;
+    height: 8.625vh;
+    background-color : #E17171;
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 1.875rem;
+    color: #000;
+    text-align: center;
+    font-family: "Ttangsbudaejjigae OTF";
+    font-size: 1.712vw;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 8.625vh;
+    cursor: pointer;
+
+`
+
 const StudyInfo = styled.div`
     color : #FE3838;
 
     
 `
+const CheckMessage = styled.div``
+
 const Btn = styled.div`
     margin-bottom : 1rem;
     display : flex;
@@ -175,8 +213,15 @@ const Btn = styled.div`
     align-items : center;
 
 
+    `
+    const CompletedStory = styled.div`
+    display : flex;
+    flex-direction : column;
+    margin-top : 6.9vw;
+    font-size : 1.3vw;
+  
 `
-const NotCompletedStory = styled.div`
+    const NotCompletedStory = styled.div`
     display : flex;
     flex-direction : column;
     margin-top : 6.9vw;
@@ -195,10 +240,10 @@ const Script = styled.div`
 const BookshelfPage = () => {
     const [books, setBooks] = useState([]);
     const [selectedBook, setSelectedBook] = useState(null);
-    const [modalOpen, setModalOpen] = useState(false); 
     const [infoModalOpen, setInfoModalOpen] = useState(false);
     const [study, setStudy] = useState(null);
-    const [writingModal, setwritingModal] = useState(false);
+    const [writingModalOpen, setWritingModalOpen] = useState(false);
+    const [storyId, setStoryId] = useState(null);
     
 
 
@@ -206,8 +251,18 @@ const BookshelfPage = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            try{                                                      
-                const response = await fetch('/dummydata/bookshelf.json');
+            // Zustand에서 현재 로그인한 유저의 loginId 가져와야함
+            const loginId = "user1"
+            try{
+                const response = await fetch(`https://kkirikkiri.shop/api/bookshelves/${loginId}`, {
+                    method: 'GET',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    params: {
+                        loginId: loginId
+                    }
+                });                                                 
                 const data = await response.json();
                 setBooks(data);
                 console.log(data)
@@ -220,10 +275,10 @@ const BookshelfPage = () => {
 
     const handleBookClick = (book) => {
         console.log('선택된 책', book)
-        if(book.iscompleted === 1){     //이야기 완성된 경우
+        if(book.isCompleted){     //이야기 완성된 경우
             setSelectedBook(book);
             setInfoModalOpen(true);
-            if(book.isSpeackingStudy === 1 || book.isWritingStudy === 1){
+            if(book.isLearned){
                 const isStudy = 1
                 setStudy(isStudy);
                 console.log('공부여부' ,isStudy);
@@ -233,17 +288,22 @@ const BookshelfPage = () => {
                 console.log('공부여부',isStudy);
             }
         } else {      
-            setwritingModal(true);
+            setWritingModalOpen(true);
+            setStoryId(book.storyId)
         }
     };
 
-    const closeModal = () => {
+    const closeInfoModal = () => {
         setInfoModalOpen(false);
     };
+
+    const closeWritingModal = () => {
+        setWritingModalOpen(false);
+    };
     
-    const gotoMakeStory = () => {
+    const gotoMakeStory = (userId, storyId) => {
         console.log('새이야기 생성하기')
-        navigate('/story/:1')
+        navigate(`/story/${userId}?storyId=${storyId}`)
     };
 
     const gotoStudy = () =>  {
@@ -256,21 +316,24 @@ const BookshelfPage = () => {
         <Background backgroundimage={background}>
             <BookContainer>
                 <NewBookCover>
-                    <PlusImage src={PlusImg} key="new" onClick={gotoMakeStory}/>
+                    {/* zustand에서 memberId(int) 가져와서 함수 인자로 꼬옥 넣어줘야되,, */}
+                    {/* <PlusImage src={PlusImg} key="new" onClick={gotoMakeStory(1, null)}/> */}
+                    <PlusImage src={PlusImg} key="new"/>
                     <BookTitle></BookTitle>
                 </NewBookCover>
                 {books.map((book, index) => (
-                    <BookCover isCompleted={book.iscompleted} key={index} onClick={() => handleBookClick(book)}>
-                    {book.iscompleted ? (
-                        <>
+                <BookCover isCompleted={book.isCompleted} key={index} onClick={() => handleBookClick(book)}>
+                    {book.isCompleted ? (
+                        <CompletedStory>
                             <BookTitle>{book.title}</BookTitle>
                             <BookAuthor>{book.author}</BookAuthor>
-                        </>
+                        </CompletedStory>
                     ) : (
                         <NotCompletedStory>
                             <Writer>
-                            짱짱맨 작가님의
+                            {book.author} 작가님의
                             </Writer>
+                            {/* 몇번째 미완성 이야기인지 세어줘야함 */}
                             <Script>
                             미완성 이야기
                             </Script>
@@ -279,10 +342,10 @@ const BookshelfPage = () => {
                 </BookCover>
                 ))}
             </BookContainer>
-            {infoModalOpen && selectedBook && (
+            {infoModalOpen && selectedBook !== null && (
                 <InfoModal>
                   <>
-                    <CloseBtn onClick={closeModal} src={closeBtn}></CloseBtn>
+                    <CloseBtn onClick={closeInfoModal} src={closeBtn}></CloseBtn>
                     <PreviewContent>
                         <img style={{width : '22.93lvw' , height : '26.1857vh', marginRight:'6.3rem'}} src={selectedBook.imageURL}/>
                         <PrevTextSector>
@@ -306,7 +369,22 @@ const BookshelfPage = () => {
                     </ButtonContent>
                  </>
                 </InfoModal>
-              
+            )}
+            {writingModalOpen && (
+                <WritingModal>
+                    <CloseBtn onClick={closeWritingModal} src={closeBtn}></CloseBtn>
+                    <CheckMessage>"작성하던 이야기가 있어. 이어서 작성해볼래?"</CheckMessage>
+                    <ButtonContent>
+                        {/* <CheckBtn onClick={gotoMakeStory(1, storyId)}> */}
+                        <CheckBtn>
+                            YES
+                        </CheckBtn>
+                        <CheckBtn>
+                            NO
+                        </CheckBtn>
+                    </ButtonContent>
+                    <></>
+                </WritingModal>
             )}
         </Background>
     );
