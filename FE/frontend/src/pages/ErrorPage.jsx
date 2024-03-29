@@ -34,10 +34,10 @@ const ErrorMsg = styled.div`
 const Errorbtn = styled.div`
   position: absolute;
   display: flex;
-  width: 38%;
-  left: 32.5%;
-  bottom: 16%;
-  justify-content: space-around;
+  width: 37%;
+  left: 33.4%;
+  bottom: 15.7%;
+  justify-content: space-evenly;
 `
 const Homebtn = styled(Link)`
   font-size: 2rem;
@@ -45,12 +45,12 @@ const Homebtn = styled(Link)`
   text-decoration:none;
   /* background-color: yellow; */
   color: black;
-  padding: 10px 0;
+  padding: 10px 8px;
 `
 const Backbtn = styled.div`
   font-size: 2rem;
   /* background-color: yellow; */
-  padding: 10px 0;
+  padding: 10px 8px;
 `
 const ErrorPage = () => {
   const navigate = useNavigate();

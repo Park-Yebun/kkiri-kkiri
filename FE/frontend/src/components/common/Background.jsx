@@ -4,7 +4,7 @@ const Background = styled.div`
   background: url(${(props) => props.backgroundimage}) center center / cover
     fixed no-repeat;
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
   position: absolute;
   top: 0;
   left: 0;
