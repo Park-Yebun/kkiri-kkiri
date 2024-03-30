@@ -248,27 +248,7 @@ const BookshelfPage = () => {
 
 
     const navigate = useNavigate();
-
-    // 로그인 정보 확인하고 비로그인상태=>로그인페이지, 로그인상태 => 변수에 저장
-    // useEffect(() => {
-    //     (async () => {
-    //       try {
-    //         let isLogin = document.cookie.match(new RegExp(
-    //           "(?:^|; )" + "loginId".replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    //         ));
-    //         if (!isLogin) {
-    //           setLoginId(null)
-    //           navigate('/login');
-    //         } else {
-    //           const loginId = document.cookie.split('; ').find(row => row.startsWith('loginId=')?.split('=')[1]);
-    //           setLoginId(loginId)
-    //         }
-    //       } catch (error) {
-    //         console.error('오류 발생:', error);
-    //       }
-    //     })();
-    //   }, [navigate]);
-
+    
 
     useEffect(() => {
         const fetchData = async () => {

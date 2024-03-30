@@ -248,6 +248,7 @@ const LoginPage = () => {
           try {
             setCookie('memberId', responseData.id);
             setCookie('loginId', responseData.loginId);
+            navigate('/');
           } catch (error) {
             console.log(error)
           }

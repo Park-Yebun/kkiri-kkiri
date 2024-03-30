@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styled, { keyframes,css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import logoPic from '../../assets/header/logopic.png';
@@ -46,6 +46,7 @@ const NameInfo = styled.div`
   flex-grow:1;
 `;
 const NickName = styled.div`
+  font-size : 70%;
 `;
 const NameType = styled.div`
   margin: 0 0.8rem;
@@ -102,6 +103,55 @@ const dropDownAnimation = keyframes`
 
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [membersInfo, setmembersInfo] = useState(null)
+
+
+ 
+  const logout = () => {
+    try {
+      document.cookie = 'memberId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      document.cookie = 'loginId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      window.location.href = '/login';
+    } catch {
+      console.log('로그아웃 실패');
+    }
+  };
+
+  function getCookieValue(cookieName) {
+    const cookies = document.cookie.split('; ');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].split('=');
+      if (cookie[0] === cookieName) {
+        return decodeURIComponent(cookie[1]);
+      }
+    }
+    return null;
+  }
+
+  useEffect(() => {
+    const memberId = getCookieValue('memberId');
+    if (memberId) {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(`https://kkirikkiri.shop/api/members/${memberId}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setmembersInfo(data);
+          } else {
+            console.log('데이터를 가져오는데 실패했습니다.');
+          }
+        } catch (error) {
+          console.error('데이터를 가져오는 동안 오류가 발생했습니다.', error);
+        }
+      };
+      fetchData();
+    }
+  }, []);
 
   return (
     <Headers>
@@ -109,7 +159,7 @@ const Header = () => {
         <Logo src={logoPic} />
       </Link>
       <Link to='/login'>
-       로그인
+        로그인
       </Link>
       <Link to='/test'>
         테스트
@@ -117,19 +167,24 @@ const Header = () => {
       <Link to='/asd'>
         에러페이지
       </Link>
+      <Link to='/stttest'>
+        stt테스트
+      </Link>
       <Profile onClick={() => setShowDropdown(!showDropdown)}>
-        <ProfileAnimal src={ProfilePic}/>
+        <ProfileAnimal src={ProfilePic} />
         <NameInfo>
-          <NickName>가나다</NickName>
+          <NickName>{membersInfo && membersInfo.nickname}</NickName>
           <NameType>작가님</NameType>
         </NameInfo>
         <DropdownMenu show={showDropdown}>
-          <MenuItem as={Link} to="/mypage">마이페이지</MenuItem>
-          <MenuItem>로그아웃</MenuItem>
+          <MenuItem as={Link} to='/mypage'>
+            마이페이지
+          </MenuItem>
+          <MenuItem onClick={logout}>로그아웃</MenuItem>
         </DropdownMenu>
       </Profile>
     </Headers>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
