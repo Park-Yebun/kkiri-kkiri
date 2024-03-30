@@ -181,7 +181,7 @@ const StudyPage = () => {
               <NavButton id='redo' ref={redoRef}></NavButton>
             </NavDiv>
           </Nav>
-          <SketchBook ref={editorRef} touch-action="none"></SketchBook>
+          <SketchBook ref={editorRef} touch-action={"none"}></SketchBook>
         </WriteTest>
       </StudyContainer>
     </Background>
