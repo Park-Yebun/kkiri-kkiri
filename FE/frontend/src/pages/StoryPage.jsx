@@ -120,7 +120,7 @@ const Sentence2 = styled(Sentence)`
 
 	&.stopwrite {
 		/* /* pointer-events: none; */
-		filter: brightness(0.8); */
+		filter: brightness(0.8);
 	}
 `
 const UserInput = styled.textarea`

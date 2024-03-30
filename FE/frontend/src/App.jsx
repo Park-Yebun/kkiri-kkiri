@@ -12,6 +12,7 @@ import StorybookPage from "./pages/StoryBookPage.jsx";
 import Test from "./pages/Test.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
 import LibraryPage from "./pages/LibraryPage.jsx";
+import STT from './pages/STT.jsx';
 
 function LayoutWithHeader() {
   return (
@@ -44,6 +45,7 @@ function App() {
           <Route path="/study" element={<StudyPage />} />
         </Route>
         <Route path="*" element={<ErrorPage />} />
+        <Route path="/stttest" element={<STT/>} />
       </Routes>
     </BrowserRouter>
   );
