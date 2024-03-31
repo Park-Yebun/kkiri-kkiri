@@ -14,15 +14,15 @@ import com.kkirikkiri.domain.learning.repository.LearningRepository;
 import com.kkirikkiri.domain.member.entity.Member;
 import com.kkirikkiri.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Book;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class BookshelfService {
@@ -45,11 +45,15 @@ public class BookshelfService {
         List<BookshelfResponse> myBooks = stories.stream()
                 .map(story -> {
                     // 특정 스토리와 멤버에 대한 학습 데이터를 가져오기
-                    Optional<Learning> learningOptional = learningRepository.findByMemberIdAndStoryIdOptional(story.getId(), member.getId()).stream().findFirst();
+                    Learning learning = learningRepository.findByMemberIdAndStoryId(member.getId(), story.getId());
+                    log.info(String.valueOf(learning.getSpeakingCpltNo()), learning.getWritingCpltNo());
+//                    Optional<Learning> learningOptional = learningRepository.findByMemberIdAndStoryIdOptional(story.getId(), member.getId()).stream().findFirst();
                     // 가져온 학습 데이터의 writingCpltNo, speakingCpltNo 컬럼 중 하나라도 0을 가지면 false를 아니라면 true를 반환
-                    boolean isLearned = learningOptional
-                            .map(learning -> learning.getWritingCpltNo() == 0 && learning.getSpeakingCpltNo() == 0)
-                            .orElse(true);
+                    boolean isLearned = true;
+                    if (learning.getSpeakingCpltNo() == 0 && learning.getWritingCpltNo() == 0) {
+                        isLearned = false;
+                    }
+
                     // 스토리별로 첫번째 이미지를 가져와서 비어있는 값과 아닌값 구분해 넣어주기
                     Content content1 = contentRepository.findByStoryIdAndLineId(story.getId(), 1);
                     String imageUrl = content1 != null ? content1.getImageUrl() : null;
@@ -75,11 +79,12 @@ public class BookshelfService {
 
         List<BookshelfResponse> otherBooks = books.stream()
                 .map(bookshelf -> {
-                    Optional<Learning> learningOptional = learningRepository.findByMemberIdAndStoryIdOptional(bookshelf.getId(), member.getId()).stream().findFirst();
-                    boolean isLearned = learningOptional
-                            .map(learning -> learning.getWritingCpltNo() != 0 && learning.getSpeakingCpltNo() != 0)
-                            .orElse(false);
+                    Learning learning = learningRepository.findByMemberIdAndStoryId(member.getId(), bookshelf.getId());
 
+                    boolean isLearned = true;
+                    if (learning.getSpeakingCpltNo() == 0 && learning.getWritingCpltNo() == 0) {
+                        isLearned = false;
+                    }
                     Content content1 = contentRepository.findByStoryIdAndLineId(bookshelf.getId(), 1);
                     String imageUrl = content1 != null ? content1.getImageUrl() : null;
 

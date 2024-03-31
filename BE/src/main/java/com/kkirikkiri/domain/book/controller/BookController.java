@@ -61,7 +61,7 @@ public class BookController {
         // 이야기 저장
         String result = bookService.createContent(contentRequestList);
         // 이미지 저장
-        bookService.createImages(contentRequestList);
+//        bookService.createImages(contentRequestList);
 
         return ResponseEntity.ok(result);
     }
