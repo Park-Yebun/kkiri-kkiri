@@ -6,6 +6,7 @@ import background from '../assets/book/backimg.png';
 import bookcover from '../assets/book/bookcover.png'
 import bookcover2 from '../assets/book/bookcover2.png'
 import bookData from '../../public/dummydata/book.json';
+// import { sync } from 'framer-motion';
 
 const Container = styled.div`
   position: fixed;
@@ -154,7 +155,11 @@ const ToggleSwitch = styled.label`
 `;
 
 
+
+
 const Test = () => {
+  // const toggleRef = useRef();
+  // const flipPageRef = useRef();
   const bookRef = useRef(null);
   const [language, setLanguage] = useState(() => bookData.pages.reduce((acc, _, index) => ({
     ...acc,
@@ -170,7 +175,7 @@ const Test = () => {
   };
 
   const goToPage = (pageNumber, event) => {
-    event.stopPropagation();
+    // event.stopPropagation();
     bookRef.current.pageFlip().flip(pageNumber - 1);
   };
 
@@ -178,8 +183,10 @@ const Test = () => {
     <Background backgroundimage={background}>
       <Container>
         <BookContainer>
-          <FlipPage 
-            width={450} height={600} ref={bookRef} showCover={true} onClick={(event) => event.stopPropagation()}>
+          <FlipPage
+            // width={450} height={600} ref={bookRef} showCover={true} onClick={(event) => {event.stopPropagation()}} useMouseEvents={true} isClickFlip={false}>
+            // width={450} height={600} ref={bookRef} showCover={true} onClick={(event) => {event.stopPropagation()}} onChangeState={("fold_corner","fold_corner","read", "flipping")}>
+            width={450} height={600} ref={bookRef} showCover={true} onClick={(event) => {event.stopPropagation()}} disableFlipByClick>
             <div data-density='hard'>
               <PageCoverStyle>
                 <BookTitle>{bookData.title}</BookTitle>
@@ -188,6 +195,8 @@ const Test = () => {
             </div>
             {bookData.pages.map((page, index) => (
               <div key={index}>
+                {/* <TestDiv >Test</TestDiv> */}
+                {/* <TestDiv onClick={console.log("빨간맛")}>Test</TestDiv> */}
                 <Page>
                   <BookImage src={`/dummydata/${page.image}`} alt={`Page ${index + 1}`}/>
                   <BookContent>{language[index] === 'kr' ? page.contentkr : page.contenten}</BookContent>
@@ -211,7 +220,6 @@ const Test = () => {
               <LastPageCoverStyle/>
             </div>
           </FlipPage>
-
           <ButtonContainer> 
             {[...Array(10).keys()].map((number) => (
               <PageButton key={number} onClick={() => goToPage(number+2)}>

@@ -32,9 +32,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<LayoutWithHeader />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage2 />} />
+          <Route element={<LayoutWithHeader />}>
           <Route path="/mypage" element={<MypagePage />} />
           <Route path="/" element={<MainPage />} />
           <Route path="/story/:user-id" element={<StoryPage />} />

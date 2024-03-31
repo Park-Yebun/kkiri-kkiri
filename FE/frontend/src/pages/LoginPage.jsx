@@ -12,6 +12,8 @@ import squirrel from '../assets/user/squirrel.png'
 import sketchbook from '../assets/user/reallogin.png'
 import { useState } from 'react';
 import useUserStore from '../components/Counter/UserStore';
+import { redirect } from 'react-router-dom';
+import FailLoginModal from '../components/Modal/FailLoginModal';
 
 // const LoginContainer = styled.div`
 //   width : 160rem;
@@ -189,6 +191,7 @@ const LoginPage = () => {
   const [userId, setUserId] = useState(null);
   // const [memberId, setMemberId] = useState('');
   const [password, setPassword] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const userStore = useUserStore();
   
 
@@ -243,14 +246,22 @@ const LoginPage = () => {
           },
           body : JSON.stringify(data)
         });
-        const info = await response.json();
-        userStore.fetchUser(info.id);
-        setCookie('memberId', info.id);
-        setCookie('loginId', info.loginId);
-        navigate('/');
+        if (response.ok){
+            const info = await response.json();
+            userStore.fetchUser(info.id);
+            setCookie('memberId', info.id);
+            setCookie('loginId', info.loginId);
+            navigate('/')
+            console.log('이동성공');
+
+        } else{
+          console.error('로그인 실패', error)
+          setIsModalOpen(true);
+        }
   
       } catch (error) {
         console.error('오류 발생:', error);
+        setIsModalOpen(true);
       }
     };
     fetchData();
@@ -260,6 +271,11 @@ const LoginPage = () => {
   const gotoSignup = () => {
     navigate('/signup');
   };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+
+  }
 
   return (
     <Background backgroundimage={background}>
@@ -286,6 +302,9 @@ const LoginPage = () => {
           <SignQuest>아직 계정이 없으신가요?</SignQuest>
           <SignupLink onClick={gotoSignup}>회원가입</SignupLink>
         </SignupBox>
+          <FailLoginModal isOpen={isModalOpen} onClose={closeModal} >
+
+          </FailLoginModal>
     </Background>
     
   );

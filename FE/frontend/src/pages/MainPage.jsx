@@ -1,15 +1,13 @@
 import styled from 'styled-components';
-// import { useNavigate } from 'react-router-dom';
-import 'animate.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // useNavigate를 import해야 함
 import Background from '../components/common/Background';
 import background from '../assets/main/backimg.png';
-import storyicon from '../assets/main/storyicon.svg'
-import bookshelficon from '../assets/main/bookshelficon.svg'
-import libraryicon from '../assets/main/libraryicon.svg'
-import Explain from '../components/main/Explain.jsx'
-
-
+import storyicon from '../assets/main/storyicon.svg';
+import bookshelficon from '../assets/main/bookshelficon.svg';
+import libraryicon from '../assets/main/libraryicon.svg';
+import Explain from '../components/main/Explain.jsx';
+import useUserStore from '../components/Counter/UserStore.jsx';
+import { useEffect } from 'react';
 
 const Container = styled.div`
   position: absolute;
@@ -17,15 +15,15 @@ const Container = styled.div`
   width: 69rem;
   height: 40rem;
   display: flex;
-  /* background-color: red; */
-`
+`;
+
 const Descriptionbox = styled.div`
   position: absolute;
   width: 69rem;
   height: 25rem;
   display: flex;
-  /* background-color: white; */
-`
+`;
+
 const Menu = styled.div`
   position: absolute;
   justify-content: space-between;
@@ -33,8 +31,8 @@ const Menu = styled.div`
   width: 69rem;
   height: 13rem;
   display: flex;
-  /* background-color: yellow; */
-`
+`;
+
 const Menubox = styled.div`
   display: flex;
   flex-direction: column;
@@ -48,7 +46,7 @@ const Menubox = styled.div`
   box-shadow: 4px -4px 4px 0px rgba(198, 194, 194, 0.5) inset, -4px 4px 4px 0px rgba(255, 255, 255, 0.5) inset;
   backdrop-filter: blur(0.4rem);
   text-decoration: none;
-`
+`;
 
 const Menuicon = styled.img`
   display: flex;
@@ -56,15 +54,27 @@ const Menuicon = styled.img`
   justify-content: center;
   width: 7rem;
   height: 7rem;
-`
+`;
+
 const Menuname = styled.div`
   color: #000;
   font-family: "Ttangsbudaejjigae OTF";
   font-size: 1.5rem;
   font-style: normal;
   font-weight: 300;
-`
+`;
+
 const MainPage = () => {
+  console.log('메인페이지 로드');
+  const navigate = useNavigate();
+   const userInfo = useUserStore(state => state.userInfo);
+
+  useEffect(() => {
+    if (!userInfo ) {
+      navigate('/login');
+    }
+  }, []); // 빈 배열을 넣어 한 번만 실행되도록 설정
+
   return (
     <Background backgroundimage={background}>
       <Container>
@@ -72,7 +82,7 @@ const MainPage = () => {
           <Explain />
         </Descriptionbox>
         <Menu>
-          <Menubox as={Link} to="/story/{id}">
+          <Menubox as={Link} to="/story/id123"> {/* 임시로 id123를 사용하고 있습니다. 적절한 id로 대체해야 합니다. */}
             <Menuicon src={storyicon}/>
             <Menuname>내 이야기 쓰러가기</Menuname>
           </Menubox>
