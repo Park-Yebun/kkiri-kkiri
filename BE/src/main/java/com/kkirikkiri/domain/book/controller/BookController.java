@@ -35,7 +35,7 @@ public class BookController {
     }
 
     // 동화책 openstate public으로 변경
-    @PutMapping("{/storyId}")
+    @PutMapping("/{storyId}")
     public Long modifyOpenstate(
             @PathVariable Long storyId
     ) {
