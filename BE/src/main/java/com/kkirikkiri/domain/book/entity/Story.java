@@ -7,6 +7,7 @@ import com.kkirikkiri.global.common.BaseEntity;
 import jakarta.persistence.*;
 import jdk.jfr.Timestamp;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
@@ -39,9 +40,9 @@ public class Story extends BaseEntity {
     @Column(nullable = true, length = 127)
     private String title;
 
-    @Column(nullable = false)
+    @Builder.Default
     @Enumerated(STRING)
-    private OpenState openState;
+    private OpenState openState = OpenState.PRIVATE;
 
     @Column(length = 511)
     private String summary;

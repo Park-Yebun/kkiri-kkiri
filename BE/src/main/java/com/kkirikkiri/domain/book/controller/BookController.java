@@ -34,6 +34,15 @@ public class BookController {
         return ResponseEntity.ok(storyResponse);
     }
 
+    // 동화책 openstate public으로 변경
+    @PutMapping("{/storyId}")
+    public Long modifyOpenstate(
+            @PathVariable Long storyId
+    ) {
+        return bookService.modifyOpenstate(storyId);
+    }
+
+
     // 새로운 이야기 생성 (Story 생성)
     @PostMapping
     public ResponseEntity<Long> createStory(
