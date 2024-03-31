@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import {useNavigate} from 'react-router-dom';
 import closeBtn from '../assets/library/clear.png'
+import useUserStore from "../components/Counter/UserStore";
 
 const BookContainer = styled.div`
     width : 83.5188vw; 
@@ -244,16 +245,16 @@ const BookshelfPage = () => {
     const [study, setStudy] = useState(null);
     const [writingModalOpen, setWritingModalOpen] = useState(false);
     const [loginId, setLoginId] = useState(null);
-    
-
-
     const navigate = useNavigate();
+
+
+    const userInfo = useUserStore(state => state.userInfo)
     
 
     useEffect(() => {
         const fetchData = async () => {
             try{
-                const response = await fetch(`https://kkirikkiri.shop/api/bookshelves/${loginId}`, {
+                const response = await fetch(`https://kkirikkiri.shop/api/bookshelves/${userInfo.loginId}`, {
                     method: 'GET',
                     headers: {
                     'Content-Type': 'application/json',
@@ -316,7 +317,7 @@ const BookshelfPage = () => {
         <Background backgroundimage={background}>
             <BookContainer>
                 <NewBookCover>
-                    <PlusImage src={PlusImg} key="new" onClick={() => gotoMakeStory(selectedBook.storyId)}/>
+                    <PlusImage src={PlusImg} key="new" onClick={() => gotoMakeStory(0)}/>
                     <BookTitle></BookTitle>
                 </NewBookCover>
                 {books.map((book, index) => (

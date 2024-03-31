@@ -9,6 +9,7 @@ import RightButtonImg from '../assets/library/arrow_right.png'
 import BookPreviewModal from "../components/Modal/BookPreviewModal";
 import closeBtn from '../assets/library/clear.png'
 import downbtn from '../assets/user/downicon.png';
+import useUserStore from "../components/Counter/UserStore";
 
 
 const Container = styled.div`
@@ -330,7 +331,7 @@ const LibraryPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loginId, setLoginId] = useState(null);
     
-
+    const userInfo = useUserStore(state => state.userInfo)
     const navigate = useNavigate()
 
     const NextBook = () => {
@@ -341,31 +342,11 @@ const LibraryPage = () => {
         setCurrentIndex(prevIndex => (prevIndex - 1 + topBooks.length) %  topBooks.length)
     };
 
-    // 로그인 정보 확인하고 비로그인상태=>로그인페이지, 로그인상태=>loginId 저장
-    // useEffect(() => {
-    //     (async () => {
-    //       try {
-    //         let isLogin = document.cookie.match(new RegExp(
-    //           "(?:^|; )" + "loginId".replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    //         ));
-    //         if (!isLogin) {
-    //           setLoginId(null)
-    //           navigate('/login');
-    //         } else {
-    //           const loginId = document.cookie.split('; ').find(row => row.startsWith('loginId=')?.split('=')[1]);
-    //           setLoginId(loginId)
-    //         }
-    //       } catch (error) {
-    //         console.error('오류 발생:', error);
-    //       }
-    //     })();
-    //   }, [navigate]);
-
 
     useEffect(() => {
     const fetchData = async () => {
         try {
-            const response = await fetch(`https://kkirikkiri.shop/api/library/${loginId}`, {
+            const response = await fetch(`https://kkirikkiri.shop/api/library/${userInfo.loginId}`, {
                 method: 'GET',
                 headers: {
                 'Content-Type': 'application/json',
@@ -599,7 +580,7 @@ const LibraryPage = () => {
                 </PrevTextSector>
             </PreviewContent>
             <ButtonContent>
-                <PrevBtn onClick={() => collectStory(selectedBook.storyId, loginId)}>소장하기</PrevBtn>
+                <PrevBtn onClick={() => collectStory(selectedBook.storyId, userInfo.loginId)}>소장하기</PrevBtn>
                 <PrevBtn onClick={() => goDetail(selectedBook.storyId)}>그림책 보기</PrevBtn>
             </ButtonContent>
         </>

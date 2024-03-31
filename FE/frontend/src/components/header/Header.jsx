@@ -3,6 +3,7 @@ import styled, { keyframes,css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import logoPic from '../../assets/header/logopic.png';
 import ProfilePic from '../../assets/header/profilepic.png';
+import useUserStore from '../Counter/UserStore';
 
 const Headers = styled.div`
   display: flex;
@@ -103,8 +104,8 @@ const dropDownAnimation = keyframes`
 
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [membersInfo, setmembersInfo] = useState(null)
-
+  // const [membersInfo, setmembersInfo] = useState(null)
+  const userInfo = useUserStore(state => state.userInfo)
 
  
   const logout = () => {
@@ -117,41 +118,41 @@ const Header = () => {
     }
   };
 
-  function getCookieValue(cookieName) {
-    const cookies = document.cookie.split('; ');
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].split('=');
-      if (cookie[0] === cookieName) {
-        return decodeURIComponent(cookie[1]);
-      }
-    }
-    return null;
-  }
+  // function getCookieValue(cookieName) {
+  //   const cookies = document.cookie.split('; ');
+  //   for (let i = 0; i < cookies.length; i++) {
+  //     const cookie = cookies[i].split('=');
+  //     if (cookie[0] === cookieName) {
+  //       return decodeURIComponent(cookie[1]);
+  //     }
+  //   }
+  //   return null;
+  // }
 
-  useEffect(() => {
-    const memberId = getCookieValue('memberId');
-    if (memberId) {
-      const fetchData = async () => {
-        try {
-          const response = await fetch(`https://kkirikkiri.shop/api/members/${memberId}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-          if (response.ok) {
-            const data = await response.json();
-            setmembersInfo(data);
-          } else {
-            console.log('데이터를 가져오는데 실패했습니다.');
-          }
-        } catch (error) {
-          console.error('데이터를 가져오는 동안 오류가 발생했습니다.', error);
-        }
-      };
-      fetchData();
-    }
-  }, []);
+  // useEffect(() => {
+  //   const memberId = getCookieValue('memberId');
+  //   if (memberId) {
+  //     const fetchData = async () => {
+  //       try {
+  //         const response = await fetch(`https://kkirikkiri.shop/api/members/${memberId}`, {
+  //           method: 'GET',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //           },
+  //         });
+  //         if (response.ok) {
+  //           const data = await response.json();
+  //           setmembersInfo(data);
+  //         } else {
+  //           console.log('데이터를 가져오는데 실패했습니다.');
+  //         }
+  //       } catch (error) {
+  //         console.error('데이터를 가져오는 동안 오류가 발생했습니다.', error);
+  //       }
+  //     };
+  //     fetchData();
+  //   }
+  // }, []);
 
   return (
     <Headers>
@@ -173,7 +174,7 @@ const Header = () => {
       <Profile onClick={() => setShowDropdown(!showDropdown)}>
         <ProfileAnimal src={ProfilePic} />
         <NameInfo>
-          <NickName>{membersInfo && membersInfo.nickname}</NickName>
+          <NickName>{userInfo && userInfo.nickname}</NickName>
           <NameType>작가님</NameType>
         </NameInfo>
         <DropdownMenu show={showDropdown}>

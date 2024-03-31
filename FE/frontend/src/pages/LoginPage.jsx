@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 // 나중이 화면 크기 바뀔일이 생기면 px -> % 로 고쳐야함
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import 'animate.css';
 import Background from '../components/common/Background';
 import background from '../assets/user/backimg.png';
@@ -11,6 +11,7 @@ import fox from '../assets/user/fox.png'
 import squirrel from '../assets/user/squirrel.png'
 import sketchbook from '../assets/user/reallogin.png'
 import { useState } from 'react';
+import useUserStore from '../components/Counter/UserStore';
 
 // const LoginContainer = styled.div`
 //   width : 160rem;
@@ -186,7 +187,10 @@ const SketchBookImg = styled.img`
 const LoginPage = () => {
 
   const [userId, setUserId] = useState(null);
+  // const [memberId, setMemberId] = useState('');
   const [password, setPassword] = useState(null);
+  const userStore = useUserStore();
+  
 
   let navigate = useNavigate();
 
@@ -239,23 +243,12 @@ const LoginPage = () => {
           },
           body : JSON.stringify(data)
         });
-        if(response.ok) {
-          console.log('로그인완료')
-          const responseData = await response.json();
-          console.log(responseData);
-          
-          // 로그인 유저 정보 쿠키에 저장하기
-          try {
-            setCookie('memberId', responseData.id);
-            setCookie('loginId', responseData.loginId);
-            navigate('/');
-          } catch (error) {
-            console.log(error)
-          }
-
-        } else {
-          console.log('에러발생', response.status);
-        }
+        const info = await response.json();
+        userStore.fetchUser(info.id);
+        setCookie('memberId', info.id);
+        setCookie('loginId', info.loginId);
+        navigate('/');
+  
       } catch (error) {
         console.error('오류 발생:', error);
       }
