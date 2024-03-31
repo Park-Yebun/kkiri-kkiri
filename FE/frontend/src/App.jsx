@@ -27,24 +27,22 @@ function LayoutWithHeader() {
   );
 }
 
-
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<LayoutWithHeader />}>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage2 />} />
-          <Route path="/mypage" element={<MypagePage />} />
-          <Route path="/" element={<MainPage />} />
-          <Route path="/story/:user-id" element={<StoryPage />} />
-          <Route path="/library" element={<LibraryPage />} />
-          <Route path="/Storybook/:story-id" element={<StorybookPage/>} />
-          <Route path="/bookshelf" element={<BookshelfPage />} />
-          <Route path="/test" element={<Test />} />
-          <Route path="/test2" element={<Test2 />} />
-          <Route path="/study" element={<StudyPage />} />
-        </Route>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage2 />} />
+          <Route element={<LayoutWithHeader />}>
+            <Route path="/mypage" element={<MypagePage />} />
+            <Route path="/" element={<MainPage />} />
+            <Route path="/story/:user-id" element={<StoryPage />} />
+            <Route path="/library" element={<LibraryPage />} />
+            <Route path="/Storybook/:story-id" element={<StorybookPage/>} />
+            <Route path="/bookshelf" element={<BookshelfPage />} />
+            <Route path="/test" element={<Test />} />
+            <Route path="/study" element={<StudyPage />} />
+          </Route>
         <Route path="*" element={<ErrorPage />} />
         <Route path="/stttest" element={<STT/>} />
       </Routes>
