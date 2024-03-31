@@ -27,7 +27,6 @@ function LayoutWithHeader() {
   );
 }
 
-
 function App() {
   return (
     <BrowserRouter>
