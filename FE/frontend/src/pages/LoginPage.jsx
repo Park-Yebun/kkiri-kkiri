@@ -29,38 +29,37 @@ import useUserStore from '../components/Counter/UserStore';
 const RabbitImg = styled.img`
   position : absolute;
   width: 12.9rem;
-  top : 34.82rem;
-  left : 4.47rem;
+  top : 36rem;
+  left : 4.5rem;
   animation-delay: 0.4s;
 `
 const DogImg = styled.img`
     position : absolute;
     width: 6.5rem;
-    top : 34.28rem;
+    top : 34rem;
     width : 10.5rem;
     height : 10.03rem;
-    left : 19.64rem;
+    left : 19rem;
     animation-delay: 0s;
 `
 const TigerImg = styled.img`
     position : absolute;
-    width : 10.6rem;
-    height: 10.6rem;
-    top : 36.78rem;
-    left : 50.69rem;
+    height: 12rem;
+    top : 37rem;
+    left : 51rem;
     animation-delay: 0.7s;
 `
 const SquirrelImg = styled.img`
     position : absolute;
     height: 5.6rem;
-    top : 13.24rem;
-    left : 21.74rem;
+    top : 12.5rem;
+    left : 21rem;
 `
 const FoxImg = styled.img`
     position : absolute;
     width: 10.7rem;
-    top : 40.39rem;
-    left : 61.3rem;
+    top : 35em;
+    left : 61.8rem;
     animation-delay: 0.2s;
 `
 
@@ -175,14 +174,10 @@ const SignupLink = styled.div`
 `
 
 const SketchBookImg = styled.img`
-    position : absolute;
-    width: 26.67969rem;
-    height: 33.34963rem;
-    top : 10.75rem;
-    left : 29.35rem;
-    
+    position : relative;
+    width: 27rem;
+    height:33rem;
 `
-
 
 const LoginPage = () => {
 
