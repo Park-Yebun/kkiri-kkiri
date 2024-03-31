@@ -1,9 +1,6 @@
 package com.kkirikkiri.domain.book.controller;
 
-import com.kkirikkiri.domain.book.dto.ContentRequest;
-import com.kkirikkiri.domain.book.dto.StoryRequest;
-import com.kkirikkiri.domain.book.dto.StoryResponse;
-import com.kkirikkiri.domain.book.dto.TitleRequest;
+import com.kkirikkiri.domain.book.dto.*;
 import com.kkirikkiri.domain.book.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -95,5 +92,16 @@ public class BookController {
 
         String result = bookService.modifyTitle(storyId, titleRequest);
         return ResponseEntity.ok(result);
+    }
+
+    // 내가 만든 책 전체 조회
+    @GetMapping("/mine/{loginId}")
+    public ResponseEntity<List<MyBookResponse>> getAllStoryBooks(
+            @PathVariable String loginId
+    ) {
+
+        List<MyBookResponse> myBooks = bookService.getAllStoryBooks(loginId);
+
+        return ResponseEntity.ok(myBooks);
     }
 }

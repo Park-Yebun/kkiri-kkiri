@@ -33,7 +33,7 @@ public class BookshelfService {
     private final ContentRepository contentRepository;
     private final LearningRepository learningRepository;
 
-    // 동화책 전체 조회: 내가 만든 동화책 + 다른 사람이 만든 동화책
+    // 동화책 전체 조회: 다른 사람이 만든 동화책
     public List<BookshelfResponse> getAllStories(String loginId) {
 
         Member member = memberRepository.findByLoginId(loginId)
