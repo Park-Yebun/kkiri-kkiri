@@ -8,12 +8,12 @@ import os
 import boto3
 from botocore.exceptions import ClientError
 
-if torch.cuda.is_available():
-    device = torch.device("cuda")  # GPU 장치 설정
-    print("GPU를 사용합니다conda.")
-else:
-    device = torch.device("cpu")   # CPU 장치 설정
-    print("CPU를 사용합니다.")
+# if torch.cuda.is_available():
+#     device = torch.device("cuda")  # GPU 장치 설정
+#     print("GPU를 사용합니다conda.")
+# else:
+device = torch.device("cpu")   # CPU 장치 설정
+print("CPU를 사용합니다.")
 
 # Load environment variables from .env file
 load_dotenv()
