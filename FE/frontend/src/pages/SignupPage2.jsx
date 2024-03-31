@@ -23,6 +23,13 @@ import cat from '../assets/user/cat.png';
 import eagle from '../assets/user/eagle.png'
 import giraffe from '../assets/user/giraffe.png'
 
+const SketchbookImg = styled.img`
+    position : relative;
+    width: 30rem;
+    height: 45rem;
+    margin-left: 0.5rem;
+    /* background-color: yellow; */
+`  
 
 const EagleImg = styled.img`
   position : absolute;
@@ -97,14 +104,6 @@ const ImgFormat = styled.img`
     margin: 0 0.2rem;
 `
 
-
-const SketchbookImg = styled.img`
-    position : relative;
-    width: 30rem;
-    height: 45rem;
-    margin-left: 0.5rem;
-    /* background-color: yellow; */
-`   
 const MypageText = styled.div`
     position: absolute;
     top: 2rem;
@@ -153,10 +152,11 @@ const InputBox = styled.input`
     border-radius: 1rem;
     border: 1px solid #A7A7A7;
     background: rgba(167, 167, 167, 0.40);
-    font-size : 0.9rem;
+    font-size : 1.3rem;
     font-family : 'Ttangsbudaejjigae OTF';
     font-weight : 300;
     text-indent : 1rem;
+    
     &::placeholder {
         color:#6F6C6C;
         font-size: 0.9rem;
@@ -168,7 +168,7 @@ const DoubleCheckBtn = styled.div`
     /* position : absolute; */
     z-index : 10;
     left : 18rem;
-    width: 4rem;
+    width: 6rem;
     height: 2.8rem;
     border-radius: 1.5rem;
     background: #727272;
@@ -182,7 +182,7 @@ const BtnText = styled.div`
     width: 100%; 
     height: 100%; 
     font-weight: 300;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-family : 'Ttangsbudaejjigae OTF';
     padding-top : 0.1rem;
 `
@@ -241,7 +241,7 @@ const GoLogin = styled.img`
 const ErrorId = styled.div`
   position: absolute;
   color : red;
-  margin:0.3rem 0 0 8.5rem;
+  margin:0.3rem 0 0 10rem;
   font-size: 0.8rem;
  
 `
