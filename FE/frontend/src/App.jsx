@@ -13,7 +13,7 @@ import Test from "./pages/Test.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
 import LibraryPage from "./pages/LibraryPage.jsx";
 import STT from './pages/STT.jsx';
-
+import Test2 from "./pages/Test2.jsx";
 function LayoutWithHeader() {
   return (
     <>

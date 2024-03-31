@@ -8,6 +8,7 @@ import { useState, useRef, useEffect } from 'react';
 import  dummyjson  from '../pages/storydummy.json';
 import gptimg from '../assets/main/simplebookshelf.png';
 import userimg from '../assets/user/profile_dog.png';
+import StoryNameModal from '../components/Modal/StoryNameModal';
 
 
 const StoryContainer = styled.div`
@@ -329,7 +330,49 @@ const WriterText = styled.div`
 //   return new Promise(resolve => setTimeout(resolve, ms));
 // }
 
-
+const ModalTitle = styled.div`
+	/* position: relative; */
+	margin-top: 2.5rem;
+	margin-bottom: 1rem;
+`
+const ModalTextBox = styled.div`
+	width: 28rem;
+	height: 4rem;
+	border-radius: 0.5rem;
+	background-color: #F1CDCD;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`
+const ModalCloseButton = styled.div`
+	font-size: 1.5rem;
+	margin-top: 1rem;
+	width: 5.5rem;
+	height: 2.5rem;
+	border-radius: 1rem;
+	background-color: #8C6D6D;
+	box-shadow: 0px 0.5rem 0.5rem 0px rgba(0, 0, 0, 0.25);
+	text-align: center;
+	line-height: 2.5rem;
+&:active {
+	box-shadow: none;
+	filter: brightness(0.8);
+}
+`
+const StoryTitle = styled.textarea`
+	width: 100%;
+	height: 100%;
+	/* background-color: transparent; */
+	background-color: red;
+	font-size: 1.5rem;
+	font-family: "Ttangsbudaejjigae OTF";
+	font-weight: 300;
+	border: none;
+	&:focus {
+		outline: none;
+		background-color: blue;
+	}
+`
 
 let convUser = [
 	{
@@ -418,7 +461,7 @@ const StoryPage = () => {
 		
 		return responseUser;
 		}
-  const quillNum = useRef(5);
+	const quillNum = useRef(5);
 
 	const writeGptStory = async (input) => {
 		console.log("배고파")
@@ -446,7 +489,7 @@ const StoryPage = () => {
 	}
 	
 
-  const writeStory = async () => {
+	const writeStory = async () => {
 		if (!isWriting.current && quillNum.current) {
 		userInputRef.current.disabled = true;
 		isWriting.current = true;
@@ -527,7 +570,17 @@ const StoryPage = () => {
 		// });
 		console.log(JSON.stringify(messages));
 	}
-		
+	// const {isModalOpen, setIsModalOpen} = useState(true);
+
+	// const openModal = () => {
+	// 	setIsModalOpen(true);
+	// };
+	// const closeModal = () => {
+	// 	setIsModalOpen(false);
+	// };
+	const [testModal, setTestModal] = useState(false);
+	const storyTitleRef = useRef();
+	// useEffect(() => {storyTitleRef.current.focus()}, [storyTitleRef.current.value]);
   return (
 		<Background backgroundimage={background}>
 			<StoryContainer>
@@ -570,12 +623,27 @@ const StoryPage = () => {
 							<QuillNum>{quillNum.current}</QuillNum>
 						</Quill>
 						{/* <WriteBtn onClick={writeStory} ref={buttonRef} className={`${ isWriting.current ? "writingstyle":""}`}>작성</WriteBtn> */}
-						{/* <WriteBtn className={`${ isWriting.current? "writingstyle":"", quillNum.current?"":"stopwrite"}`} ref={buttonRef} onClick={writeStory}>작성</WriteBtn> */}
-						<WriteBtn className={`${ isWriting.current? "writingstyle":""} ${quillNum.current?"":"stopwrite"}`} ref={buttonRef} onClick={writeStory}>작성</WriteBtn>
+						<WriteBtn className={`${ isWriting.current? "writingstyle":"", quillNum.current?"":"stopwrite"}`} ref={buttonRef} onClick={writeStory}>작성</WriteBtn>
+						<ModalCloseButton onClick={() => setTestModal(true)}>모달열기</ModalCloseButton>
 					</MiniBox>
 				</StoryInputBox>
 			</StoryContainer>
 			{/* <SendBtn className={`${ quillNum.current?"":"writingstyle"}`} onClick={console.log(messages)}>{quillNum.current?"이야기 계속하기":"이야기 작성하기"}</SendBtn> */}
+			
+
+			{/* <StoryNameModal isOpen={isModalOpen} onClose={closeModal}>
+				{<>
+				<ModalCloseButton onclick={closeModal}></ModalCloseButton>
+				</>
+				}
+			</StoryNameModal> */}
+			<StoryNameModal isOpen={testModal} onClose={() => setTestModal(false)}>
+				<ModalTitle>동화의 제목을 지어줄래??</ModalTitle>
+				<ModalTextBox>
+					<StoryTitle ref={storyTitleRef} onKeyDown={console.log(storyTitleRef.current)}></StoryTitle>
+				</ModalTextBox>
+				<ModalCloseButton onClick={() => setTestModal(false)}>작성</ModalCloseButton>
+			</StoryNameModal>
 			<SendBtn className={`${ quillNum.current?"":"writingstyle"}`} onClick={sendStory}>{quillNum.current?"이야기 계속하기":"이야기 작성하기"}</SendBtn>
 		</Background>
   );
