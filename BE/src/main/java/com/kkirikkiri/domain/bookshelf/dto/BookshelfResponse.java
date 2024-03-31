@@ -17,5 +17,4 @@ public class BookshelfResponse {
     private String imageURL; // 썸네일이미지
     private String summary; // 요약
     private Boolean isLearned; // 쓰기,말하기 중 하나라도 학습했는지 여부
-    private Boolean isCompleted; // 그림이 있는 완성된 동화책인지 여부
 }

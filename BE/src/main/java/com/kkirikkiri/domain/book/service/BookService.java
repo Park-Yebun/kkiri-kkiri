@@ -281,7 +281,6 @@ public class BookService {
         // 내가 만든 책
         List<MyBookResponse> myBooks = stories.stream()
                 .map(story -> {
-                    // 특정 스토리와 멤버에 대한 학습 데이터를 가져오기
                     Optional<Learning> learningOptional = learningRepository.findByMemberIdAndStoryIdOptional(story.getId(), member.getId());
                     boolean isLearned = false;
                     if (learningOptional.isPresent()) {
