@@ -48,8 +48,8 @@ public class BookshelfService {
                     Optional<Learning> learningOptional = learningRepository.findByMemberIdAndStoryIdOptional(story.getId(), member.getId()).stream().findFirst();
                     // 가져온 학습 데이터의 writingCpltNo, speakingCpltNo 컬럼 중 하나라도 0을 가지면 false를 아니라면 true를 반환
                     boolean isLearned = learningOptional
-                            .map(learning -> learning.getWritingCpltNo() != 0 && learning.getSpeakingCpltNo() != 0)
-                            .orElse(false);
+                            .map(learning -> learning.getWritingCpltNo() == 0 && learning.getSpeakingCpltNo() == 0)
+                            .orElse(true);
                     // 스토리별로 첫번째 이미지를 가져와서 비어있는 값과 아닌값 구분해 넣어주기
                     Content content1 = contentRepository.findByStoryIdAndLineId(story.getId(), 1);
                     String imageUrl = content1 != null ? content1.getImageUrl() : null;
