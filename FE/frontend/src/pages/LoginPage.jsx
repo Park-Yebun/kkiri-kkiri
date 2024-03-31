@@ -100,6 +100,7 @@ const IDinput = styled.input`
   font-size : 1.63rem;
   font-weight : 300;
   font-family: 'Ttangsbudaejjigae OTF';
+  text-indent : 1rem;
 `
 
 const IDBox = styled.div`
@@ -123,6 +124,7 @@ const PWInput = styled.input`
   font-size : 1.63rem;
   font-weight : 300;
   font-family: 'Ttangsbudaejjigae OTF';
+  text-indent : 1rem;
 `
 const BtnText = styled.div`
   display: flex;
