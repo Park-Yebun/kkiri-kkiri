@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.kkirikkiri.domain.book.dto.*;
 import com.kkirikkiri.domain.book.entity.Content;
 import com.kkirikkiri.domain.book.entity.Story;
+import com.kkirikkiri.domain.book.entity.enums.OpenState;
 import com.kkirikkiri.domain.book.repository.BookRedisRepository;
 import com.kkirikkiri.domain.book.repository.ContentRepository;
 import com.kkirikkiri.domain.book.repository.StoryRepository;
@@ -95,6 +96,15 @@ public class BookService {
 
     }
 
+    public Long modifyOpenstate(Long storyId) {
+        Story story = storyRepository.findById(storyId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 동화책이 없습니다."));
+
+        story.setOpenState(OpenState.PUBLIC);
+
+        return story.getId();
+    }
+    
     public Long createStory(StoryRequest storyRequest) {
 
         Member member = memberRepository.findByLoginId(storyRequest.getLoginId())
