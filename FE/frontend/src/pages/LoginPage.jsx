@@ -111,13 +111,13 @@ const IDBox = styled.div`
   display : flex;
   align-items:center;
   margin-right: -1.4rem; 
-  margin-bottom: 2rem;
+  margin-bottom: 1.9rem;
 `
 const PWBox = styled.div`
   position: relative;
   display : flex;
   align-items: center;
-  margin-bottom:2rem;
+  margin-bottom: 2rem;
 `
 
 const PWInput = styled.input`
@@ -139,7 +139,7 @@ const BtnText = styled.div`
   width: 100%; 
   height: 100%; 
   font-size: 2rem;
-  font-weight : 300;
+  font-weight : 500;
   color : white;
   cursor: pointer;
   padding-top : 0.2rem;
