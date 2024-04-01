@@ -13,10 +13,10 @@ import useUserStore from "../components/Counter/UserStore";
 
 const StoryContainer = styled.div`
 	max-width: 125rem;
-	width: 80%;
-	height: 75%;
+	width: 70rem;
+	height: 40rem;
 	position: absolute;
-	top: 15%;
+	top: 7rem;
 	/* left: 17.5rem; */
 	/* border-radius: 3.75rem; */
 	border-radius: 2rem;
@@ -51,6 +51,7 @@ const StoryTitleText = styled.div`
 	font-size: 2rem;
 	font-family: "Ttangsbudaejjigae OTF";
 	color: #000;
+	margin-top: 0.4rem;
 	line-height: normal;
 `
 
@@ -108,9 +109,9 @@ const StoryInputBox = styled.div`
 `
 
 const Sentence2 = styled(Sentence)`
-	padding: 1.5rem;
-	min-height: 90%;
-	width: 95%;
+	padding: 1.5rem 1.1rem 1.1rem 1.1rem;
+	height: 9rem;
+	width: 55rem;
 	margin: 0;
 	padding-bottom: 0;
 	&.writingstyle {
@@ -125,9 +126,7 @@ const Sentence2 = styled(Sentence)`
 	}
 `
 const UserInput = styled.textarea`
-	width: 100%;
-	/* Height: 10rem; */
-	/* Height: 10rem; */
+	width: 60rem;
 	background-color: transparent;
 	overflow: visible;
 	font-size: 1.5rem;
@@ -163,7 +162,7 @@ width: 9rem;
 right: 4rem;
 bottom: 0;
 
-font-size: 1.5rem;
+font-size: 1.3rem;
 font-family: "Ttangsbudaejjigae OTF";
 font-weight: 300;
 &::after {
@@ -172,39 +171,30 @@ font-weight: 300;
 }
 `
 const MiniBox = styled.div`
-width: 8rem;
+width: 10rem;
 height: 100%;
 /* background-color: blue; */
-margin-left: auto;
 display: flex;
 flex-direction: column;
 justify-content: space-between;
 `
 
 const Quill = styled.div`
-height: 30%;
-/* width: 50%; */
-/* margin-top:1rem; */
-/* background-color: green; */
+height: 10rem;
+width: 8rem;
 display: flex;
 flex-direction: row;
 font-size: 2.5rem;
-font-family: "Ttangsbudaejjigae OTF";
 font-weight: 300;
-/* padding-right: 1rem; */
 padding-left: 0.5rem;
-/* &::before {
-	content: "x ";
-} */
+/* background-color: aqua; */
 `
 const QuillImg = styled.img`
+height: 3.5rem;
 /* background-color: pink; */
 `
 const QuillNum = styled.div`
-/* margin-left: auto; */
-/* width: 50%; */
-/* background-color: lavender; */
-/* top: 50%; */
+
 padding-top: 10px;
 &::before {
 	content: "× ";
@@ -212,27 +202,21 @@ padding-top: 10px;
 }`
 
 const WriteBtn = styled.div`
-height: 50%;
-width: 100%;
+position: relative;
+display: flex;
+height: 10rem;
+width: 9rem;
+justify-content: center;
+align-items: center;
+padding-top: 0.7rem;
 margin-bottom: 1rem;
-/* background-color: magenta; */
 border-radius: 1rem;
 background: #29C325;
 box-shadow: 0px 0.5rem 0.5rem 0px rgba(0, 0, 0, 0.25);
-
 color: #000;
-
-text-align: center;
-/* display: inline-block; */
-/* vertical-align: baseline; */
-/* padding-top */
-/* height: 120px; */
-line-height: 6rem;
-font-family: "Ttangsbudaejjigae OTF";
-font-size: 2.5rem;
+font-size: 2.8rem;
 font-style: normal;
 font-weight: 300;
-/* line-height: normal; */
 &:active {
 	box-shadow: none;
 	filter: brightness(0.8);
@@ -345,15 +329,19 @@ const ModalTextBox = styled.div`
 	justify-content: center;
 `
 const ModalCloseButton = styled.div`
+position: absolute;
 	font-size: 1.5rem;
-	margin-top: 1rem;
-	width: 5.5rem;
-	height: 2.5rem;
+	top:41rem;
+	left: 60rem;
+	/* margin-top: 1rem; */
+	width: 7rem;
+	height: 3rem;
 	border-radius: 1rem;
 	background-color: #8C6D6D;
 	box-shadow: 0px 0.5rem 0.5rem 0px rgba(0, 0, 0, 0.25);
-	text-align: center;
-	line-height: 2.5rem;
+	align-items: center;
+	justify-content: center;
+	display: flex;
 &:active {
 	box-shadow: none;
 	filter: brightness(0.8);
@@ -757,8 +745,8 @@ const StoryPage = () => {
 						</Quill>
 						{/* <WriteBtn onClick={writeStory} ref={buttonRef} className={`${ isWriting.current ? "writingstyle":""}`}>작성</WriteBtn> */}
 						<WriteBtn className={`${ isWriting.current? "writingstyle":"", quillNum.current?"":"stopwrite"}`} ref={buttonRef} onClick={writeStory}>작성</WriteBtn>
-						<ModalCloseButton onClick={() => setTestModal(true)}>모달열기</ModalCloseButton>
 					</MiniBox>
+					<ModalCloseButton onClick={() => setTestModal(true)}>모달열기</ModalCloseButton>
 				</StoryInputBox>
 			</StoryContainer>
 			{/* <SendBtn className={`${ quillNum.current?"":"writingstyle"}`} onClick={console.log(messages)}>{quillNum.current?"이야기 계속하기":"이야기 작성하기"}</SendBtn> */}
