@@ -7,6 +7,7 @@ import com.kkirikkiri.domain.book.entity.enums.OpenState;
 import com.kkirikkiri.domain.book.repository.BookRedisRepository;
 import com.kkirikkiri.domain.book.repository.ContentRepository;
 import com.kkirikkiri.domain.book.repository.StoryRepository;
+import com.kkirikkiri.domain.bookshelf.entity.Bookshelf;
 import com.kkirikkiri.domain.bookshelf.repository.BookshelfRepository;
 import com.kkirikkiri.domain.bookshelf.service.BookshelfService;
 import com.kkirikkiri.domain.member.entity.Member;
@@ -42,8 +43,15 @@ public class LibraryService {
         Map<Long, Integer> downloadCounts = calculateDownloadCounts(publicStories);
 
         return publicStories.stream()
+                .filter(story -> {
+                    // 이야기의 10번째 라인에 해당하는 내용을 가져옴
+                    Content content = contentRepository.findByStoryIdAndLineId(story.getId(), 10);
+                    // 해당 내용이 존재하면 이야기가 완료된 것으로 판단
+                    return content != null;
+                })
                 .map(story -> {
                     boolean isMine = isStoryMine(story, member);
+                    boolean isDownloaded = isDownloaded(story.getId(), member.getId());
                     return LibraryResponse.builder()
                             .storyId(story.getId())
                             .title(story.getTitle())
@@ -53,6 +61,7 @@ public class LibraryService {
                             .download(downloadCounts.getOrDefault(story.getId(), 0))
                             .createdAt(story.getCreatedAt())
                             .isMine(isMine)
+                            .isDownloaded(isDownloaded)
                             .build();
                 })
                 .collect(Collectors.toList());
@@ -61,6 +70,15 @@ public class LibraryService {
     
     private boolean isStoryMine(Story story, Member loggedInMember) {
         return story.getMember().equals(loggedInMember);
+    }
+
+    private boolean isDownloaded(Long storyId, Long memberId) {
+        Bookshelf bookshelf = bookshelfRepository.findByMemberIdAndStoryId(memberId, storyId);
+        if (bookshelf != null) { // 책장에 있다면 다운로드 한 것
+            return true;
+        }
+        return false;
+
     }
 
     private Map<Long, Integer> calculateDownloadCounts(List<Story> stories) {

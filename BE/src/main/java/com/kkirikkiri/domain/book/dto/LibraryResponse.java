@@ -17,5 +17,6 @@ public class LibraryResponse {
     private Integer download;
     private LocalDateTime createdAt;
     private boolean isMine;
+    private boolean isDownloaded;
 
 }
