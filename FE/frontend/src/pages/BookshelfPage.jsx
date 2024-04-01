@@ -1,5 +1,5 @@
 import Background from "../components/common/Background";
-import background from "../assets/bookshelf/bookshelfbackimg.png";
+import background from "../assets/bookshelf/bookshelfbackimg.jpg";
 import BookImg from '../assets/bookshelf/bookimg2.png';
 import NotCompletedImg from '../assets/bookshelf/notcompletedimg.png'
 import PlusImg from '../assets/bookshelf/plus.png'

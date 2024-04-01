@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useNavigate} from 'react-router-dom';
 import 'animate.css';
 import Background from '../components/common/Background';
-import background from '../assets/user/backimg.png';
+import background from '../assets/user/backimg.jpg';
 import rabbit from '../assets/user/rabbit.png'
 import dog from '../assets/user/dog.png'
 import tiger from '../assets/user/tiger.png'

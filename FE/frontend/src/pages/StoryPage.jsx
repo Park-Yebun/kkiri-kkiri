@@ -2,7 +2,7 @@ import OpenAI from 'openai';
 import styled from 'styled-components';
 import Background from '../components/common/Background';
 import Sentence from '../components/story/Sentence';
-import background from '../assets/story/backimgstory.png';
+import background from '../assets/story/backimgstory.jpg';
 import quill from '../assets/story/quill.png';
 import { useState, useRef, useEffect } from 'react';
 // import  dummyjson  from '../pages/storydummy.json';
