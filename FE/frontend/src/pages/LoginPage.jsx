@@ -12,6 +12,8 @@ import squirrel from '../assets/user/squirrel.png'
 import sketchbook from '../assets/user/reallogin.png'
 import { useState } from 'react';
 import useUserStore from '../components/Counter/UserStore';
+import { redirect } from 'react-router-dom';
+import FailLoginModal from '../components/Modal/FailLoginModal';
 
 // const LoginContainer = styled.div`
 //   width : 160rem;
@@ -133,12 +135,13 @@ const PWInput = styled.input`
 const BtnText = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center  ;
+  align-items: center;
   width: 100%; 
   height: 100%; 
   font-size: 2rem;
   font-weight : 300;
   color : white;
+  cursor: pointer;
   padding-top : 0.2rem;
 `;
 
@@ -165,7 +168,9 @@ const SignupLink = styled.div`
   font-size: 1.5rem;
   font-weight: 500;
   z-index : 10;
+  cursor: pointer;
   margin-left: 1rem;
+
 `
 
 const SketchBookImg = styled.img`
@@ -180,6 +185,7 @@ const LoginPage = () => {
   const [userId, setUserId] = useState(null);
   // const [memberId, setMemberId] = useState('');
   const [password, setPassword] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const userStore = useUserStore();
   
 
@@ -221,6 +227,9 @@ const LoginPage = () => {
     setPassword(pw);
   };
 
+  const sleep = ms => new Promise(res => setTimeout(res, ms));
+
+
   const gotoLogin = () => {
     console.log('click');
     const data = {loginId : userId, 
@@ -234,23 +243,38 @@ const LoginPage = () => {
           },
           body : JSON.stringify(data)
         });
-        const info = await response.json();
-        userStore.fetchUser(info.id);
-        setCookie('memberId', info.id);
-        setCookie('loginId', info.loginId);
-        navigate('/');
+        if (response.ok){
+            const info = await response.json();
+            userStore.fetchUser(info.id);
+            setCookie('memberId', info.id);
+            setCookie('loginId', info.loginId);
+            await sleep(200);
+            navigate('/');
+            console.log('이동성공');
+
+        } else{
+          console.error('로그인 실패', error)
+          setIsModalOpen(true);
+        }
   
       } catch (error) {
         console.error('오류 발생:', error);
+        setIsModalOpen(true);
       }
     };
     fetchData();
+    
 };
 
 
   const gotoSignup = () => {
     navigate('/signup');
   };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+
+  }
 
   return (
     <Background backgroundimage={background}>
@@ -266,20 +290,23 @@ const LoginPage = () => {
             <IDText>아이디</IDText>
             <IDinput onChange={handleId} type="text">
           </IDinput>
-          </IDBox>
-          <PWBox>
-            <PWText>비밀번호</PWText>
-            <PWInput onChange={handlePassword} type="password"></PWInput>
-          </PWBox>
-          <LoginBtn onClick={gotoLogin}>
-            <BtnText>로그인</BtnText>
-          </LoginBtn>
-          <SignupBox>
-            <SignQuest>아직 계정이 없으신가요?</SignQuest>
-            <SignupLink onClick={gotoSignup}>회원가입</SignupLink>
-          </SignupBox>
+        </IDBox>
+        <PWBox>
+          <PWText>비밀번호</PWText>
+          <PWInput onChange={handlePassword} type="password"></PWInput>
+        </PWBox>
+        <LoginBtn onClick={gotoLogin}>
+          <BtnText>로그인</BtnText>
+        </LoginBtn>
+        <SignupBox>
+          <SignQuest>아직 계정이 없으신가요?</SignQuest>
+          <SignupLink onClick={gotoSignup}>회원가입</SignupLink>
+        </SignupBox>
+          <FailLoginModal isOpen={isModalOpen} onClose={closeModal} >
+
+          </FailLoginModal>
         </LoginForm>
-        
+
     </Background>
     
   );

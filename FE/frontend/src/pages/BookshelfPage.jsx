@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import {useNavigate} from 'react-router-dom';
 import closeBtn from '../assets/library/clear.png'
 import useUserStore from "../components/Counter/UserStore";
+import SelectStudyTypeModal from "../components/Modal/SelectStudyTypeModal";
 
 const BookContainer = styled.div`
     width : 83.5188vw; 
@@ -119,8 +120,8 @@ const WritingModal = styled.div`
     background-color :rgba(226, 210, 210, 0.90);
     opacity : 91%;
     border-radius : 2rem;
-    width: 63.397vw;
-    height: 55.8125vh; 
+    width: 35vw;
+    height: 28vh; 
     color : black;
 `
 
@@ -246,6 +247,7 @@ const BookshelfPage = () => {
     const [writingModalOpen, setWritingModalOpen] = useState(false);
     const [loginId, setLoginId] = useState(null);
     const navigate = useNavigate();
+    const [studyTypeSelectModal, setStudyTypeSelectModal] = useState(false);
 
 
     const userInfo = useUserStore(state => state.userInfo)
@@ -312,6 +314,13 @@ const BookshelfPage = () => {
         navigate('/study')
 
     }
+    
+    const openStudyTypeSelectModal = () => {
+        setStudyTypeSelectModal(true);
+    }
+    const closeStudyModal = () => {
+        setStudyTypeSelectModal(false);
+    }
 
     return (
         <Background backgroundimage={background}>
@@ -354,9 +363,10 @@ const BookshelfPage = () => {
                         </PrevTextSector>
                     </PreviewContent> 
                     <ButtonContent>
-                    <PrevBtn onClick={gotoStudy} >
+                    <PrevBtn onClick={openStudyTypeSelectModal}  >
                             학습하기
                         </PrevBtn>
+                        <SelectStudyTypeModal isOpen={studyTypeSelectModal} onClose={closeStudyModal} />
                         <Btn>
                         {study === 0 ? (
                             <StudyInfo>먼저 학습을 진행해주세요</StudyInfo>

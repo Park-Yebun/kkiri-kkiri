@@ -27,6 +27,7 @@ const Profile = styled.div`
   border: 1px solid #FFF;
   background: rgba(224, 224, 224, 0.50);
   box-shadow: 2.5px 2.5px 2.5px 2.5px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 `
 
 const ProfileAnimal = styled.img`
