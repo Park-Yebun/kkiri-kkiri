@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import styled, { keyframes,css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import logoPic from '../../assets/header/logopic.png';
@@ -20,7 +20,7 @@ const Profile = styled.div`
   display: flex;
   text-align: right;
   right: 1rem;
-  width: 20rem;
+  /* width: 20rem; */
   height: 4rem;
   flex-shrink: 0;
   border-radius: 3rem;
@@ -38,17 +38,19 @@ const ProfileAnimal = styled.img`
 
 const NameInfo = styled.div`
   display: flex;
-  padding-top: 1rem;
   justify-content: center;
   color: #FFF;
+  padding: 0.9rem 0.5rem 0.9rem 0.9rem;
   -webkit-text-stroke-width: 1.2px;
   -webkit-text-stroke-color: #000;
   font-size: 2.2rem;
   font-weight: 500;
   flex-grow:1;
+  /* background-color: aqua; */
 `;
 const NickName = styled.div`
   font-size : 70%;
+  font-size: 2.2rem;
 `;
 const NameType = styled.div`
   margin: 0 0.8rem;
