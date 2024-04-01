@@ -3,8 +3,8 @@ import styled from 'styled-components'
 const Background = styled.div`
   background: url(${(props) => props.backgroundimage}) center center / cover
     fixed no-repeat;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
