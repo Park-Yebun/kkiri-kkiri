@@ -175,7 +175,11 @@ const Header = () => {
         stt테스트
       </Link>
       <Profile onClick={() => setShowDropdown(!showDropdown)}>
-        <ProfileAnimal src={ProfilePic} />
+        {userInfo ? (
+          <ProfileAnimal src={userInfo.thumbnail} />
+            ) : (
+          <ProfileAnimal src={ProfilePic} />
+            )}
         <NameInfo>
           <NickName>{userInfo && userInfo.nickname}</NickName>
           <NameType>작가님</NameType>

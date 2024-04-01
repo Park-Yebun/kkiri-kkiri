@@ -342,7 +342,7 @@ const checkId = () => {
       nickname: nickname,
       age: selectedAge,
       level: selectedGrade,
-      thumbnail: `profile${selectedCharacter}.png`
+      thumbnail: `https://kkiri-kkiri.s3.ap-northeast-2.amazonaws.com/profile_${selectedCharacter}.png`
     };
   
     try {
@@ -381,16 +381,16 @@ const checkId = () => {
         <SignupForm>
           <MypageText>회원가입</MypageText >
           <CharacterBox>
-            <ImgFormat onClick={()=> clickImg("Dog")} src={profileDog} clicked={selectedCharacter === "Dog"}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg("Tiger")} src={profileTiger} clicked={selectedCharacter === "Tiger"}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg("Pig")} src={profilePig} clicked={selectedCharacter === "Pig"}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg("Dear")} src={profileDear} clicked={selectedCharacter === "Dear"}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg("Eagle")} src={profileEagle} clicked={selectedCharacter === "Eagle"}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg("Squirrel")} src={profileSquirrel} clicked={selectedCharacter === "Squirrel"}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg("Rabbit")} src={profileRabbit} clicked={selectedCharacter === "Rabbit"}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg("Fox")} src={profileFox} clicked={selectedCharacter === "Fox"}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg("Giraffe")} src={profileGiraffe} clicked={selectedCharacter === "Giraffe"}></ImgFormat>
-            <ImgFormat onClick={()=> clickImg("Cat")} src={profileCat} clicked={selectedCharacter === "Cat"}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg("dog")} src={profileDog} clicked={selectedCharacter === "dog"}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg("tiger")} src={profileTiger} clicked={selectedCharacter === "tiger"}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg("pig")} src={profilePig} clicked={selectedCharacter === "pig"}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg("dear")} src={profileDear} clicked={selectedCharacter === "dear"}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg("eagle")} src={profileEagle} clicked={selectedCharacter === "eagle"}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg("squirrel")} src={profileSquirrel} clicked={selectedCharacter === "squirrel"}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg("rabbit")} src={profileRabbit} clicked={selectedCharacter === "rabbit"}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg("fox")} src={profileFox} clicked={selectedCharacter === "fox"}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg("giraffe")} src={profileGiraffe} clicked={selectedCharacter === "giraffe"}></ImgFormat>
+            <ImgFormat onClick={()=> clickImg("cat")} src={profileCat} clicked={selectedCharacter === "cat"}></ImgFormat>
           </CharacterBox>
           <InputContainer>
             <BoxSet>
