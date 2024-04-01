@@ -31,162 +31,154 @@ import FailLoginModal from '../components/Modal/FailLoginModal';
 const RabbitImg = styled.img`
   position : absolute;
   width: 12.9rem;
-  top : 34.82rem;
-  left : 4.47rem;
+  top : 36rem;
+  left : 4.5rem;
   animation-delay: 0.4s;
 `
 const DogImg = styled.img`
     position : absolute;
     width: 6.5rem;
-    top : 34.28rem;
+    top : 34rem;
     width : 10.5rem;
     height : 10.03rem;
-    left : 19.64rem;
+    left : 19rem;
     animation-delay: 0s;
 `
 const TigerImg = styled.img`
     position : absolute;
-    width : 10.6rem;
-    height: 10.6rem;
-    top : 36.78rem;
-    left : 50.69rem;
+    height: 12rem;
+    top : 39rem;
+    left : 52rem;
     animation-delay: 0.7s;
 `
 const SquirrelImg = styled.img`
     position : absolute;
     height: 5.6rem;
-    top : 13.24rem;
-    left : 21.74rem;
+    top : 18rem;
+    left : 20.2rem;
 `
 const FoxImg = styled.img`
     position : absolute;
     width: 10.7rem;
-    top : 40.39rem;
-    left : 61.3rem;
+    top : 35em;
+    left : 61.8rem;
     animation-delay: 0.2s;
 `
-
+const LoginForm = styled.div`
+    position : absolute;
+    height: 30rem;
+    width: 30rem;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+`;
 const LoginText = styled.div`
-  position: absolute;
-  top: 15.01rem;
-  left: 38.35rem;
-  font-size : 2.668rem;
+  margin: 4rem 0 2rem;
+  font-size : 3.5rem;
   font-weight : 500;
-
 `;
 
 const IDText = styled.div`
-  position : absolute;
-  top : 21.61rem;
-  left : 33.28rem;
-  font-size : 1.17rem;
+  position : relative;
+  font-size : 1.6rem;
   font-weight : 300;
+  margin-right: 0.5rem;
+  width:5rem;
 `
 
 const PWText = styled.div`
-  position : absolute;
-  top : 26.45rem;
-  left : 32.32rem;
-  font-size : 1.17rem;
+  position : relative;
+  font-size : 1.6rem;
   font-weight : 300;
+  margin-right: 0.5rem;
 `
 const IDinput = styled.input`
-  position : absolute;
   z-index : 10;
-  width: 14.8rem;
-  height: 2.9rem;
-  top : 20.84rem;
-  left : 37.95rem;
-  border-radius: 1.005rem;
+  width: 16rem;
+  height: 3rem;
+  margin-left: 0.5rem;
+  border-radius: 1rem;
   border: 1px solid #A7A7A7;
   background: rgba(167, 167, 167, 0.40);
   font-size : 1.63rem;
   font-weight : 300;
-  font-family: 'Ttangsbudaejjigae OTF';
+  text-indent : 1rem;
+  font-family : 'Ttangsbudaejjigae OTF';
 `
 
 const IDBox = styled.div`
+  position: relative;
   display : flex;
-
+  align-items:center;
+  margin-right: -1.4rem; 
+  margin-bottom: 2rem;
 `
 const PWBox = styled.div`
+  position: relative;
   display : flex;
+  align-items: center;
+  margin-bottom:2rem;
 `
 
 const PWInput = styled.input`
-  position : absolute;
   z-index : 10;
-  width: 14.8rem;
-  height: 2.9rem;
-  top : 25.68rem;
-  left : 37.92rem;
-  border-radius: 1.005rem;
+  width: 16rem;
+  height: 3rem;
+  border-radius: 1rem;
   border: 1px solid #A7A7A7;
   background: rgba(167, 167, 167, 0.40);
-  font-size : 1.63rem;
+  font-size : 3rem;
   font-weight : 300;
-  font-family: 'Ttangsbudaejjigae OTF';
+  margin-left: 0.5rem;
+  text-indent : 1rem;
 `
 const BtnText = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center  ;
+  align-items: center;
   width: 100%; 
   height: 100%; 
-  font-weight: 500;
-  font-size: 1.334rem;
-  font-weight : 500;
+  font-size: 2rem;
+  font-weight : 300;
   color : white;
-  padding-top : 0.3rem;
   cursor: pointer;
+  padding-top : 0.2rem;
 `;
 
 const LoginBtn = styled.div` 
-  width: 10rem;
-  height: 3.33rem;
-  border-radius: 1.334rem;
-  top: 31.48rem;
-  left: 37.69rem;
-  position: absolute;
+  width: 11rem;
+  height: 4rem;
+  border-radius: 1.5rem;
   background: #727272;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 4px 5px 5px 0px rgba(0, 0, 0, 0.25);
   
 `;
 
 const SignupBox = styled.div`
   display : flex;
+  position: relative;
+  margin-top: 1.5rem;
 `
 const SignQuest = styled.div`
-  top : 37.12rem;
-  left : 34.05rem;
-  font-size: 1.005rem;
-  font-weight: 300;
-  position : absolute;
+  font-size: 1.3rem;
   font-weight : 300;
   color: #646464;
-  
 `
 const SignupLink = styled.div`
-  top : 37.02rem;
-  left : 46.66rem;
-  font-size: 1.17rem;
+  font-size: 1.5rem;
   font-weight: 500;
   z-index : 10;
-  position : absolute;
-  font-weight : 300;
   cursor: pointer;
-  
+  margin-left: 1rem;
+
 `
 
 const SketchBookImg = styled.img`
-    position : absolute;
-    width: 26.67969rem;
-    height: 33.34963rem;
-    top : 10.75rem;
-    left : 29.35rem;
-    
+    position : relative;
+    width: 31.2rem;
+    height: 33rem;
+    margin-left: 0.5rem;
 `
-
 
 const LoginPage = () => {
 
@@ -286,16 +278,17 @@ const LoginPage = () => {
 
   return (
     <Background backgroundimage={background}>
-        <SketchBookImg src={sketchbook} alt="스케치북" />
+        <SketchBookImg src={sketchbook}></SketchBookImg>
         <RabbitImg className="animate__animated animate__bounce animate__infinite" src={rabbit} alt="토끼"/>
         <DogImg className="animate__animated animate__bounce animate__infinite" src={dog}/>
         <TigerImg className="animate__animated animate__bounce animate__infinite" src={tiger}/>
         <SquirrelImg className="animate__animated animate__bounce animate__fast animate__infinite" src={squirrel}/>
         <FoxImg className="animate__animated animate__bounce animate__infinite" src={fox}/>
-        <LoginText>로그인</LoginText>
-        <IDBox> 
-          <IDText>아이디</IDText>
-          <IDinput onChange={handleId} type="text">
+        <LoginForm>
+          <LoginText>로그인</LoginText>
+          <IDBox> 
+            <IDText>아이디</IDText>
+            <IDinput onChange={handleId} type="text">
           </IDinput>
         </IDBox>
         <PWBox>
@@ -312,6 +305,8 @@ const LoginPage = () => {
           <FailLoginModal isOpen={isModalOpen} onClose={closeModal} >
 
           </FailLoginModal>
+        </LoginForm>
+
     </Background>
     
   );

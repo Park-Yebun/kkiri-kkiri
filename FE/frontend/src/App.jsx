@@ -13,7 +13,7 @@ import Test from "./pages/Test.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
 import LibraryPage from "./pages/LibraryPage.jsx";
 import STT from './pages/STT.jsx';
-
+import Test2 from "./pages/Test2.jsx";
 function LayoutWithHeader() {
   return (
     <>
@@ -27,23 +27,22 @@ function LayoutWithHeader() {
   );
 }
 
-
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage2 />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage2 />} />
           <Route element={<LayoutWithHeader />}>
-          <Route path="/mypage" element={<MypagePage />} />
-          <Route path="/" element={<MainPage />} />
-          <Route path="/story/:user-id" element={<StoryPage />} />
-          <Route path="/library" element={<LibraryPage />} />
-          <Route path="/Storybook/:story-id" element={<StorybookPage/>} />
-          <Route path="/bookshelf" element={<BookshelfPage />} />
-          <Route path="/test" element={<Test />} />
-          <Route path="/study" element={<StudyPage />} />
-        </Route>
+            <Route path="/mypage" element={<MypagePage />} />
+            <Route path="/" element={<MainPage />} />
+            <Route path="/story/:user-id" element={<StoryPage />} />
+            <Route path="/library" element={<LibraryPage />} />
+            <Route path="/Storybook/:story-id" element={<StorybookPage/>} />
+            <Route path="/bookshelf" element={<BookshelfPage />} />
+            <Route path="/test" element={<Test />} />
+            <Route path="/study" element={<StudyPage />} />
+          </Route>
         <Route path="*" element={<ErrorPage />} />
         <Route path="/stttest" element={<STT/>} />
       </Routes>
