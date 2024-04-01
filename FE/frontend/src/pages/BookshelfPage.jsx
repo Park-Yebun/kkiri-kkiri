@@ -34,12 +34,6 @@ const BookContainer = styled.div`
     border-radius: 1.25rem;
     } */
 `
-const TextSector = styled.div`
-    height : 3.12vh;
-    width :  83.5188vw;
-    background-color : skyblue;
-`
-
 const NewBookCover = styled.div`
     background-image: url(${BookImg});
     cursor: pointer;
@@ -88,9 +82,8 @@ const BookAuthor = styled.div`
 
     `
 const PlusImage = styled.img`
-    width : 4vw;
-    height : 6vh;
-    margin-top : 50%;
+    width : 3.5rem;
+    margin : 53% 0 0 2%;
 `
 const InfoModal = styled.div`
      display : flex;
@@ -227,7 +220,7 @@ const Btn = styled.div`
     display : flex;
     flex-direction : column;
     margin-top : 6.9vw;
-    font-size : 1.3vw;
+    font-size : 1.1rem;
   
 `
 const Writer = styled.div`
