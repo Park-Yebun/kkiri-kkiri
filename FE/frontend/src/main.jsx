@@ -20,9 +20,7 @@ function registerServiceWorker() {
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <App />
 )
 
 // 서비스 워커 등록 함수 호출

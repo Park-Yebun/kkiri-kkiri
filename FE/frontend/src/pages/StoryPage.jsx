@@ -10,7 +10,7 @@ import gptimg from '../assets/main/simplebookshelf.png';
 // import userimg from '../assets/user/profile_cat.png';
 import StoryNameModal from '../components/Modal/StoryNameModal';
 import useUserStore from "../components/Counter/UserStore";
-
+import { useParams } from 'react-router-dom';
 const StoryContainer = styled.div`
 	max-width: 125rem;
 	width: 70rem;
@@ -377,6 +377,10 @@ let convUser = [
 
 
 const StoryPage = () => {
+	const quillNum = useRef(5);
+	const [ql, setql] = useState(5);
+	const params = useParams();
+	console.log(params.story_id);
 	const userInfo = useUserStore(state => state.userInfo);
 	// const userimg = `../assets/user/${userInfo.profileImage}`; 
 	const userimg = `../assets/user/profile_cat.png`; 
@@ -390,6 +394,134 @@ const StoryPage = () => {
 	const [messages, setMessages] = useState([
 		
 	]);
+	useEffect(() => {console.log("유즈이펙트")}, [quillNum.current]);
+	// useEffect(() => {
+	// 	//
+	// 	const fetchStoryData = async () => {
+	// 		if (params.story_id===0) {
+	// 		try{
+	// 			const response = await fetch(`https://kkirikkiri.shop/api/books`, {
+	// 				method: "POST",
+	// 				headers: {
+	// 					"Content-Type": "application/json",
+	// 				},
+	// 				body: JSON.stringify(
+	// 					{ 
+	// 						"loginId": userInfo.loginId,
+    // 						"title": "기본제목",
+    // 						"openState": "PUBLIC",
+	// 						"summary": "기본요약"
+	// 					}
+	// 				)
+	// 			}).then(response => response.json())
+	// 			.then(response => setstoryId(response));
+	// 		} catch (error) {
+	// 			console.error('에러발생', error);
+	// 		}
+	// 	} else {
+	// 		const fetchData = async () => {
+	// 			try{
+	// 				const response = await fetch(`https://kkirikkiri.shop/api/books/${params.story_id}`, {
+	// 					method: 'GET',
+	// 					headers: {
+	// 					'Content-Type': 'application/json',
+	// 					},
+	// 				});                                                 
+	// 				const data = await response.json();
+	// 				// setBooks(data);
+	// 				console.log(data.contents.length)
+	// 				// setql(5 - parseInt(data.contents.length / 2));
+	// 				// quillNum.current = 5 - parseInt(data.contents.length / 2);
+	// 				console.log("작서가능횟수",quillNum.current);
+	// 				console.log(data.contents);
+	// 			} catch (error) {
+	// 				console.log('데이터로드실패', error);
+	// 			}
+	// 		};
+	// 		fetchData();
+	// 		console.log("이어 작성하기.")
+	// 	};
+	// }
+	// 	fetchStoryData();
+	// 	//
+	// }, []);
+
+
+	useEffect(() => {    
+        if (parseInt(params.story_id)===0) {
+          const fetchStoryData = async () => { ////a////a
+						try{
+							const response = await fetch(`https://kkirikkiri.shop/api/books`, {
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json",
+									},
+								body: JSON.stringify(
+									{ 
+									"loginId": userInfo.loginId,
+									"title": "기본제목",
+									"openState": "PUBLIC",
+									"summary": "기본요약"
+									}
+								)		
+							}).then(response => response.json())
+							.then(response => setstoryId(response));
+						} catch (error) {
+            console.error('에러발생', error);
+					}
+				}
+    		fetchStoryData();
+				const fetchBookShelf = async () => {
+					try{
+						const response = await fetch('https://kkirikkiri.shop/api/bookshelves', {
+							method: "POST",							
+							headers: {
+								"Content-Type": "application/json",
+								},
+							body: JSON.stringify(
+								{
+									"loginId": "ka30539",
+									"storyId": 112,
+								})
+						})
+						console.log("json 응답",response.json())
+					} catch {
+						
+						console.log('데이터로드실패', error);
+					}
+				}
+				fetchBookShelf();
+    //
+    } else {
+        const fetchData = async () => {
+            try{
+                const response = await fetch(`https://kkirikkiri.shop/api/books/${params.story_id}`, {
+                    method: 'GET',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                });                                                 
+                const data = await response.json();
+                console.log(data.contents.length)
+                setql(5 - parseInt(data.contents.length / 2));
+                // quillNum.current = 5 - parseInt(data.contents.length / 2);
+                console.log("작성가능횟수",quillNum.current);
+                console.log(data.contents);
+								setMessages(data.contents.map((msg) => {return {
+									"storyId": msg.storyId,
+									"lineId": msg.lineId,
+									"koreanSentence": msg.koreanSentence,
+									"translatedsentence": msg.translatedSentence,
+																																}}))
+            } catch (error) {
+                console.log('데이터로드실패', error);
+            }
+        };
+        fetchData();
+        console.log("이어 작성하기.");
+    };
+
+}, []);
 
 	const translateChat = async (input) => {
 		const translation = await openaiUser.chat.completions.create({
@@ -483,7 +615,7 @@ const StoryPage = () => {
 		
 		return responseUser;
 		}
-	const quillNum = useRef(5);
+	
 
 	const writeGptStory = async (input) => {
 		console.log("배고파")
@@ -646,6 +778,7 @@ const StoryPage = () => {
 		if (quillNum.current > 0) {
 			// setQuillNum(quillNum - 1);
 			quillNum.current--;
+			setql(ql - 1);
 			console.log("현재 퀼넘:", quillNum.current);
 		}
 		else {
@@ -747,7 +880,8 @@ const StoryPage = () => {
 					<MiniBox>
 						<Quill>
 							<QuillImg src={quill}></QuillImg>
-							<QuillNum>{quillNum.current}</QuillNum>
+							{/* <QuillNum>{quillNum.current}</QuillNum> */}
+							<QuillNum>{ql}</QuillNum>
 						</Quill>
 						{/* <WriteBtn onClick={writeStory} ref={buttonRef} className={`${ isWriting.current ? "writingstyle":""}`}>작성</WriteBtn> */}
 						<WriteBtn className={`${ isWriting.current? "writingstyle":"", quillNum.current?"":"stopwrite"}`} ref={buttonRef} onClick={writeStory}>작성</WriteBtn>

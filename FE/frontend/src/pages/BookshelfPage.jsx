@@ -266,6 +266,25 @@ const BookshelfPage = () => {
             }
         };
         fetchData();
+        const fetchMyData = async () => {
+            try{
+                const response = await fetch(`https://kkirikkiri.shop/api/books/mine/${userInfo.loginId}`, {
+                    method: 'GET',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    params: {
+                        loginId: loginId
+                    }
+                });                                                 
+                const data = await response.json();
+                setBooks(data);
+                console.log(data)
+            } catch (error) {
+                console.log('데이터로드실패', error);
+            }
+        };
+        fetchMyData();
     },[]);
 
     const handleBookClick = (book) => {
