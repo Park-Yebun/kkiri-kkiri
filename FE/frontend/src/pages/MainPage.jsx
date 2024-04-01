@@ -83,7 +83,7 @@ const MainPage = () => {
           <Explain />
         </Descriptionbox>
         <Menu>
-          <Menubox as={Link} to="/story/id123"> {/* 임시로 id123를 사용하고 있습니다. 적절한 id로 대체해야 합니다. */}
+          <Menubox as={Link} to="/story/0"> {/* 임시로 id123를 사용하고 있습니다. 적절한 id로 대체해야 합니다. */}
             <Menuicon src={storyicon}/>
             <Menuname>내 이야기 쓰러가기</Menuname>
           </Menubox>
