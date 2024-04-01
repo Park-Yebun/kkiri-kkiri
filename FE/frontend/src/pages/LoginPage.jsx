@@ -138,6 +138,7 @@ const BtnText = styled.div`
   font-weight : 500;
   color : white;
   padding-top : 0.3rem;
+  cursor: pointer;
 `;
 
 const LoginBtn = styled.div` 
@@ -173,6 +174,7 @@ const SignupLink = styled.div`
   z-index : 10;
   position : absolute;
   font-weight : 300;
+  cursor: pointer;
   
 `
 
@@ -233,6 +235,9 @@ const LoginPage = () => {
     setPassword(pw);
   };
 
+  const sleep = ms => new Promise(res => setTimeout(res, ms));
+
+
   const gotoLogin = () => {
     console.log('click');
     const data = {loginId : userId, 
@@ -251,7 +256,8 @@ const LoginPage = () => {
             userStore.fetchUser(info.id);
             setCookie('memberId', info.id);
             setCookie('loginId', info.loginId);
-            navigate('/')
+            await sleep(200);
+            navigate('/');
             console.log('이동성공');
 
         } else{
@@ -265,6 +271,7 @@ const LoginPage = () => {
       }
     };
     fetchData();
+    
 };
 
 

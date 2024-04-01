@@ -120,8 +120,8 @@ const WritingModal = styled.div`
     background-color :rgba(226, 210, 210, 0.90);
     opacity : 91%;
     border-radius : 2rem;
-    width: 63.397vw;
-    height: 55.8125vh; 
+    width: 35vw;
+    height: 28vh; 
     color : black;
 `
 

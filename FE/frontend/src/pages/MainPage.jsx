@@ -68,12 +68,13 @@ const MainPage = () => {
   console.log('메인페이지 로드');
   const navigate = useNavigate();
    const userInfo = useUserStore(state => state.userInfo);
+   console.log(userInfo)
 
   useEffect(() => {
-    if (!userInfo ) {
+    if (userInfo === null) {
       navigate('/login');
     }
-  }, []); // 빈 배열을 넣어 한 번만 실행되도록 설정
+  }, [userInfo]); // userInfo가 변경될 때마다 useEffect 실행
 
   return (
     <Background backgroundimage={background}>
