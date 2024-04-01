@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom'; // useNavigate를 import해야 함
 import Background from '../components/common/Background';
-import background from '../assets/main/backimg.png';
+import background from '../assets/main/backimg.jpg';
 import storyicon from '../assets/main/storyicon.svg';
 import bookshelficon from '../assets/main/bookshelficon.svg';
 import libraryicon from '../assets/main/libraryicon.svg';

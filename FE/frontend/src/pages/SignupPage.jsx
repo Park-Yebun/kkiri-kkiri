@@ -1,5 +1,5 @@
 import Background from '../components/common/Background';
-import background from '../assets/user/backimg.png';
+import background from '../assets/user/backimg.jpg';
 import sketchbook from '../assets/user/sketchbookImg2.png'
 import styled from 'styled-components';
 import 'animate.css';

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import FlipPage from 'react-pageflip';
 import Background from '../components/common/Background';
-import background from '../assets/book/backimg.png';
+import background from '../assets/book/backimg.jpg';
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 

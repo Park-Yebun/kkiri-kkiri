@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Background from '../components/common/Background';
-import background from '../assets/study/backimgstudy.png';
+import background from '../assets/study/backimgstudy.jpg';
 import { useState, useRef, useEffect } from 'react';
 import * as iink from 'iink-ts';
 // import x from "openai";
