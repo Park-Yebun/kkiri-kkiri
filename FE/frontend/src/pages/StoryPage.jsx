@@ -363,7 +363,7 @@ const StoryTitle = styled.textarea`
 let convUser = [
 	{
 		"role": "system",
-		"content": "나는 10살 한국 아이로, 동화를 좋아해. 그리고 너는 아이들을 좋아하고 동화를 만드는 창의적이고 동화작가야"
+		"content": `나는 한국의 10살 아이로, 동화를 좋아해. 그리고 너는 아이들을 좋아하고 동화를 만드는 창의적이고 동화작가야`
 	},
 	{
 		"role": "system",
@@ -396,7 +396,15 @@ const StoryPage = () => {
 			messages: [
 				{
 					role: "system",
-					content: "Translate the following input into English"
+					content: "you have to translate it into a sentence that has a vocabulary level appropriate for my age. Below are examples of English sentences by age.",
+				},
+				{
+					role: "system",
+					content: "Concept: 'The cat is hiding because it is scared of the dog.' Age 7: 'The kitty is playing hide and seek because it's afraid of the doggy.' Age 10: 'The cat is hiding because it's scared of the dog.' Age 13: 'The cat has concealed itself due to its fear of the canine.'"
+				},
+				{
+					role: "system",
+					content: "Translate the following input into English.",
 				},
 				{
 					role: "user",	
