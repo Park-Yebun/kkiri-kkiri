@@ -235,18 +235,16 @@ font-weight: 300;
 
 const SendBtn = styled.div`
 	position: absolute;
-	top: 90%;
+	bottom:1.8rem;
 	margin-top: 0.5rem;
 	width: 20rem;
 	height: 4rem;
 	border-radius: 1rem;
 	/* background-color: grey; */
 	text-align: center;
-	line-height: 4rem;
+	line-height: 4.4rem;
 	background-color: #29C325;
-	font-family: "Ttangsbudaejjigae OTF";
 	font-size: 2rem;
-	font-style: normal;
 	font-weight: 300;
 	filter: brightness(0.6);
 	box-shadow: 0px 0.5rem 0.5rem 0px rgba(0, 0, 0, 0.25);
