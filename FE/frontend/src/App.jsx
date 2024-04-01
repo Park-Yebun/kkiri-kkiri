@@ -2,7 +2,7 @@ import './App.css'
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 import Header from "./components/header/Header.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
-import SignupPage2 from "./pages/SignupPage2.jsx";
+import SignupPage from "./pages/SignupPage.jsx";
 import MypagePage from "./pages/MypagePage.jsx";
 import MainPage from "./pages/MainPage.jsx";
 import StoryPage from "./pages/StoryPage.jsx"
@@ -32,7 +32,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage2 />} />
+        <Route path="/signup" element={<SignupPage />} />
           <Route element={<LayoutWithHeader />}>
             <Route path="/mypage" element={<MypagePage />} />
             <Route path="/" element={<MainPage />} />
