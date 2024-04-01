@@ -145,6 +145,26 @@ const Box = styled.div`
     /* position : absolute; */
 `
 
+const InPutNicknametBox = styled.input`
+     width: 100%;
+    height: 2.4rem;
+    border-radius: 1rem;
+    border: 1px solid #A7A7A7;
+    background: rgba(167, 167, 167, 0.40);
+    font-size : 1.3rem;
+    font-family : 'Ttangsbudaejjigae OTF';
+    font-weight : 300;
+    text-indent : 1rem;
+    
+    &::placeholder {
+        color:#6F6C6C;
+        font-size: 0.9rem;
+        font-weight: 300
+    }
+  
+`
+
+
 const InputBox = styled.input`
     /* position : absolute; */
     width: 100%;
@@ -302,7 +322,7 @@ const SignupPage2 = () => {
   
 
   const handleNicknameChange = (event) => {
-    setNickname(event.target.value);
+      setNickname(event.target.value);
   };
   const clickImg = (characterName) => {
     setSelectedCharacter(characterName);
@@ -386,7 +406,7 @@ const checkId = () => {
             <BoxSet>
               <CategoryText>닉네임</CategoryText>
                 <Box>    
-                  <InputBox onChange = {handleNicknameChange} type="text" placeholder="사용하실 별명을 설정해주세요"></InputBox>
+                  <InPutNicknametBox onChange={handleNicknameChange} type="text" placeholder="사용하실 별명을 설정해주세요(최대5글자)" maxLength='5'></InPutNicknametBox>
                   <DoubleCheckBtn >
                     <BtnText>중복</BtnText>
                   </DoubleCheckBtn>
