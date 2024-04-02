@@ -90,7 +90,7 @@ public class LearningService {
             learning.setSpeakingLineNo(speakingRequest.getSpeakingLineNo());
             learning.setSpeakingCpltNo(learning.getSpeakingCpltNo()+1);
         } else {
-            learning.setWritingLineNo(speakingRequest.getSpeakingLineNo());
+            learning.setSpeakingLineNo(speakingRequest.getSpeakingLineNo());
         }
         learningRepository.save(learning);
         return learning.getId();
