@@ -947,15 +947,6 @@ const StoryPage = () => {
 					{/* <ModalCloseButton onClick={() => setTestModal(true)}>모달열기</ModalCloseButton> */}
 				</StoryInputBox>
 			</StoryContainer>
-			{/* <SendBtn className={`${ quillNum.current?"":"writingstyle"}`} onClick={console.log(messages)}>{quillNum.current?"이야기 계속하기":"이야기 작성하기"}</SendBtn> */}
-			
-
-			{/* <StoryNameModal isOpen={isModalOpen} onClose={closeModal}>
-				{<>
-				<ModalCloseButton onclick={closeModal}></ModalCloseButton>
-				</>
-				}
-			</StoryNameModal> */}
 			{/* <StoryNameModal isOpen={testModal} onClose={(e) => {setTestModal(false); e.stopPropagation()}}> */}
 			<StoryNameModal isOpen={testModal} onClose={(e) => {setTestModal(false); e.stopPropagation()}}>
 			{/* <StoryNameModal isOpen={testModal} onClose={() => setTestModal(false)}> */}
