@@ -123,7 +123,7 @@ const SortedDropdown = styled.select`
     -webkit-appearance: none;
 `
 const ImgBox = styled.div`
-    width : 26.5vw;
+    width : 32%;
     height : 25.27vh;
     /* background-color : lightcoral; */
 
@@ -160,9 +160,10 @@ const DownLoad = styled.div`
     padding-bottom: 0.6rem;
 `
 const Title = styled.div`
-    font-size: 2.2rem;
-    margin-right : 1.68vw;
+    font-size: 2.1rem;
+    margin-right : 5%;
     padding-bottom: 0.8rem;
+    /* background-color: aqua; */
 `
 const Writer = styled.div`
     margin-top : 0.6rem;
@@ -198,25 +199,25 @@ const List = styled.div`
     flex-direction: column;
     justify-content: space-between;
     margin-left: 1.5rem;
-    margin-right: 4rem;
+    margin-right: 3.9rem;
     margin-top: 1vw;
     margin-bottom: 0.75rem;
     height: ${(props) => props.height * 3.75}vh;
     max-height: 35vh; 
     overflow-y: auto; 
-    width: 64rem;
+    width: 64.5rem;
     color: white;
     font-weight: 300;
     font-size: 2.95vh;
     /* background-color: aqua; */
 
     &::-webkit-scrollbar {
-        width: 1.3rem; 
+        width: 1.2rem; 
     }
 
     &::-webkit-scrollbar-track {
     background:  rgba(79, 79, 79, 0.9);
-    border-radius: 10px; 
+    border-radius: 50rem; 
     }
 
     &::-webkit-scrollbar-thumb {
@@ -236,15 +237,15 @@ const ButtonBox = styled.div`
 `
 const TOP3imgSector = styled.div`
     display : flex;
-    justify-content : space-between;
-    width : 26.5vw;
+    /* justify-content : space-between; */
+    width : 100%;
     height : 25.27vh;
     /* margin-top : 1.73rem; */
     /* background-color : red; */
 `
 const StoryImage = styled.img`
-    height: 22.60525vh;
-    width :  21.4vw;
+    height: 88%;
+    width : 80%;
     border-radius: 1.25rem;
     margin-top : 0.73rem;
     /* background-color: blue; */
@@ -255,13 +256,12 @@ const RightButton = styled.img`
     height : 5.024vh;
 `
 const TextSector = styled.div`
-    width : 45vw;
+    width : 63%;
     height : 25.27vh;
     /* background-color : blue; */
     display : flex;
     flex-direction : column;
     color : white;
-    margin-left: 1.5rem;
 ` 
 
 const PreviewContent = styled.div`
