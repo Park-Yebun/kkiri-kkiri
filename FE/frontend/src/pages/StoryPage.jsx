@@ -370,7 +370,12 @@ const StoryTitle = styled.textarea`
 	/* line-height: 1rem; */
 	/* transform: translateY(-2rem); */
 	/* background-color: transparent; */
+<<<<<<< HEAD
+	/* background-color: red; */
+	background-color: transparent;
+=======
 	background-color: red;
+>>>>>>> b9031a142eaf7458e61505f09817e0c3063b67f0
 	overflow: visible;
 	white-space: nowrap;
 	font-size: 2rem;
@@ -379,7 +384,11 @@ const StoryTitle = styled.textarea`
 	border: none;
 	&:focus {
 		outline: none;
-		background-color: blue;
+		/* background-color: blue; */
+		background-color: transparent;
+	}
+	&::-webkit-scrollbar {
+		display: none;
 	}
 `
 
@@ -454,6 +463,8 @@ const StoryPage = () => {
 		fetchData();
 		console.log("이어 작성하기.");
 	}, []);
+<<<<<<< HEAD
+=======
 	// useEffect(() => {
 	// 	//
 	// 	const fetchStoryData = async () => {
@@ -582,6 +593,7 @@ const StoryPage = () => {
 
 // }, []);
 
+>>>>>>> b9031a142eaf7458e61505f09817e0c3063b67f0
 	const translateChat = async (input) => {
 		const translation = await openaiUser.chat.completions.create({
 			messages: [
@@ -1034,7 +1046,7 @@ const StoryPage = () => {
 								<WriterDiv>
 									{/* <WriterName>{message.lineId}</WriterName> */}
 									<WriterName>{(message.lineId % 2) ? userInfo.nickname: gptName}</WriterName>
-									<WriterImg src={(message.lineId % 2) ? userimg: gptimg}></WriterImg>
+									<WriterImg src={(message.lineId % 2) ? userInfo.thumbnail: gptimg}></WriterImg>
 									{/* <WriterImg src={(message.lineId % 2) ?  userimg : gptimg}></WriterImg> */}
 								</WriterDiv>
 								<WriterText>{message.koreanSentence}</WriterText>
