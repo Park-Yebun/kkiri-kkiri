@@ -19,7 +19,7 @@ const BookContainer = styled.div`
   grid-template-columns: repeat(4, 1fr);
   justify-items: center;
   /* background-color : pink; */
-  margin: 5rem 0 0 1rem;
+  margin: 7rem 0 0 1rem;
   overflow-y: auto;
   &::-webkit-scrollbar {
     width: 0rem;
@@ -181,13 +181,6 @@ const CheckMessage = styled.div`
   margin-top: 12%;
 `;
 
-const Btn = styled.div`
-  margin-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
 const CompletedStory = styled.div`
   display: flex;
   flex-direction: column;
