@@ -31,14 +31,6 @@ public class BookController {
         return ResponseEntity.ok(storyResponse);
     }
 
-    // 동화책 openstate public으로 변경
-    @PutMapping("/{storyId}")
-    public Long modifyOpenstate(
-            @PathVariable Long storyId
-    ) {
-        return bookService.modifyOpenstate(storyId);
-    }
-
 
     // 새로운 이야기 생성 (Story 생성)
     @PostMapping
@@ -83,14 +75,14 @@ public class BookController {
         return ResponseEntity.ok(result);
     }
 
-    // 동화책 제목 수정
-    @PatchMapping("/title/{storyId}")
-    public ResponseEntity<String> modifyTitle(
+    // 동화책 수정
+    @PutMapping("/{storyId}")
+    public ResponseEntity<String> modifyBook(
             @PathVariable Long storyId,
-            @RequestBody TitleRequest titleRequest
+            @RequestBody ModifyRequest modifyRequest
     ) {
 
-        String result = bookService.modifyTitle(storyId, titleRequest);
+        String result = bookService.modifyBook(storyId, modifyRequest);
         return ResponseEntity.ok(result);
     }
 

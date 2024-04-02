@@ -9,7 +9,6 @@ import com.kkirikkiri.domain.book.entity.enums.OpenState;
 import com.kkirikkiri.domain.book.repository.BookRedisRepository;
 import com.kkirikkiri.domain.book.repository.ContentRepository;
 import com.kkirikkiri.domain.book.repository.StoryRepository;
-import com.kkirikkiri.domain.bookshelf.dto.BookshelfResponse;
 import com.kkirikkiri.domain.learning.entity.Learning;
 import com.kkirikkiri.domain.learning.repository.LearningRepository;
 import com.kkirikkiri.domain.member.entity.Member;
@@ -19,14 +18,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -99,15 +94,6 @@ public class BookService {
 
     }
 
-    public Long modifyOpenstate(Long storyId) {
-        Story story = storyRepository.findById(storyId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 동화책이 없습니다."));
-
-        story.setOpenState(OpenState.PUBLIC);
-
-        return story.getId();
-    }
-    
     public Long createStory(StoryRequest storyRequest) {
 
         Member member = memberRepository.findByLoginId(storyRequest.getLoginId())
@@ -209,22 +195,23 @@ public class BookService {
         return "동화책이 성공적으로 삭제됐습니다.";
     }
 
+
     // 동화책을 다 작성하고, 마지막에 제목 작성할때 요약 데이터도 같이 넣어주기!!
-    public String modifyTitle(long storyId, TitleRequest titleRequest) {
+    public String modifyBook(long storyId, ModifyRequest modifyRequest) {
         Story story = storyRepository.findById(storyId)
                 .orElseThrow(() -> new IllegalArgumentException("동화책이 존재하지 않습니다."));
 
         Story updatedStory = Story.builder()
                 .id(story.getId())
                 .member(story.getMember())
-                .title(titleRequest.getTitle())
-                .openState(story.getOpenState())
-                .summary(titleRequest.getSummary())
+                .title(modifyRequest.getTitle())
+                .openState(modifyRequest.getOpenState())
+                .summary(modifyRequest.getSummary())
                 .build();
 
         storyRepository.save(updatedStory);
 
-        return "동화책의 제목이 성공적으로 변경됐습니다.";
+        return "동화책이 성공적으로 변경됐습니다.";
     }
 
     // DB에 이미지 URL 저장
