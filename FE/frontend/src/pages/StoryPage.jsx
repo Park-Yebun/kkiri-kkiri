@@ -250,7 +250,7 @@ font-weight: 300;
 
 const SendBtn = styled.div`
 	position: absolute;
-	bottom:1.8rem;
+	bottom: 1.5rem;
 	margin-top: 0.5rem;
 	width: 20rem;
 	height: 4rem;
@@ -343,7 +343,7 @@ const ModalTextBox = styled.div`
 `
 const ModalCloseButton = styled.div`
 /* position: absolute; */
-	margin-top: 1rem;
+	margin-top: 1.5rem;
 	font-size: 1.5rem;
 	top:41rem;
 	left: 60rem;
@@ -387,6 +387,27 @@ const StoryTitle = styled.textarea`
 		display: none;
 	}
 `
+
+const StateBox = styled.div`
+	margin-top: 30px;
+	display: flex;
+	gap: 10px;
+`
+
+const Check = styled.input`
+	display: flex;
+	align-items: center;
+	gap: 5px;
+
+	input[type="checkbox"] {
+	accent-color: blue;
+	}
+`
+
+const Public = styled.div``
+
+const Private = styled.div``
+
 // 130자 정도로 글자수를 넘겨버리는 경우를 고려해서 프롬프트는 70자로 정해주었음
 let convUser = [
 	{
@@ -858,8 +879,9 @@ const StoryPage = () => {
 			console.log("아이디:", storyIdRef.current);
 			const titleSummary = async () => { 
 				try { 
-					const response = await fetch(`https://kkirikkiri.shop/api/books/modify/${storyIdRef.current}`, {
-						method: "PATCH",
+					const openStateValue = isPrivate ? "PRIVATE" : (isPublic ? "PUBLIC" : "PRIVATE");
+					const response = await fetch(`https://kkirikkiri.shop/api/books/${storyIdRef.current}`, {
+						method: "PUT",
 						headers: {
 							"Content-Type": "application/json",
 						},
@@ -867,7 +889,8 @@ const StoryPage = () => {
 							{ 
 							"title": storyTitleRef.current.value,
 							// "summary": xxx + "..."
-							"summary": xxx
+							"summary": xxx,
+							"openState": openStateValue
 							}
 						)	
 					})	
@@ -901,7 +924,21 @@ const StoryPage = () => {
 	// };
 	const [testModal, setTestModal] = useState(false);
 	const storyTitleRef = useRef();
+	const [isPrivate, setIsPrivate] = useState(true);
+	const [isPublic, setIsPublic] = useState(false);
 	// useEffect(() => {storyTitleRef.current.focus()}, [storyTitleRef.current.value]);
+
+	const handlePublicChange = () => {
+		setIsPublic(!isPublic);
+		setIsPrivate(false);
+	  };
+	
+	  const handlePrivateChange = () => {
+		setIsPrivate(!isPrivate);
+		setIsPublic(false);
+	  };
+
+
   return (
 		<Background backgroundimage={background}>
 			<StoryContainer>
@@ -959,6 +996,14 @@ const StoryPage = () => {
 				<ModalTextBox>
 					<StoryTitle ref={storyTitleRef} onKeyDown={handleOnKeyDown2}></StoryTitle>
 				</ModalTextBox>
+				<StateBox>
+					<Public>공개</Public>
+					<Check type="checkbox" checked={isPublic} onChange={handlePublicChange}>
+					</Check>
+					<Private>비공개</Private>
+					<Check type="checkbox" checked={isPrivate} onChange={handlePrivateChange}>
+					</Check>
+				</StateBox>
 				{/* <ModalCloseButton onClick={() => setTestModal(false)}>작성</ModalCloseButton> */}
 				{/* <ModalCloseButton onClick={(e) => {console.log("사용자정보:",userInfo); e.stopPropagation()}}>작성</ModalCloseButton> */}
 				<ModalCloseButton onClick={(e) =>{finale() ;{e.stopPropagation()}}}>완료</ModalCloseButton>
