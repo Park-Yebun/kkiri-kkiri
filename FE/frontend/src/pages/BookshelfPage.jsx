@@ -443,7 +443,7 @@ const BookshelfPage = () => {
             </PreviewContent>
             <ButtonContent>
               <PrevBtn onClick={() => gotoStudy(selectedBook.storyId)}>학습하기</PrevBtn>
-              <Btn>
+              <>
                 {study === 0 ? <StudyInfo>먼저 학습을 진행해주세요</StudyInfo> : null}
                 <PrevBtn
                   onClick={() => gotoStory(selectedBook.storyId)}
@@ -451,7 +451,7 @@ const BookshelfPage = () => {
                 >
                   그림책보기
                 </PrevBtn>
-              </Btn>
+              </>
             </ButtonContent>
           </>
         </InfoModal>
