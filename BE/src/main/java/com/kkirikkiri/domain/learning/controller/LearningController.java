@@ -38,7 +38,7 @@ public class LearningController {
         
     // 말하기 학습 데이터 업데이트
     @PutMapping("/{learningId}/speak")
-    public ResponseEntity<?> modifySpeakingData(
+    public ResponseEntity<Long> modifySpeakingData(
             @PathVariable Long learningId,
             @RequestBody SpeakingRequest speakingRequest) {
         return ResponseEntity.ok(learningService.modifySpeakingData(learningId, speakingRequest));

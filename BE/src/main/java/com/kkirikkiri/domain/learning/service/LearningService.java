@@ -92,6 +92,7 @@ public class LearningService {
         } else {
             learning.setWritingLineNo(speakingRequest.getSpeakingLineNo());
         }
+        learningRepository.save(learning);
         return learning.getId();
 
     }

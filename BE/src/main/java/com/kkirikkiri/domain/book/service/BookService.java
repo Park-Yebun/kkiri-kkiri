@@ -257,7 +257,7 @@ public class BookService {
         return "TTS가 저장됐어요!";
     }
 
-    // // 동화책 전체 조회: 내가 만든 동화책
+    // 동화책 전체 조회: 내가 만든 동화책
     public List<MyBookResponse> getAllStoryBooks(String loginId) {
 
         Member member = memberRepository.findByLoginId(loginId)
@@ -266,9 +266,10 @@ public class BookService {
         List<Story> stories = storyRepository.findAllByMemberId(member.getId());
 
         // 내가 만든 책
-        List<MyBookResponse> myBooks = stories.stream()
+
+        return stories.stream()
                 .map(story -> {
-                    Optional<Learning> learningOptional = learningRepository.findByMemberIdAndStoryIdOptional(story.getId(), member.getId());
+                    Optional<Learning> learningOptional = learningRepository.findByMemberIdAndStoryIdOptional(member.getId(), story.getId());
                     boolean isLearned = false;
                     if (learningOptional.isPresent()) {
                         if (learningOptional.get().getSpeakingCpltNo() != 0 || learningOptional.get().getWritingCpltNo() != 0) {
@@ -278,7 +279,7 @@ public class BookService {
 
                     // 스토리별로 첫번째 이미지를 가져와서 비어있는 값과 아닌값 구분해 넣어주기
                     Content content1 = contentRepository.findByStoryIdAndLineId(story.getId(), 1);
-                    String imageUrl = content1 != null ? content1.getImageUrl() : null;
+                    String imageUrl = content1 != null ? content1.getImageUrl() : "";
 
                     // 이야기 미완성 여부 확인 -- 스토리별로 10번째 문장이 비어있는지 아닌지 여부 확인
                     Content content2 = contentRepository.findByStoryIdAndLineId(story.getId(), 10);
@@ -296,7 +297,6 @@ public class BookService {
                 })
                 .toList();
 
-        return myBooks;
-
     }
+
 }
