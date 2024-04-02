@@ -21,4 +21,5 @@ public class UpdateInfoRequest{
         private EnglishLevel level;
 
         private String thumbnail;
+        private Integer age;
 }

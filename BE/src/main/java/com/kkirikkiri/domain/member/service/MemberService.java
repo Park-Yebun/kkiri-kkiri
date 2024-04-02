@@ -81,7 +81,8 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 
-        if (checkNickname(updateInfoRequest.getNickname())) {
+        if (!Objects.equals(updateInfoRequest.getNickname(), member.getNickname()) &&
+                checkNickname(updateInfoRequest.getNickname())) {
             throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
         }
 
@@ -92,7 +93,7 @@ public class MemberService {
                 .nickname(updateInfoRequest.getNickname())
                 .thumbnail(updateInfoRequest.getThumbnail())
                 .level(updateInfoRequest.getLevel())
-                .age(member.getAge())
+                .age(updateInfoRequest.getAge())
                 .build();
 
         memberRepository.save(updatedMember);
