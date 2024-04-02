@@ -370,12 +370,8 @@ const StoryTitle = styled.textarea`
 	/* line-height: 1rem; */
 	/* transform: translateY(-2rem); */
 	/* background-color: transparent; */
-<<<<<<< HEAD
 	/* background-color: red; */
 	background-color: transparent;
-=======
-	background-color: red;
->>>>>>> b9031a142eaf7458e61505f09817e0c3063b67f0
 	overflow: visible;
 	white-space: nowrap;
 	font-size: 2rem;
@@ -900,7 +896,7 @@ const StoryPage = () => {
 	// const closeModal = () => {
 	// 	setIsModalOpen(false);
 	// };
-	const [testModal, setTestModal] = useState(true);
+	const [testModal, setTestModal] = useState(false);
 	const storyTitleRef = useRef();
 	// useEffect(() => {storyTitleRef.current.focus()}, [storyTitleRef.current.value]);
   return (
