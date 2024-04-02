@@ -18,10 +18,7 @@ import closeBtn from '../assets/library/clear.png'
 
 const CloseBtn = styled.img`
 	position: fixed;
-    width : 2.9vw;
-    height : 3.9vh;
-    /* margin-top : 1vh;
-    margin-left : 55vw; */
+  width : 10%;
 	top: 0.5rem;
 	right: 0.5rem;
 `
@@ -32,8 +29,6 @@ const StoryContainer = styled.div`
 	height: 40rem;
 	position: absolute;
 	top: 7rem;
-	/* left: 17.5rem; */
-	/* border-radius: 3.75rem; */
 	border-radius: 2rem;
 	background-color: #745E5EE5;
 	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -44,24 +39,19 @@ const StoryContainer = styled.div`
 	box-sizing: border-box;
 `
 
-
 const StoryTitlebox = styled.div`
  max-height: 4rem;
  height: 75%;
  width: 100%;
  /* background-color: red; */
  display: flex;
- /* justify-content: center; */
 `
 
 const StoryTitleText = styled.div`
-	/* position: absolute; */
-	/* height: 14rem */
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	width: 100%;
-	/* height	: 10%; */
 	font-weight: 300;
 	font-size: 2rem;
 	font-family: "Ttangsbudaejjigae OTF";
@@ -70,34 +60,21 @@ const StoryTitleText = styled.div`
 	line-height: normal;
 `
 
-
-
-
 const StoryScrollbox = styled.div`
 	font-size: 6rem;
 	width: 100%;
-	/* height: 43.75rem; */
 	height: 70%;
 	background-color: pink;
 	position: relative;
-	/* top: 11.56rem;
-	left: 3.13rem; */
 	border-radius: 1.5rem;
 	background: #3A2E2E;
-	/* display: flex; */
 	flex-direction: column;
 	align-items: center;
 	padding-left: 1rem;
-
-
-
-
 	overflow-y: scroll;
 	&::-webkit-scrollbar {
 		width: 3rem;
 		/* background-color: red; */
-		/* background-color: #3A2E2E; */
-		/* margin: 1rem; */
 		border-radius: 2rem;
 	}
 	&::-webkit-scrollbar-thumb {
@@ -105,22 +82,15 @@ const StoryScrollbox = styled.div`
 		border-radius: 1.5rem;
 		background-clip: padding-box;
 		border: 0.5rem solid transparent;
-		/* border: 1rem solid transparent; */
 	}
 	/* &::-webkit-sccollbar-track {} */
-	`
-
-	/* flex-shrink: 0; */
-
-
+`
 const StoryInputBox = styled.div`
 	width: 100%;
-	/* height: 15rem; */
 	height: 25%;
 	/* background-color: red; */
 	display: flex;
 	margin-top: 1rem;
-	/* flex-direction: row-reverse; */
 `
 
 const Sentence2 = styled(Sentence)`
@@ -131,12 +101,9 @@ const Sentence2 = styled(Sentence)`
 	padding-bottom: 0;
 	&.writingstyle {
 		/* background-color: red; */
-		/* pointer-events: none; */
 		filter: brightness(0.8);
 	}
-
 	&.stopwrite {
-		/* /* pointer-events: none; */
 		filter: brightness(0.8);
 	}
 `
@@ -157,7 +124,6 @@ const UserInput = styled.textarea`
 	}
 	&.stopwrite {
 	pointer-events: none;
-	/* filter: brightness(0.5); */
 }
 `
 const StoryInput = styled.div`
@@ -308,7 +274,6 @@ const WriterImg = styled.img`
 	height: 5rem;
 	border-radius: 50%;
 	background-color: white;
-	/* border: 1px solid grey; */
 `
 
 const WriterText = styled.div`
@@ -351,11 +316,12 @@ const ModalCloseButton = styled.div`
 	width: 7rem;
 	height: 3rem;
 	border-radius: 1rem;
-	background-color: #8C6D6D;
+	background-color: #85f989;
 	box-shadow: 0px 0.5rem 0.5rem 0px rgba(0, 0, 0, 0.25);
 	align-items: center;
 	justify-content: center;
 	display: flex;
+	font-weight:500;
 &:active {
 	box-shadow: none;
 	filter: brightness(0.8);
@@ -440,7 +406,6 @@ const StoryPage = () => {
 	// const userimg = `../assets/user/${userInfo.profileImage}`; 
 	const userimg = `../assets/user/profile_cat.png`; 
 	// const userimg = '../jhc.jpg'; 
-	const [userName, setUserName]	= useState("짱짱맨");
 	const [gptName, setGptName]	= useState("끼리코");
 	const [storyId, setstoryId] = useState(13);
 	const openaiUser = new OpenAI({apiKey: "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", dangerouslyAllowBrowser: true});
@@ -720,9 +685,6 @@ const StoryPage = () => {
 		};
 		await fetchTtsData();
 
-		//
-
-
 
 		setMessages(messages => [...messages, 
 									{ 
@@ -957,7 +919,6 @@ const StoryPage = () => {
 								</WriterDiv>
 								<WriterText>{message.koreanSentence}</WriterText>
 								{/* <WriterText>{message.koreanSentence}{message.translatedSentence}{message.imageDescription}</WriterText> */}
-								{/* <WriterText>{message.KoreanSentence}</WriterText> */}
 								{/* <WriterText></WriterText> */}
 								{/* <WriterText>{message}</WriterText> */}
 								

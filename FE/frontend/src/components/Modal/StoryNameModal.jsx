@@ -12,10 +12,9 @@ const StoryNameM = styled.div`
 	width: 40rem;
 	height: 20rem;
 	background-color: #BD8080;
-	border-radius: 1rem;
-	opacity: 0.96;
 	font-size: 2rem;
 	font-weight: 300;
+	border-radius: 1.5rem;
 `
 
 const StoryNameModal = ({ isOpen, onClose, children }) => {

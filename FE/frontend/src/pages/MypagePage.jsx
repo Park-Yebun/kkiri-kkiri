@@ -3,6 +3,7 @@ import background from "../assets/main/backimg.jpg";
 import sketchbook from "../assets/user/sketchbookImg2.png";
 import styled from "styled-components";
 import downbtn from "../assets/user/downicon.png";
+import backbtn from "../assets/user/backicon.png";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Nicknamecheck from "../components/api/checkNicknameAPI";
@@ -20,20 +21,23 @@ import profileCat from "../assets/user/profile_cat.png";
 
 const SketchbookImg = styled.img`
   position: relative;
-  width: 27rem;
+  width: 30rem;
   height: 45rem;
+  margin-left: 0.5rem;
 `;
 const Container = styled.div`
-  position: relative;
+  position: absolute;
+  height: 42rem;
+  width: 30rem;
   display: flex;
-  justify-content: center;
-  width: 27rem;
-  height: 45rem;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  /* background-color: yellow; */
 `;
 const MypageText = styled.div`
   position: absolute;
-  top: 4.2rem;
-
+  top: 4rem;
   font-size: 2.7rem;
   font-weight: 700;
 `;
@@ -52,64 +56,89 @@ const CharacterBox = styled.div`
   flex-wrap: wrap;
   justify-content: space-around;
   align-content: space-evenly;
-  background: ${(props) => {
+  outline: ${(props) => {
     if (props.selectedCharacter === null || props.selectedCharacter === undefined) {
-      return "rgba(167, 167, 167, 0.4)";
+      return "1px solid #a7a7a7";
     } else if (props.selectedCharacter) {
-      return "rgb(169, 249, 255)";
+      return "4px solid #29C325";
     }
   }};
 `;
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 19rem;
+  width: 87%;
+  justify-content: center;
+  /* background-color: green; */
+`;
+const BoxSet = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* position : absolute; */
+  height: 4.5rem;
+  width: 100%;
+  /* background-color: green; */
+`;
 
 const CategoryText = styled.div`
-  position: absolute;
-  z-index: 10;
-  top: ${(props) => props.top || "18rem"};
-  left: 2rem;
   font-size: 1rem;
   font-weight: 300;
 `;
 
 const Box = styled.div`
   display: flex;
-  position: absolute;
-  top: ${(props) => props.top || "19.5rem"};
-  left: 2rem;
+  flex-direction: row;
 `;
 
 const InputBox = styled.input`
-  position: absolute;
-  width: 17rem;
-  height: 2.6rem;
+  width: 100%;
+  height: 2.4rem;
   border-radius: 1rem;
   border: 1px solid #a7a7a7;
-  /* background: rgba(167, 167, 167, 0.4); */
   background: ${(props) => {
-    if (props.valid === undefined) {
+    if (!props.valid === undefined) {
       return "rgba(167, 167, 167, 0.4)";
-    } else if (props.valid === true) {
-      return "rgba(255, 0, 0, 0.4)";
     } else if (props.valid === false) {
-      return "rgb(169, 249, 255)";
+      return "rgba(255, 0, 0, 0.4)";
+    } else {
+      return "rgba(167, 167, 167, 0.4)";
     }
   }};
-  font-size: 0.9rem;
+  outline: ${(props) => {
+    if (!props.valid === false) {
+      return "3px solid #29C325";
+    } else {
+      return "none";
+    }
+  }};
+  font-size: 3rem;
   font-family: "Ttangsbudaejjigae OTF";
   font-weight: 300;
   text-indent: 1rem;
+
   &::placeholder {
+    position: absolute;
     color: #6f6c6c;
     font-size: 0.9rem;
     font-weight: 300;
+    display: flex;
+    top: 0.8rem;
   }
 `;
-
-const DoubleCheckBtn = styled.div`
+const ErrorPW = styled.div`
   position: absolute;
+  color: red;
+  margin: 0.1rem 0 0 14rem;
+  font-size: 0.8rem;
+`;
+const DoubleCheckBtn = styled.div`
+  /* position: absolute; */
   z-index: 10;
   left: 18rem;
-  width: 4rem;
-  height: 3rem;
+  width: 6rem;
+  height: 2.8rem;
   border-radius: 1.5rem;
   background: #727272;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -122,28 +151,27 @@ const BtnText = styled.div`
   width: 100%;
   height: 100%;
   font-weight: 500;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-family: "Ttangsbudaejjigae OTF";
-  color: ${(props) => props.color || "white"};
   padding-top: 0.1rem;
 `;
 const Dropdown = styled.select`
-  position: absolute;
-  width: 17.5rem;
-  height: 2.75rem;
-  top: ${(props) => props.top || "30.5rem"};
-  left: ${(props) => props.left || "2rem"};
+  height: 2.687rem;
   border-radius: 1rem;
   border: 1px solid #a7a7a7;
-  background: ${(props) => {
-    if (props.value === "") {
-      return "rgba(167, 167, 167, 0.5) url(${downbtn}) no-repeat;";
-    } else if (props.value !== "") {
-      return "rgb(169, 249, 255) url(${downbtn}) no-repeat;";
+  background: rgba(167, 167, 167, 0.5);
+  outline: ${(props) => {
+    if (props.valid === "") {
+      return "2px solid rgba(167, 167, 167, 0.4)"; // outline 스타일 수정
+    } else if (props.valid !== "") {
+      return "2px solid #29C325";
     }
   }};
-  background-position: right 1rem center;
+  font-size: 1.3rem;
+  background-image: url(${downbtn});
+  background-position: right 0.2rem center;
   background-size: 2rem;
+  background-repeat: no-repeat;
   font-family: "Ttangsbudaejjigae OTF";
   font-weight: 300;
   font-size: 0.9rem;
@@ -152,6 +180,7 @@ const Dropdown = styled.select`
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
+  margin-left: ${(props) => props.marginLeft || "0%"};
 `;
 
 const Option = styled.option`
@@ -161,13 +190,14 @@ const Option = styled.option`
 `;
 
 const SaveBtn = styled.div`
-  position: absolute;
+  position: relative;
   font-weight: 500;
-  width: 10rem;
+  width: 12rem;
   height: 3rem;
-  top: 40rem;
-  left: 8rem;
+  bottom: 1%;
+  margin-right: 1.5rem;
   border-radius: 2.5rem;
+  /* background-color: #29c325; */
   background-color: ${(props) => {
     console.log(props.valid);
     if (props.valid === true) {
@@ -186,13 +216,20 @@ const SaveBtn = styled.div`
   }};
 `;
 
+const BackBtn = styled.img`
+  position: relative;
+  width: 3.5rem;
+  bottom: 0.3rem;
+  cursor: pointer;
+`;
 const SignOut = styled.div`
-  position: absolute;
-  font-weight: 500;
-  width: 6rem;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 300;
+  width: 5rem;
   height: 2rem;
-  top: 41rem;
-  left: 20rem;
   border-radius: 2.5rem;
   background-color: #ff0000;
   color: #ffffff;
@@ -204,20 +241,27 @@ const InPutNicknametBox = styled.input`
   height: 2.4rem;
   border-radius: 1rem;
   border: 1px solid #a7a7a7;
-  background: rgba(167, 167, 167, 0.4);
-  font-size: 1.3rem;
-  font-family: "Ttangsbudaejjigae OTF";
-  font-weight: 300;
-  text-indent: 1rem;
+  font-size: 3rem;
   background: ${(props) => {
     if (props.valid === undefined) {
       return "rgba(167, 167, 167, 0.4)";
     } else if (props.valid === true) {
       return "rgba(255, 0, 0, 0.4)";
-    } else if (props.valid === false) {
-      return "rgb(169, 249, 255)";
+    } else {
+      return "rgba(167, 167, 167, 0.4)";
     }
   }};
+  outline: ${(props) => {
+    if (props.valid === false) {
+      return "3px solid #29C325";
+    } else {
+      return "none";
+    }
+  }};
+  font-size: 1.3rem;
+  font-family: "Ttangsbudaejjigae OTF";
+  font-weight: 300;
+  text-indent: 1rem;
 
   &::placeholder {
     color: #6f6c6c;
@@ -236,6 +280,19 @@ const ImgFormat = styled.img`
   border-radius: 5rem;
   margin: 0 0.2rem;
   cursor: pointer;
+`;
+const BottomBtn = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 2rem;
+  /* background-color:aqua; */
 `;
 
 const MypagePage = () => {
@@ -305,10 +362,7 @@ const MypagePage = () => {
   const handlePasswordChange = (event) => {
     const password = event.target.value;
     const regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()]).{8,15}$/;
-    setValidPassword(false);
-    if (regex.test(password)) {
-      setValidPassword(regex.test(password));
-    }
+    setValidPassword(regex.test(password));
     setPassword(password);
   };
 
@@ -363,9 +417,14 @@ const MypagePage = () => {
       console.error("오류 발생:", error);
     }
   };
-
+  const isValid = selectedAge !== "" ? "true" : "";
+  const isValid2 = selectedGrade !== "" ? "true" : "";
+  const handleBack = () => {
+    navigate(-1);
+  };
   useEffect(() => {
     if (
+      password &&
       validPassword &&
       selectedCharacter &&
       selectedAge &&
@@ -382,8 +441,8 @@ const MypagePage = () => {
 
   return (
     <Background backgroundimage={background}>
+      <SketchbookImg src={sketchbook}></SketchbookImg>
       <Container>
-        <SketchbookImg src={sketchbook}></SketchbookImg>
         <MypageText>회원정보 수정 </MypageText>
         <CharacterBox selectedCharacter={selectedCharacter}>
           <ImgFormat
@@ -437,54 +496,83 @@ const MypagePage = () => {
             clicked={selectedCharacter === "cat"}
           ></ImgFormat>
         </CharacterBox>
-        <CategoryText>닉네임</CategoryText>
-        <Box>
-          <InPutNicknametBox
-            onChange={handleNicknameChange}
-            type="text"
-            placeholder="사용하실 별명을 설정해주세요(최대5글자)"
-            maxLength="5"
-            valid={validCheckNickname}
-            value={nickname}
-          ></InPutNicknametBox>
-          <DoubleCheckBtn onClick={checkNickname}>
-            <BtnText>중복</BtnText>
-          </DoubleCheckBtn>
-        </Box>
-        <CategoryText top="23.5rem">비밀번호</CategoryText>
-        <Box top="25rem">
-          <InputBox
-            onChange={handlePasswordChange}
-            type="password"
-            placeholder="8~15자리, 특수문자 사용, 숫자 포함"
-            valid={!validPassword}
-          ></InputBox>
-        </Box>
-        <CategoryText top="29rem">나이</CategoryText>
-        <Dropdown value={selectedAge} onChange={handleAgeChange}>
-          <Option value="">나이를 선택해주세요</Option>
-          <Option value="6">6세</Option>
-          <Option value="7">7세</Option>
-          <Option value="8">8세</Option>
-          <Option value="9">9세</Option>
-          <Option value="10">10세</Option>
-          <Option value="11">11세</Option>
-          <Option value="12">12세</Option>
-          <Option value="13">13세</Option>
-        </Dropdown>
-        <CategoryText top="34.5rem">영어 수준</CategoryText>
-        <Dropdown top="36rem" value={selectedGrade} onChange={handleGradeChange}>
-          <Option value="">영어수준을 선택해주세요</Option>
-          <Option value="ADVANCED">상(중등이상)</Option>
-          <Option value="INTERMEDIATE">중(초등 3~초등 6)</Option>
-          <Option value="BEGINNER">하(초등 2 이하)</Option>
-        </Dropdown>
-        <SaveBtn onClick={handleSubmit} valid={validSignUp}>
-          <BtnText color="black">수정</BtnText>
-        </SaveBtn>
-        <SignOut onClick={signOutSubmit}>
-          <BtnText color="white">회원탈퇴</BtnText>
-        </SignOut>
+        <InputContainer>
+          <BoxSet>
+            <CategoryText>닉네임</CategoryText>
+            <Box>
+              <InPutNicknametBox
+                onChange={handleNicknameChange}
+                type="text"
+                placeholder="사용하실 별명을 설정해주세요(최대5글자)"
+                maxLength="5"
+                valid={validCheckNickname}
+                value={nickname}
+              ></InPutNicknametBox>
+              <DoubleCheckBtn onClick={checkNickname}>
+                <BtnText>중복</BtnText>
+              </DoubleCheckBtn>
+            </Box>
+          </BoxSet>
+          <BoxSet>
+            <CategoryText>비밀번호</CategoryText>
+            {!validPassword && password.length > 0 && (
+              <ErrorPW>사용할 수 없는 비밀번호입니다.</ErrorPW>
+            )}
+            <Box>
+              <InputBox
+                onChange={handlePasswordChange}
+                type="password"
+                placeholder="8~15자리, 특수문자 사용, 숫자 포함"
+                valid={validPassword}
+              ></InputBox>
+            </Box>
+          </BoxSet>
+          <BoxSet>
+            <CategoryText>나이</CategoryText>
+            <Dropdown width="90%" value={selectedAge} onChange={handleAgeChange} valid={isValid}>
+              <Option value="">나이를 선택해주세요</Option>
+              <Option value="6">6세</Option>
+              <Option value="7">7세</Option>
+              <Option value="8">8세</Option>
+              <Option value="9">9세</Option>
+              <Option value="10">10세</Option>
+              <Option value="11">11세</Option>
+              <Option value="12">12세</Option>
+              <Option value="13">13세</Option>
+            </Dropdown>
+          </BoxSet>
+          <BoxSet>
+            <CategoryText>영어 수준</CategoryText>
+            <Dropdown
+              width="100%"
+              value={selectedGrade}
+              onChange={handleGradeChange}
+              valid={isValid2}
+            >
+              <Option value="">영어수준을 선택해주세요</Option>
+              <Option value="ADVANCED">상(중등이상)</Option>
+              <Option value="INTERMEDIATE">중(초등 3~초등 6)</Option>
+              <Option value="BEGINNER">하(초등 2 이하)</Option>
+            </Dropdown>
+          </BoxSet>
+        </InputContainer>
+
+        <BottomBtn>
+          <SignOut onClick={signOutSubmit}>회원탈퇴</SignOut>
+          <SaveBtn
+            onClick={() => {
+              if (validSignUp) {
+                handleSubmit();
+              } else {
+                alert("모든 항목을 올바르게 입력하고 캐릭터를 선택해주세요.");
+              }
+            }}
+            valid={validSignUp}
+          >
+            <BtnText color="black">수정</BtnText>
+          </SaveBtn>
+          <BackBtn src={backbtn} onClick={handleBack} />
+        </BottomBtn>
       </Container>
     </Background>
   );

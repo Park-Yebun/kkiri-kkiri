@@ -1,11 +1,12 @@
 import Background from "../components/common/Background";
 import background from "../assets/bookshelf/bookshelfbackimg.jpg";
 import BookImg from "../assets/bookshelf/bookimg2.png";
+import trashCanImg from "../assets/bookshelf/trashCan.png";
 import NotCompletedImg from "../assets/bookshelf/notcompletedimg.png";
 import PlusImg from "../assets/bookshelf/plus.png";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useFetcher, useNavigate } from "react-router-dom";
 import closeBtn from "../assets/library/clear.png";
 import useUserStore from "../components/Counter/UserStore";
 
@@ -18,10 +19,11 @@ const BookContainer = styled.div`
   grid-template-columns: repeat(4, 1fr);
   justify-items: center;
   /* background-color : pink; */
-  margin: 5rem 0 0 1rem;
+  margin: 7rem 0 0 1rem;
   overflow-y: auto;
   &::-webkit-scrollbar {
-    width: 0rem;}
+    width: 0rem;
+  }
 `;
 const NewBookCover = styled.div`
   background-image: url(${BookImg});
@@ -47,21 +49,28 @@ const BookCover = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  font-family: "Ttangsbudaejjigae OTF";
+  position: relative;
 `;
 
 const BookTitle = styled.div`
   font-size: 2vw;
-  margin-top: 6.9vw;
+  top: -2.6vw;
+  left: 2.5vw;
   font-size: 1.4vw;
   overflow: hidden;
   max-height: 5vh;
   word-wrap: break-word;
+  width: 11vw;
+  height: 8vh;
+  position: relative;
 `;
 const BookAuthor = styled.div`
-  margin-top: 4.9vw;
+  top: 2.9vw;
   overflow: hidden;
   font-size: 1.1vw;
   word-wrap: break-word;
+  position: relative;
 `;
 const PlusImage = styled.img`
   width: 3.5rem;
@@ -132,7 +141,7 @@ const ButtonContent = styled.div`
   /* background-color : yellow; */
 `;
 const PrevBtn = styled.div`
-  display:flex;
+  display: flex;
   width: 10rem;
   height: 100%;
   background-color: #29c325;
@@ -172,39 +181,42 @@ const CheckMessage = styled.div`
   margin-top: 12%;
 `;
 
-const Btn = styled.div`
-    
-    display : flex;
-    flex-direction : column;
-    justify-content : center;
-    align-items : center;
-    `
-    const CompletedStory = styled.div`
-    display : flex;
-    flex-direction : column;
-    /* margin-top : 6.9vw; */
-    font-size : 1.3vw;
-  
-`
-    const NotCompletedStory = styled.div`
-    display : flex;
-    flex-direction : column;
-    margin-top : 6.9vw;
-    font-size : 1.3vw;
-  
-`
+const CompletedStory = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 6.9vw;
+  font-size: 1.3vw;
+  position: relative;
+`;
+const NotCompletedStory = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 6.9vw;
+  font-size: 1.1rem;
+  position: relative;
+`;
+
+const RemoveBookshelf = styled.img`
+  top: -90px;
+  left: 165px;
+  width: 40px;
+  height: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+`;
+
 const Writer = styled.div`
-
-    
-`
-const Script = styled.div`
-    
-`
-
-
-
-
-
+  font-size: 2vw;
+  top: -3.6vw;
+  left: 2.5vw;
+  font-size: 1.4vw;
+  overflow: hidden;
+  max-height: 5vh;
+  word-wrap: break-word;
+  width: 11vw;
+  position: relative;
+`;
+const Script = styled.div``;
 
 const BookshelfPage = () => {
   const [books, setBooks] = useState([]);
@@ -232,7 +244,7 @@ const BookshelfPage = () => {
         );
         const data = await response.json();
         data.forEach((book) => {
-          books.push(book);
+          setBooks((books) => [...books, book]);
         });
         console.log(data);
       } catch (error) {
@@ -252,18 +264,16 @@ const BookshelfPage = () => {
         });
         const data = await response.json();
         data.forEach((book) => {
-          books.push(book);
+          setBooks((books) => [...books, book]);
         });
         console.log(data);
       } catch (error) {
         console.log("데이터로드실패", error);
       }
     };
-    let books = [];
     const loadData = async () => {
-      await fetchData();
-      await fetchMyData();
-      await setBooks(books);
+      fetchData();
+      fetchMyData();
     };
     loadData();
   }, []);
@@ -308,12 +318,76 @@ const BookshelfPage = () => {
     navigate("/study-write/" + storyId);
   };
 
+  const gotoStory = (storyId) => {
+    console.log("이야기 페이지로 이동 : /storybook/" + storyId);
+    navigate("/storybook/" + storyId);
+  };
+
+  const removeBookshelf = (event, storyId, author) => {
+    event.stopPropagation();
+
+    // 구독한 책 제거
+    const deleteBookshelves = async (storyId, loginId) => {
+      const bodyData = {
+        storyId: storyId,
+        loginId: loginId,
+      };
+      try {
+        const response = await fetch(`https://kkirikkiri.shop/api/bookshelves`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(bodyData),
+        });
+        if (response.ok) {
+          console.log("책장에서 삭제되었어요!!");
+        } else {
+          console.error("요청이 실패하였습니다.");
+        }
+      } catch (error) {
+        console.error("데이터로드실패", error);
+      }
+    };
+
+    // 내가 쓴 스토리 제거
+    const deleteStory = async (storyId) => {
+      try {
+        const response = await fetch(`https://kkirikkiri.shop/api/books/${storyId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (response.ok) {
+          console.log("책장에서 삭제되었어요!!");
+        } else {
+          console.error("요청이 실패하였습니다.");
+        }
+      } catch (error) {
+        console.error("데이터로드실패", error);
+      }
+    };
+    console.log("작가 : ", author);
+    console.log("닉네임 : ", userInfo.nickname);
+
+    if (author === userInfo.nickname) {
+      console.log("내가 쓴 스토리 제거", storyId);
+      deleteStory(storyId);
+    } else if (author !== userInfo.nickname) {
+      console.log("책장에서 제거", storyId);
+      deleteBookshelves(storyId, userInfo.loginId);
+    }
+    let CopyBooks = books.filter((book) => book.storyId !== storyId);
+    setBooks(CopyBooks);
+  };
+  useEffect(() => {}, [books]);
+
   return (
     <Background backgroundimage={background}>
       <BookContainer>
         <NewBookCover>
           <PlusImage src={PlusImg} key="new" onClick={() => gotoMakeStory(0)} />
-          <BookTitle></BookTitle>
         </NewBookCover>
         {books.map((book, index) => (
           <BookCover
@@ -323,11 +397,19 @@ const BookshelfPage = () => {
           >
             {book.isCompleted ? (
               <CompletedStory>
+                <RemoveBookshelf
+                  src={trashCanImg}
+                  onClick={(event) => removeBookshelf(event, book.storyId, book.author)}
+                />
                 <BookTitle>{book.title}</BookTitle>
                 <BookAuthor>{book.author}</BookAuthor>
               </CompletedStory>
             ) : (
               <NotCompletedStory>
+                <RemoveBookshelf
+                  src={trashCanImg}
+                  onClick={(event) => removeBookshelf(event, book.storyId, book.author)}
+                />
                 <Writer>{book.author} 작가님의</Writer>
                 {/* 몇번째 미완성 이야기인지 세어줘야함 */}
                 <Script>미완성 이야기</Script>
@@ -341,9 +423,7 @@ const BookshelfPage = () => {
           <>
             <CloseBtn onClick={closeInfoModal} src={closeBtn}></CloseBtn>
             <PreviewContent>
-              <img
-                src={selectedBook.imageURL}
-              />
+              <img src={selectedBook.imageURL} />
               <PrevTextSector>
                 <PrevText fontSize="2.5rem" marginBottom="rem">
                   {selectedBook.title}
@@ -351,19 +431,20 @@ const BookshelfPage = () => {
                 <PrevText fontSize="1.7rem" marginBottom="1.1rem">
                   {selectedBook.author} 작가님
                 </PrevText>
-                <PrevText fontSize="1.3rem">
-                  {selectedBook.summary}
-                </PrevText>
+                <PrevText fontSize="1.3rem">{selectedBook.summary}</PrevText>
               </PrevTextSector>
             </PreviewContent>
             <ButtonContent>
               <PrevBtn onClick={() => gotoStudy(selectedBook.storyId)}>학습하기</PrevBtn>
-              <Btn>
+              <>
                 {study === 0 ? <StudyInfo>먼저 학습을 진행해주세요</StudyInfo> : null}
-                <PrevBtn style={{ backgroundColor: study === 0 ? "#868B86" : "#29C325" }}>
+                <PrevBtn
+                  onClick={() => gotoStory(selectedBook.storyId)}
+                  style={{ backgroundColor: study === 0 ? "#868B86" : "#29C325" }}
+                >
                   그림책보기
                 </PrevBtn>
-              </Btn>
+              </>
             </ButtonContent>
           </>
         </InfoModal>
@@ -386,4 +467,3 @@ const BookshelfPage = () => {
 };
 
 export default BookshelfPage;
-

@@ -104,6 +104,16 @@ const SketchBook = styled.div`
     width: 600px;
     height: 300px;
 `
+const Study = styled.div`
+  width : 100px;
+  height : 50px;
+  background-color : blue;
+`
+const Btn = styled.div`
+  width : 5rem;
+  height : 5rem;
+  background-color : blue;
+`
 
 const StudyPage = () => {
 	const editorRef = useRef(null);
@@ -114,6 +124,7 @@ const StudyPage = () => {
   const [studyData, setStudyData] = useState({})
   const memberId = 2
   const storyId = 2
+  const [isopen,setIsOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -156,6 +167,7 @@ const StudyPage = () => {
 				},
 			}
 		};
+
 		const editor = new iink.Editor(editorRef.current, options);
 		editor.initialize();
 
@@ -188,11 +200,15 @@ const StudyPage = () => {
 			// editor.close();
 		};
 	}, []);
+
+  const openAPI = () => {
+    console.log('click')
+     setIsOpen(true);
+  }
     //
   return (
     <Background backgroundimage={background}>
-      <StudyContainer>
-        학습페이지
+      {isopen && (
         <WriteTest>
           <Result ref={resultRef}>
           </Result>
@@ -205,6 +221,9 @@ const StudyPage = () => {
           </Nav>
           <SketchBook ref={editorRef} touch-action={"none"}></SketchBook>
         </WriteTest>
+      )}
+      <StudyContainer>
+        <Btn onClick={openAPI}></Btn>
       </StudyContainer>
     </Background>
   );
