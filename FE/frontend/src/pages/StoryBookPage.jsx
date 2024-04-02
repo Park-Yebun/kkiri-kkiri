@@ -34,9 +34,9 @@ const Writer = styled.span`
 `;
 const StoryText = styled.div`
   display : flex;
-  height: 58%;
-  margin: 2rem;
-  font-size: 1.3rem; 
+  height: 85%;
+  margin: 1.5rem;
+  font-size: 1.6rem; 
   overflow: auto; 
    &::-webkit-scrollbar {
         width: 1rem; 
@@ -53,9 +53,8 @@ const StoryText = styled.div`
     }
 `
 const StoryImg = styled.img`
-  width : 20rem;
-  height : 17rem;
-  
+  width : 22rem;
+  height : 20rem;
 `
 
 const PageCoverStyle = styled.div`
@@ -77,31 +76,30 @@ const PageCoverStyle = styled.div`
 `;
 const ContentArea = styled.div`
   display : flex;
-  margin-left : 1.5rem;
+  margin-left : 1.6rem;
   flex-direction : column;
   justify-content : center;
   align-items : center;
-
+  justify-content: space-between;
   /* background-color : pink; */
   width : 90%;
-  height : 90%;
-  justify-content : space-evenly;
+  height : 83%;
 `
 const ImgArea = styled.div`
-
+  position: relative;
+  /* background-color: blue; */
 `
 const TextArea = styled.div`
-  max-height : 24%;
- 
-  
+  height : 33%;
+  /* background-color: bisque; */
 `
 const ToggleSwitch = styled.label`
   position: absolute;
   display: flex;
-  width: 60px;
+  width: 12%;
   height: 34px;
-  top: 69%;
-  left: 70%;
+  top: 67%;
+  right: 15%;
   z-index: 2;
 
   & input {
@@ -144,8 +142,7 @@ const ToggleSwitch = styled.label`
 `;
 
 const Voice = styled.div`
-  margin-left : 7.5rem;
-  margin-top : 1rem;
+  margin: 1rem 30%;
   display : flex;
   width : 13rem;
   height : 4.2rem;
@@ -225,8 +222,8 @@ const StoryBookPage = () => {
     <Background backgroundimage={background}>
       {bookInfo && (
         <FlipPage
-          width={450}
-          height={600}
+          width={500}
+          height={650}
           size='fixed'
           drawShadow={true}
           flippingTime={800}
