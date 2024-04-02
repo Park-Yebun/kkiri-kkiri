@@ -1,20 +1,20 @@
-import { useState } from 'react'
-import styled, { keyframes,css } from 'styled-components';
-import { Link } from 'react-router-dom';
-import logoPic from '../../assets/header/logopic.png';
-import ProfilePic from '../../assets/header/profilepic.png';
-import useUserStore from '../Counter/UserStore';
+import { useState } from "react";
+import styled, { keyframes, css } from "styled-components";
+import { Link } from "react-router-dom";
+import logoPic from "../../assets/header/logopic.png";
+import ProfilePic from "../../assets/header/profilepic.png";
+import useUserStore from "../Counter/UserStore";
 
 const Headers = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 1.5rem 1rem 1.5rem 1.5rem;
-`
+`;
 
 const Logo = styled.img`
   height: 6.6rem;
   width: 6.6rem;
-`
+`;
 const Profile = styled.div`
   position: relative;
   display: flex;
@@ -24,11 +24,11 @@ const Profile = styled.div`
   height: 4rem;
   flex-shrink: 0;
   border-radius: 3rem;
-  border: 1px solid #FFF;
-  background: rgba(224, 224, 224, 0.50);
+  border: 1px solid #fff;
+  background: rgba(224, 224, 224, 0.5);
   box-shadow: 2.5px 2.5px 2.5px 2.5px rgba(0, 0, 0, 0.25);
   cursor: pointer;
-`
+`;
 
 const ProfileAnimal = styled.img`
   width: 4rem;
@@ -39,17 +39,17 @@ const ProfileAnimal = styled.img`
 const NameInfo = styled.div`
   display: flex;
   justify-content: center;
-  color: #FFF;
+  color: #fff;
   padding: 0.9rem 0.5rem 0.9rem 0.9rem;
   -webkit-text-stroke-width: 1.2px;
   -webkit-text-stroke-color: #000;
   font-size: 2.2rem;
   font-weight: 500;
-  flex-grow:1;
+  flex-grow: 1;
   /* background-color: aqua; */
 `;
 const NickName = styled.div`
-  font-size : 70%;
+  font-size: 70%;
   font-size: 2.2rem;
 `;
 const NameType = styled.div`
@@ -64,10 +64,10 @@ const DropdownMenu = styled.div`
   top: 5rem;
   right: 0rem;
   border-radius: 1rem;
-  border: 1px solid #FFF;
-  background: rgba(224, 224, 224, 0.50);
+  border: 1px solid #fff;
+  background: rgba(224, 224, 224, 0.5);
   justify-content: center;
-  color: #FFF;
+  color: #fff;
   -webkit-text-stroke-width: 1.2px;
   -webkit-text-stroke-color: #000;
   font-size: 2rem;
@@ -75,12 +75,14 @@ const DropdownMenu = styled.div`
   font-weight: 500;
   line-height: normal;
   box-shadow: 2.6px 2.6px 2.6px 2.6px rgba(0, 0, 0, 0.25);
-  display: ${props => props.show ? 'flex' : 'none'};
+  display: ${(props) => (props.show ? "flex" : "none")};
   opacity: 0;
-  ${props => props.show && css`
-    animation: ${dropDownAnimation} 1s ease forwards;
-    opacity: 1;
-  `};
+  ${(props) =>
+    props.show &&
+    css`
+      animation: ${dropDownAnimation} 1s ease forwards;
+      opacity: 1;
+    `};
 `;
 
 const MenuItem = styled(Link)`
@@ -108,16 +110,15 @@ const dropDownAnimation = keyframes`
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   // const [membersInfo, setmembersInfo] = useState(null)
-  const userInfo = useUserStore(state => state.userInfo)
+  const userInfo = useUserStore((state) => state.userInfo);
 
- 
   const logout = () => {
     try {
-      document.cookie = 'memberId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      document.cookie = 'loginId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      window.location.href = '/login';
+      document.cookie = "memberId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = "loginId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      window.location.href = "/login";
     } catch {
-      console.log('로그아웃 실패');
+      console.log("로그아웃 실패");
     }
   };
 
@@ -159,39 +160,17 @@ const Header = () => {
 
   return (
     <Headers>
-      <Link to='/'>
+      <Link to="/">
         <Logo src={logoPic} />
       </Link>
-      <Link to='/study-write'>
-        쓰기 학습
-      </Link>
-      <Link to='/study-speak'>
-        말하기 학습
-      </Link>
-      <Link to='/login'>
-        로그인
-      </Link>
-      <Link to='/test'>
-        테스트
-      </Link>
-      <Link to='/asd'>
-        에러페이지
-      </Link>
-      <Link to='/stttest'>
-        stt테스트
-      </Link>
       <Profile onClick={() => setShowDropdown(!showDropdown)}>
-        {userInfo ? (
-          <ProfileAnimal src={userInfo.thumbnail} />
-            ) : (
-          <ProfileAnimal src={ProfilePic} />
-            )}
+        {userInfo ? <ProfileAnimal src={userInfo.thumbnail} /> : <ProfileAnimal src={ProfilePic} />}
         <NameInfo>
           <NickName>{userInfo && userInfo.nickname}</NickName>
           <NameType>작가님</NameType>
         </NameInfo>
         <DropdownMenu show={showDropdown}>
-          <MenuItem as={Link} to='/mypage'>
+          <MenuItem as={Link} to="/mypage">
             마이페이지
           </MenuItem>
           <MenuItem onClick={logout}>로그아웃</MenuItem>
