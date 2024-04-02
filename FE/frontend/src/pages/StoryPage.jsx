@@ -115,6 +115,7 @@ const UserInput = styled.textarea`
 	font-family: "Ttangsbudaejjigae OTF";
 	font-weight: 300;
 	border: none;
+	resize: none;
 	&:focus {
 		outline: none;
 		/* background-color: pink; */
