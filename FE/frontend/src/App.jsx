@@ -7,7 +7,8 @@ import MypagePage from "./pages/MypagePage.jsx";
 import MainPage from "./pages/MainPage.jsx";
 import StoryPage from "./pages/StoryPage.jsx"
 import BookshelfPage from './pages/BookshelfPage.jsx';
-import StudyPage from './pages/StudyPage.jsx'
+import WritingStudyPage from './pages/WritingStudyPage.jsx'
+import SpeakingStudyPage from './pages/SpeakingStudyPage.jsx'
 import StorybookPage from "./pages/StoryBookPage.jsx";
 import Test from "./pages/Test.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
@@ -41,10 +42,11 @@ function App() {
             <Route path="/Storybook/:story-id" element={<StorybookPage/>} />
             <Route path="/bookshelf" element={<BookshelfPage />} />
             <Route path="/test" element={<Test />} />
-            <Route path="/study" element={<StudyPage />} />
+            <Route path="/study-write" element={<WritingStudyPage />} />
+            <Route path="/study-speak" element={<SpeakingStudyPage />} />
           </Route>
-        <Route path="*" element={<ErrorPage />} />
-        <Route path="/stttest" element={<STT/>} />
+        {/* <Route path="*" element={<ErrorPage />} />
+        <Route path="/stttest" element={<STT/>} /> */}
       </Routes>
     </BrowserRouter>
   );

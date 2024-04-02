@@ -111,6 +111,28 @@ const StudyPage = () => {
 	const clearRef = useRef();
 	const undoRef = useRef();
 	const redoRef = useRef();
+  const [studyData, setStudyData] = useState({})
+  const memberId = 2
+  const storyId = 2
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await fetch(`https://kkirikkiri.shop/api/learn/${memberId}/${storyId}`, {
+                method: 'GET',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+            });
+            const data = await response.json();
+            setStudyData(data);
+            console.log("데이터 로드 성공!!"); 
+        } catch (error) {
+            console.error('데이터로드실패', error);
+        }
+    };
+    fetchData();
+}, []);
 
 	useEffect(() => {
 
