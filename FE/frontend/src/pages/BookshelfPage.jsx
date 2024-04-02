@@ -187,12 +187,35 @@ const StudyInfo = styled.div`
 const CheckMessage = styled.div``;
 
 const Btn = styled.div`
-  margin-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
+    margin-bottom : 1rem;
+    display : flex;
+    flex-direction : column;
+    justify-content : center;
+    align-items : center;
+    `
+    const CompletedStory = styled.div`
+    display : flex;
+    flex-direction : column;
+    /* margin-top : 6.9vw; */
+    font-size : 1.3vw;
+  
+`
+    const NotCompletedStory = styled.div`
+    display : flex;
+    flex-direction : column;
+    /* margin-top : 6.9vw; */
+    font-size : 1.3vw;
+  
+`
+const Writer = styled.div`
+
+    
+`
+const Script = styled.div`
+    
+`
+
+
 const CompletedStory = styled.div`
   display: flex;
   flex-direction: column;
@@ -207,6 +230,8 @@ const NotCompletedStory = styled.div`
 `;
 const Writer = styled.div``;
 const Script = styled.div``;
+
+
 
 const BookshelfPage = () => {
   const [books, setBooks] = useState([]);
@@ -389,3 +414,4 @@ const BookshelfPage = () => {
 };
 
 export default BookshelfPage;
+
