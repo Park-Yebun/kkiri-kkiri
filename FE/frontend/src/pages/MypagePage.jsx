@@ -57,11 +57,11 @@ const CharacterBox = styled.div`
   justify-content: space-around;
   align-content: space-evenly;
   outline: ${(props) => {
-  if (props.selectedCharacter === null || props.selectedCharacter === undefined) {
-    return "1px solid #a7a7a7";
-  } else if (props.selectedCharacter) {
-    return "4px solid #29C325";
-  }
+    if (props.selectedCharacter === null || props.selectedCharacter === undefined) {
+      return "1px solid #a7a7a7";
+    } else if (props.selectedCharacter) {
+      return "4px solid #29C325";
+    }
   }};
 `;
 const InputContainer = styled.div`
@@ -123,8 +123,8 @@ const InputBox = styled.input`
     color: #6f6c6c;
     font-size: 0.9rem;
     font-weight: 300;
-    display:flex;
-    top:0.8rem;
+    display: flex;
+    top: 0.8rem;
   }
 `;
 const ErrorPW = styled.div`
@@ -163,8 +163,8 @@ const Dropdown = styled.select`
   outline: ${(props) => {
     if (props.valid === "") {
       return "2px solid rgba(167, 167, 167, 0.4)"; // outline 스타일 수정
-  } else if (props.valid !== "") {
-    return "2px solid #29C325";
+    } else if (props.valid !== "") {
+      return "2px solid #29C325";
     }
   }};
   font-size: 1.3rem;
@@ -190,12 +190,12 @@ const Option = styled.option`
 `;
 
 const SaveBtn = styled.div`
-  position: absolute;
+  position: relative;
   font-weight: 500;
   width: 12rem;
   height: 3rem;
-  bottom:1%;
-  margin-left:1rem;
+  bottom: 1%;
+  margin-right: 1.5rem;
   border-radius: 2.5rem;
   /* background-color: #29c325; */
   background-color: ${(props) => {
@@ -219,14 +219,14 @@ const SaveBtn = styled.div`
 const BackBtn = styled.img`
   position: relative;
   width: 3.5rem;
-  bottom:0.3rem;
+  bottom: 0.3rem;
   cursor: pointer;
 `;
 const SignOut = styled.div`
   position: relative;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-weight: 300;
   width: 5rem;
   height: 2rem;
@@ -286,7 +286,7 @@ const BottomBtn = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items:center;
+  align-items: center;
   flex-wrap: wrap;
   bottom: 0;
   left: 0;
@@ -294,7 +294,6 @@ const BottomBtn = styled.div`
   padding: 0 2rem;
   /* background-color:aqua; */
 `;
-
 
 const MypagePage = () => {
   const [selectedAge, setSelectedAge] = useState("");
@@ -421,11 +420,11 @@ const MypagePage = () => {
   const isValid = selectedAge !== "" ? "true" : "";
   const isValid2 = selectedGrade !== "" ? "true" : "";
   const handleBack = () => {
-    navigate(-1); 
-  }; 
+    navigate(-1);
+  };
   useEffect(() => {
     if (
-      password  &&
+      password &&
       validPassword &&
       selectedCharacter &&
       selectedAge &&
@@ -557,21 +556,21 @@ const MypagePage = () => {
             </Dropdown>
           </BoxSet>
         </InputContainer>
-        <SaveBtn onClick={() => {
-                if (validSignUp) {
-                  handleSubmit();
-                } else {
-                  alert("모든 항목을 올바르게 입력하고 캐릭터를 선택해주세요.");
-                }
-              }}
-              valid={validSignUp}
-            >
+
+        <BottomBtn>
+          <SignOut onClick={signOutSubmit}>회원탈퇴</SignOut>
+          <SaveBtn
+            onClick={() => {
+              if (validSignUp) {
+                handleSubmit();
+              } else {
+                alert("모든 항목을 올바르게 입력하고 캐릭터를 선택해주세요.");
+              }
+            }}
+            valid={validSignUp}
+          >
             <BtnText color="black">수정</BtnText>
           </SaveBtn>
-        <BottomBtn>
-          <SignOut onClick={signOutSubmit}>
-            회원탈퇴
-          </SignOut>
           <BackBtn src={backbtn} onClick={handleBack} />
         </BottomBtn>
       </Container>
