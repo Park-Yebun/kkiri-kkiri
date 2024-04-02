@@ -52,12 +52,19 @@ public class LibraryService {
                 .map(story -> {
                     boolean isMine = isStoryMine(story, member);
                     boolean isDownloaded = isDownloaded(story.getId(), member.getId());
+
+                    // 이미지 url
+                    Content content = contentRepository.findByStoryIdAndLineId(story.getId(), 1);
+                    String imgUrl = "";
+                    if (content != null) {
+                        imgUrl = content.getImageUrl();
+                    }
                     return LibraryResponse.builder()
                             .storyId(story.getId())
                             .title(story.getTitle())
                             .author(story.getMember().getNickname())
                             .summary(story.getSummary())
-                            .imageURL(contentRepository.findByStoryIdAndLineId(story.getId(), 1).getImageUrl())
+                            .imageURL(imgUrl)
                             .download(downloadCounts.getOrDefault(story.getId(), 0))
                             .createdAt(story.getCreatedAt())
                             .isMine(isMine)
