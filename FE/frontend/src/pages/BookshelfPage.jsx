@@ -4,11 +4,13 @@ import BookImg from "../assets/bookshelf/bookimg2.png";
 import trashCanImg from "../assets/bookshelf/trashCan.png";
 import NotCompletedImg from "../assets/bookshelf/notcompletedimg.png";
 import PlusImg from "../assets/bookshelf/plus.png";
-import styled from "styled-components";
+import TrashImg from "../assets/bookshelf/trash.png";
+import styled, { css, keyframes } from "styled-components";
 import { useState, useEffect } from "react";
 import { useFetcher, useNavigate } from "react-router-dom";
 import closeBtn from "../assets/library/clear.png";
 import useUserStore from "../components/Counter/UserStore";
+
 
 const BookContainer = styled.div`
   width: 80%;
@@ -28,7 +30,11 @@ const BookContainer = styled.div`
 const NewBookCover = styled.div`
   background-image: url(${BookImg});
   cursor: pointer;
-  text-align: center;
+  display: flex;
+  position:relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 33.625vh;
   width: 15.179vw;
   margin-bottom: 4rem;
@@ -37,7 +43,21 @@ const NewBookCover = styled.div`
   background-repeat: no-repeat;
   background-position: center;
 `;
-
+const PlusImageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items:center;
+  flex: 1;
+  width:100%;
+  /* background-color:aqua; */
+`;
+const Line = styled.div`
+  position: absolute;
+  height: 0.3rem;
+  width: 60%;
+  background-color: #643030;
+`;
 const BookCover = styled.div`
   background-image: url(${({ isCompleted }) => (isCompleted ? BookImg : NotCompletedImg)});
   cursor: pointer;
@@ -51,6 +71,10 @@ const BookCover = styled.div`
   background-position: center;
   font-family: "Ttangsbudaejjigae OTF";
   position: relative;
+
+  ${({ shouldVibrate }) => shouldVibrate && css`
+    animation: ${vibration} 0.2s ease-in-out infinite;
+  `}
 `;
 
 const BookTitle = styled.div`
@@ -73,8 +97,11 @@ const BookAuthor = styled.div`
   position: relative;
 `;
 const PlusImage = styled.img`
-  width: 3.5rem;
-  margin: 53% 0 0 2%;
+  height: 5rem;
+  width: 5rem;
+  /* width:50%; */
+  /* margin: 53% 0 0 2%; */
+  /* background-color:aqua; */
 `;
 const InfoModal = styled.div`
   display: flex;
@@ -183,31 +210,50 @@ const CheckMessage = styled.div`
 
 const CompletedStory = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: column;
-  margin-top: 6.9vw;
-  font-size: 1.3vw;
+  font-size: 1.1rem;
   position: relative;
+  justify-content:space-evenly;
 `;
 const NotCompletedStory = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: column;
-  margin-top: 6.9vw;
   font-size: 1.1rem;
   position: relative;
+  justify-content:space-evenly;
+`;
+
+const vibration = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(2deg);
+  }
+  75% {
+    transform: rotate(-2sdeg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 `;
 
 const RemoveBookshelf = styled.img`
-  top: -90px;
-  left: 165px;
-  width: 40px;
-  height: auto;
+  right: 5%;
+  top: 5%;
+  height: 15%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  position: relative;
+  position: absolute;
+
+  ${({ shouldVibrate }) => shouldVibrate && css`
+    animation: ${vibration} 0.2s ease-in-out infinite;
+  `}
 `;
 
 const Writer = styled.div`
   font-size: 2vw;
-  top: -3.6vw;
   left: 2.5vw;
   font-size: 1.4vw;
   overflow: hidden;
@@ -224,6 +270,7 @@ const BookshelfPage = () => {
   const [infoModalOpen, setInfoModalOpen] = useState(false);
   const [study, setStudy] = useState(null);
   const [writingModalOpen, setWritingModalOpen] = useState(false);
+  const [showRemoveIcon, setShowRemoveIcon] = useState(false);
   const navigate = useNavigate();
   const userInfo = useUserStore((state) => state.userInfo);
 
@@ -323,6 +370,10 @@ const BookshelfPage = () => {
     navigate("/storybook/" + storyId);
   };
 
+  const toggleRemoveIcon = () => {
+    setShowRemoveIcon(!showRemoveIcon);
+  };
+
   const removeBookshelf = (event, storyId, author) => {
     event.stopPropagation();
 
@@ -350,7 +401,9 @@ const BookshelfPage = () => {
       }
     };
 
-    // 내가 쓴 스토리 제거
+    
+
+
     const deleteStory = async (storyId) => {
       try {
         const response = await fetch(`https://kkirikkiri.shop/api/books/${storyId}`, {
@@ -383,33 +436,45 @@ const BookshelfPage = () => {
   };
   useEffect(() => {}, [books]);
 
+  
   return (
     <Background backgroundimage={background}>
       <BookContainer>
         <NewBookCover>
-          <PlusImage src={PlusImg} key="new" onClick={() => gotoMakeStory(0)} />
+          <PlusImageContainer key="new" onClick={() => gotoMakeStory(0)} >
+            <PlusImage src={PlusImg} />
+          </PlusImageContainer>
+          <Line />
+          <PlusImageContainer key="delete" onClick={toggleRemoveIcon}> 
+            <PlusImage src={TrashImg}  />
+          </PlusImageContainer>
         </NewBookCover>
         {books.map((book, index) => (
           <BookCover
             isCompleted={book.isCompleted}
             key={index}
             onClick={() => handleBookClick(book)}
+            shouldVibrate={showRemoveIcon}
           >
             {book.isCompleted ? (
               <CompletedStory>
-                <RemoveBookshelf
-                  src={trashCanImg}
-                  onClick={(event) => removeBookshelf(event, book.storyId, book.author)}
-                />
+                {showRemoveIcon && (
+                  <RemoveBookshelf
+                    src={trashCanImg}
+                    onClick={(event) => removeBookshelf(event, book.storyId, book.author)}
+                  /> 
+                )}
                 <BookTitle>{book.title}</BookTitle>
                 <BookAuthor>{book.author}</BookAuthor>
               </CompletedStory>
             ) : (
               <NotCompletedStory>
-                <RemoveBookshelf
-                  src={trashCanImg}
-                  onClick={(event) => removeBookshelf(event, book.storyId, book.author)}
-                />
+                {showRemoveIcon && (
+                  <RemoveBookshelf
+                    src={trashCanImg}
+                    onClick={(event) => removeBookshelf(event, book.storyId, book.author)}
+                  />
+                )}
                 <Writer>{book.author} 작가님의</Writer>
                 {/* 몇번째 미완성 이야기인지 세어줘야함 */}
                 <Script>미완성 이야기</Script>
