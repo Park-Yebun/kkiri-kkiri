@@ -267,7 +267,7 @@ const TextSector = styled.div`
 const PreviewContent = styled.div`
     display : flex;
     margin-top : 3rem;
-    width : 45rem;
+    width : 90%;
     height : 18rem;
     /* background-color : green; */
     margin-bottom : 1rem;    
@@ -281,7 +281,7 @@ const ButtonContent = styled.div`
 `
 
 const PrevTextSector = styled.div`
-    width : 35rem;
+    width : 70%;
     height : 30vh;
     display : flex;
     flex-direction : column;
@@ -292,9 +292,9 @@ const PrevText = styled.div`
     /* overflow : hidden; */
     margin-bottom : ${(props) => props.marginBottom || '0'};
     height : ${(props) => props.height || '5%'};
-    font-family: 'Ttangsbudaejjigae OTF';
     font-weight: 300;
     font-size : ${(props) => props.fontSize || '1.3rem'};
+    /* background-color:aqua; */
 `
 const PrevBtn = styled.div`
     width : 11rem;
@@ -577,8 +577,8 @@ const LibraryPage = () => {
                     <List>
                         {searchClick === false && books.length > 0 && books.map((book, index) => (
                             <Lists key={index} onClick={()=> handleBookClick(book)}>
-                                <TotalText width='31%'>{book.title}</TotalText>
-                                <TotalText width='34%'>{book.author} 작가님</TotalText>
+                                <TotalText width='43%'>{book.title}</TotalText>
+                                <TotalText width='22%'>{book.author} 작가님</TotalText>
                                 <TotalText width='15%'>소장수 {book.download}</TotalText>
                                 <TotalText width='20%'>{book.createdAt.split('T')[0]}</TotalText>
 
@@ -586,8 +586,8 @@ const LibraryPage = () => {
                         ))}
                         {searchClick === true && searchResults.length > 0 && searchResults.map((book, index) => (
                             <Lists height={searchResults.length} key={index} onClick={()=> handleBookClick(book)}>
-                                <TotalText width='31%'>{book.title}</TotalText>
-                                <TotalText width='34%'>{book.author} 작가님</TotalText>
+                                <TotalText width='43%'>{book.title}</TotalText>
+                                <TotalText width='22%'>{book.author} 작가님</TotalText>
                                 <TotalText width='15%'>소장수 {book.download}</TotalText>
                                 <TotalText width='20%'>{book.createdAt.split('T')[0]}</TotalText>
 
@@ -609,10 +609,10 @@ const LibraryPage = () => {
         <>
             <CloseBtn onClick={closeModal} src={closeBtn}></CloseBtn>
             <PreviewContent>
-                <img style={{width : '18rem' , height : '12rem', marginRight:'3rem'}} src={selectedBook.imageURL}/>
+                <img style={{width : '18rem' , height : '15rem', marginRight:'2rem'}} src={selectedBook.imageURL}/>
                 <PrevTextSector>
                     <PrevText marginBottom="1.4rem">소장수 {selectedBook.download}</PrevText>
-                    <PrevText height="16%" fontSize="2rem">{selectedBook.title}</PrevText>
+                    <PrevText height="18%" fontSize="1.9rem">{selectedBook.title}</PrevText>
                     <PrevText height="8%" fontSize="1.7rem" marginBottom="1.8rem">{selectedBook.author} 작가님</PrevText>
                     <PrevText height="40%" fontSize="1.4rem">{selectedBook.summary}</PrevText>
                 </PrevTextSector>
