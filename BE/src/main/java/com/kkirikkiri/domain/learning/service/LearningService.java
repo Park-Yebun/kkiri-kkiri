@@ -77,6 +77,7 @@ public class LearningService {
         } else {
             learning.setWritingLineNo(writingRequest.getWritingLineNo());
         }
+        learningRepository.save(learning);
         return learning.getId();
 
     }
