@@ -233,7 +233,7 @@ const vibration = keyframes`
     transform: rotate(2deg);
   }
   75% {
-    transform: rotate(-2sdeg);
+    transform: rotate(-2deg);
   }
   100% {
     transform: rotate(0deg);
