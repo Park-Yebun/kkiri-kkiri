@@ -162,6 +162,12 @@ const Header = () => {
       <Link to='/'>
         <Logo src={logoPic} />
       </Link>
+      <Link to='/study-write'>
+        쓰기 학습
+      </Link>
+      <Link to='/study-speak'>
+        말하기 학습
+      </Link>
       <Link to='/login'>
         로그인
       </Link>
