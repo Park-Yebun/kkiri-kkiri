@@ -74,6 +74,11 @@ const PageCoverStyle = styled.div`
   color: black;
   flex-direction: column;
 `;
+
+const LastPageCoverStyle = styled(PageCoverStyle)`
+  background-image: url(${bookcover2});  
+`;
+
 const ContentArea = styled.div`
   display : flex;
   margin-left : 1.6rem;
@@ -271,7 +276,7 @@ const StoryBookPage = () => {
             </PageContent>
           ))}
           <div data-density='hard'>
-            <PageCoverStyle></PageCoverStyle>
+          < LastPageCoverStyle/>
           </div>
         </FlipPage>
       )}
