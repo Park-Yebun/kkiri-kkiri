@@ -93,6 +93,7 @@ const KeyWordInputBox = styled.input`
     font-size: 1.853vw;
     border-radius: 1.875rem;
     text-indent : 2.85rem;
+
 `
 const SearchButton = styled.div`
     width: 7.8125vw;
@@ -298,7 +299,7 @@ const PrevText = styled.div`
 const PrevBtn = styled.div`
     width : 11rem;
     height: 5rem;
-    background-color : #29C325;
+    background-color : ${props => props.disabled ? 'gray' :'#29C325' };
     box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.25);
     border-radius: 1.875rem;
     color: #000;
@@ -308,6 +309,7 @@ const PrevBtn = styled.div`
     font-style: normal;
     font-weight: 500;
     line-height: 9.6vh;
+    cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
 
 `
 const CloseBtn = styled.img`
@@ -315,6 +317,22 @@ const CloseBtn = styled.img`
     width : 3rem;
     right: 1.8rem;
     top: 1.5rem;
+`
+const Modal = styled.div`
+    display : flex;
+  flex-direction : column;
+  align-items : center;
+  position : fixed;
+  top : 50%;
+  left : 50%;
+  transform : translate(-50%, -50%);
+  z-index : 1000;
+  background-color : #8C6E6E;
+  border-radius : 5rem;
+  width: 30vw;
+  height: 30vh; 
+  color : white; 
+
 `
 
 
@@ -330,6 +348,7 @@ const LibraryPage = () => {
     const [selectedBook, setSelectedBook] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loginId, setLoginId] = useState(null);
+    const [isDownloadModal, setIsDownloadModal] = useState(false);
     
     const userInfo = useUserStore(state => state.userInfo)
     const navigate = useNavigate()
@@ -356,8 +375,9 @@ const LibraryPage = () => {
                 }
             });
             const data = await response.json();
+            console.log('책데이터', data)
             setBooks(data);
-            console.log(books);
+           
 
             // 전체 책에서 소장 수가 가장 많은 순으로 상위 3권을 설정
             const topBooksData = data
@@ -406,6 +426,11 @@ const LibraryPage = () => {
         setSortedKeyword(selectedKeyword);
     } ;
 
+    const closeDownLoadModal = () =>  {
+        console.log('닫기버튼')
+        setIsDownloadModal(false);
+    }
+
     // 검색했을 때 => searchClick = true 인상태에는 searchResults를 정렬하고,
     // 검색안했을때 => searchClick = false 인상태에서는 전체 book을 정렬한다.
     const sortBooks = (keyword) => {
@@ -424,10 +449,10 @@ const LibraryPage = () => {
                 sortedBooks.sort((a,b) => a.download - b.download);
                 break;
             case "날짜빠른순":
-                sortedBooks.sort((a,b) => new Date(b.Date) - new Date(a.Date));
+                sortedBooks.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
                 break;
             case "날짜느린순":
-                sortedBooks.sort((a,b) => new Date(a.Date) - new Date(b.Date));
+                sortedBooks.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
                 break;
             default:
                 break;
@@ -454,28 +479,41 @@ const LibraryPage = () => {
     openModal();
    };
 
+
    const collectStory = async (storyId, loginId) => {
-    const bodyData = {
-        storyId: storyId,
-        loginId: loginId
+       console.log(selectedBook)
+       console.log(storyId);
+       console.log('모달상태',isDownloadModal)
+       console.log(loginId);
+    if (selectedBook.downloaded === false){
+        const bodyData = {
+            storyId: storyId,
+            loginId: loginId
+        }
+            try {
+                const response = await fetch('https://kkirikkiri.shop/api/bookshelves', {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(bodyData)
+                });
+                if (response.ok) {
+                    console.log('내 책장에 추가되었습니다.');
+                    navigate('/bookshelf')
+                  } else {
+                    console.error('요청이 실패했습니다.', error.message);
+                    console.log('이미 소장한 책입니다. ')
+                    setIsDownloadModal(true);            
+                  }
+            } catch (error) {
+                console.error(error);
+                }
+    } else {
+    
     }
-        try {
-            const response = await fetch('https://kkirikkiri.shop/api/bookshelves', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(bodyData)
-            });
-            if (response.ok) {
-                console.log('내 책장에 추가되었습니다.');
-              } else {
-                console.error('요청이 실패했습니다.');
-              }
-        } catch (error) {
-            console.error(error);
-            }
     }
+
 
     const goDetail = (storyId) => {
         console.log('동화책 상세 페이지로 이동')
@@ -580,12 +618,13 @@ const LibraryPage = () => {
                 </PrevTextSector>
             </PreviewContent>
             <ButtonContent>
-                <PrevBtn onClick={() => collectStory(selectedBook.storyId, userInfo.loginId)}>소장하기</PrevBtn>
+                <PrevBtn disabled={selectedBook.mine} onClick={() => collectStory(selectedBook.storyId, userInfo.loginId)}>소장하기</PrevBtn>
+              
                 <PrevBtn onClick={() => goDetail(selectedBook.storyId)}>그림책 보기</PrevBtn>
             </ButtonContent>
         </>
     )}
-</BookPreviewModal>
+        </BookPreviewModal>
         </Background>
     );
 };

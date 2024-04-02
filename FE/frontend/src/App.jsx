@@ -36,7 +36,7 @@ function App() {
           <Route element={<LayoutWithHeader />}>
             <Route path="/mypage" element={<MypagePage />} />
             <Route path="/" element={<MainPage />} />
-            <Route path="/story/:user-id" element={<StoryPage />} />
+            <Route path="/story/:id" element={<StoryPage />} />
             <Route path="/library" element={<LibraryPage />} />
             <Route path="/Storybook/:story-id" element={<StorybookPage/>} />
             <Route path="/bookshelf" element={<BookshelfPage />} />

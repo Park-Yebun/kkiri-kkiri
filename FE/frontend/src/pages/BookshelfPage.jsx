@@ -219,14 +219,14 @@ const Btn = styled.div`
     const CompletedStory = styled.div`
     display : flex;
     flex-direction : column;
-    margin-top : 6.9vw;
+    /* margin-top : 6.9vw; */
     font-size : 1.3vw;
   
 `
     const NotCompletedStory = styled.div`
     display : flex;
     flex-direction : column;
-    margin-top : 6.9vw;
+    /* margin-top : 6.9vw; */
     font-size : 1.3vw;
   
 `
@@ -334,7 +334,7 @@ const BookshelfPage = () => {
                     {book.isCompleted ? (
                         <CompletedStory>
                             <BookTitle>{book.title}</BookTitle>
-                            <BookAuthor>{book.author}</BookAuthor>
+                            <BookAuthor>{book.author} 작가님</BookAuthor>
                         </CompletedStory>
                     ) : (
                         <NotCompletedStory>
@@ -363,19 +363,15 @@ const BookshelfPage = () => {
                         </PrevTextSector>
                     </PreviewContent> 
                     <ButtonContent>
-                    <PrevBtn onClick={openStudyTypeSelectModal}  >
-                            학습하기
-                        </PrevBtn>
-                        <SelectStudyTypeModal isOpen={studyTypeSelectModal} onClose={closeStudyModal} />
-                        <Btn>
-                        {study === 0 ? (
-                            <StudyInfo>먼저 학습을 진행해주세요</StudyInfo>
-                        ) : null}
-                        <PrevBtn style={{ backgroundColor: study === 0 ? '#868B86' : '#29C325' }}>
-                            그림책보기
-                        </PrevBtn>
-                    </Btn>
-                    </ButtonContent>
+              <PrevBtn onClick={() => gotoStudy(selectedBook.storyId)}>학습하기</PrevBtn>
+              <Btn>
+                {study === 0 ? <StudyInfo>먼저 학습을 진행해주세요</StudyInfo> : null}
+                <PrevBtn style={{ backgroundColor: study === 0 ? "#868B86" : "#29C325" }}>
+                  그림책보기
+                </PrevBtn>
+              </Btn>
+            </ButtonContent>
+
                  </>
                 </InfoModal>
             )}
