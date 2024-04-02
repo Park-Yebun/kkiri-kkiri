@@ -10,28 +10,18 @@ import closeBtn from "../assets/library/clear.png";
 import useUserStore from "../components/Counter/UserStore";
 
 const BookContainer = styled.div`
-  width: 83.5188vw;
-  height: 79vh;
+  width: 80%;
+  height: 80%;
   display: grid;
   flex-wrap: wrap;
   /* gap : 3.62rem; */
   grid-template-columns: repeat(4, 1fr);
-  justify-content: flex-start;
+  justify-items: center;
   /* background-color : pink; */
-  margin-top: 10rem;
+  margin: 5rem 0 0 1rem;
   overflow-y: auto;
   &::-webkit-scrollbar {
-    width: 1rem;
-  }
-  /* &::-webkit-scrollbar-track {
-    background:  rgba(55, 55, 55, 0.90); 
-    border-radius: 10px; 
-    }
-
-    &::-webkit-scrollbar-thumb {
-    background: #888; 
-    border-radius: 1.25rem;
-    } */
+    width: 0rem;}
 `;
 const NewBookCover = styled.div`
   background-image: url(${BookImg});
@@ -39,8 +29,8 @@ const NewBookCover = styled.div`
   text-align: center;
   height: 33.625vh;
   width: 15.179vw;
-  margin-bottom: 3.5rem;
-  margin-left: 1.2rem;
+  margin-bottom: 4rem;
+  border-radius: 2%;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -52,12 +42,11 @@ const BookCover = styled.div`
   text-align: center;
   height: 33.625vh;
   width: 15.179vw;
-  margin-bottom: 3.5rem;
-  margin-left: 1.2rem;
+  margin-bottom: 4rem;
+  border-radius: 2%;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  font-family: "Ttangsbudaejjigae OTF";
 `;
 
 const BookTitle = styled.div`
@@ -82,52 +71,46 @@ const InfoModal = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: absolute;
+  justify-content: center;
   z-index: 1000;
   background-color: #8c6e6e;
-  opacity: 91%;
   border-radius: 2rem;
-  width: 63.397vw;
-  height: 55.8125vh;
+  width: 63%;
+  height: 55%;
   color: black;
 `;
 const WritingModal = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: absolute;
   z-index: 1000;
-  background-color: rgba(226, 210, 210, 0.9);
-  opacity: 91%;
+  background-color: rgba(226, 210, 210, 1);
   border-radius: 2rem;
-  width: 35vw;
+  width: 40vw;
   height: 28vh;
+
   color: black;
 `;
 
 const CloseBtn = styled.img`
-  width: 2.9vw;
-  height: 3.9vh;
-  margin-top: 1vh;
-  margin-left: 55vw;
+  position: absolute;
+  width: 8%;
+  right: 3%;
+  top: 3%;
+  filter: brightness(0%);
 `;
 const PreviewContent = styled.div`
   display: flex;
-  /* margin-top : 8.69rem; */
-  width: 53.918vw;
-  height: 26.19vh;
+  justify-content: space-between;
+  width: 88%;
+  height: 50%;
   /* background-color : green; */
-  margin-bottom: 4.65rem;
 `;
 const PrevTextSector = styled.div`
-  width: 35.327vw;
-  height: 30vh;
+  width: 65%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   /* background-color : skyblue; */
@@ -135,33 +118,32 @@ const PrevTextSector = styled.div`
 const PrevText = styled.div`
   /* overflow : hidden; */
   margin-bottom: ${(props) => props.marginBottom || "0"};
-  height: ${(props) => props.height || "8%"};
-  font-family: "Ttangsbudaejjigae OTF";
+  margin-top: 1%;
   font-weight: 300;
   font-size: ${(props) => props.fontSize || "1.19vw"};
 `;
 
 const ButtonContent = styled.div`
-  margin-top: 2rem;
   display: flex;
   justify-content: space-around;
-  width: 34.693vw;
-  height: 8.625vh;
+  margin-top: 6%;
+  width: 35vw;
+  height: 10vh;
   /* background-color : yellow; */
 `;
 const PrevBtn = styled.div`
-  width: 10.199vw;
-  height: 8.625vh;
+  display:flex;
+  width: 10rem;
+  height: 100%;
   background-color: #29c325;
   box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.25);
   border-radius: 1.875rem;
   color: #000;
-  text-align: center;
-  font-family: "Ttangsbudaejjigae OTF";
-  font-size: 1.712vw;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.7rem;
   font-style: normal;
-  font-weight: 300;
-  line-height: 8.625vh;
+  font-weight: 500;
   cursor: pointer;
 `;
 
@@ -173,21 +155,25 @@ const CheckBtn = styled.div`
   border-radius: 1.875rem;
   color: #000;
   text-align: center;
-  font-family: "Ttangsbudaejjigae OTF";
-  font-size: 1.712vw;
-  font-style: normal;
-  font-weight: 300;
+  font-size: 2rem;
+  font-weight: 500;
   line-height: 8.625vh;
   cursor: pointer;
 `;
 
 const StudyInfo = styled.div`
+  position: absolute;
   color: #fe3838;
+  font-size: 1.3rem;
+  margin-bottom: 13vh;
 `;
-const CheckMessage = styled.div``;
+const CheckMessage = styled.div`
+  font-size: 1.5rem;
+  margin-top: 12%;
+`;
 
 const Btn = styled.div`
-    margin-bottom : 1rem;
+    
     display : flex;
     flex-direction : column;
     justify-content : center;
@@ -356,17 +342,16 @@ const BookshelfPage = () => {
             <CloseBtn onClick={closeInfoModal} src={closeBtn}></CloseBtn>
             <PreviewContent>
               <img
-                style={{ width: "22.93lvw", height: "26.1857vh", marginRight: "6.3rem" }}
                 src={selectedBook.imageURL}
               />
               <PrevTextSector>
-                <PrevText height="34.13%" fontSize="2.612vw">
+                <PrevText fontSize="2.5rem" marginBottom="rem">
                   {selectedBook.title}
                 </PrevText>
-                <PrevText height="12.117%" fontSize="1.612vw" marginBottom="2rem">
+                <PrevText fontSize="1.7rem" marginBottom="1.1rem">
                   {selectedBook.author} 작가님
                 </PrevText>
-                <PrevText height="43%" fontSize="1.412vw">
+                <PrevText fontSize="1.3rem">
                   {selectedBook.summary}
                 </PrevText>
               </PrevTextSector>
