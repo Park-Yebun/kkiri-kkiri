@@ -203,7 +203,7 @@ const Btn = styled.div`
     const NotCompletedStory = styled.div`
     display : flex;
     flex-direction : column;
-    /* margin-top : 6.9vw; */
+    margin-top : 6.9vw;
     font-size : 1.3vw;
   
 `
@@ -216,20 +216,7 @@ const Script = styled.div`
 `
 
 
-const CompletedStory = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 6.9vw;
-  font-size: 1.3vw;
-`;
-const NotCompletedStory = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 6.9vw;
-  font-size: 1.1rem;
-`;
-const Writer = styled.div``;
-const Script = styled.div``;
+
 
 
 
