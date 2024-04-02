@@ -1,13 +1,13 @@
-import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom'; // useNavigate를 import해야 함
-import Background from '../components/common/Background';
-import background from '../assets/main/backimg.jpg';
-import storyicon from '../assets/main/storyicon.svg';
-import bookshelficon from '../assets/main/bookshelficon.svg';
-import libraryicon from '../assets/main/libraryicon.svg';
-import Explain from '../components/main/Explain.jsx';
-import useUserStore from '../components/Counter/UserStore.jsx';
-import { useEffect } from 'react';
+import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom"; // useNavigate를 import해야 함
+import Background from "../components/common/Background";
+import background from "../assets/main/backimg.jpg";
+import storyicon from "../assets/main/storyicon.svg";
+import bookshelficon from "../assets/main/bookshelficon.svg";
+import libraryicon from "../assets/main/libraryicon.svg";
+import Explain from "../components/main/Explain.jsx";
+import useUserStore from "../components/Counter/UserStore.jsx";
+import { useEffect } from "react";
 
 const Container = styled.div`
   position: absolute;
@@ -43,7 +43,8 @@ const Menubox = styled.div`
   height: 13rem;
   border-radius: 2rem;
   background: rgba(240, 240, 240, 0.5);
-  box-shadow: 4px -4px 4px 0px rgba(198, 194, 194, 0.5) inset, -4px 4px 4px 0px rgba(255, 255, 255, 0.5) inset;
+  box-shadow: 4px -4px 4px 0px rgba(198, 194, 194, 0.5) inset,
+    -4px 4px 4px 0px rgba(255, 255, 255, 0.5) inset;
   backdrop-filter: blur(0.4rem);
   text-decoration: none;
 `;
@@ -65,16 +66,16 @@ const Menuname = styled.div`
 `;
 
 const MainPage = () => {
-  console.log('메인페이지 로드');
+  console.log("메인페이지 로드");
   const navigate = useNavigate();
-   const userInfo = useUserStore(state => state.userInfo);
-   console.log(userInfo)
+  const userInfo = useUserStore((state) => state.userInfo);
+  console.log(userInfo);
 
-  // useEffect(() => {
-  //   if (userInfo === null) {
-  //     navigate('/login');
-  //   }
-  // }, [userInfo]); // userInfo가 변경될 때마다 useEffect 실행
+  useEffect(() => {
+    if (userInfo === null) {
+      navigate("/login");
+    }
+  }, [userInfo]); // userInfo가 변경될 때마다 useEffect 실행
 
   return (
     <Background backgroundimage={background}>
@@ -83,19 +84,21 @@ const MainPage = () => {
           <Explain />
         </Descriptionbox>
         <Menu>
-          <Menubox as={Link} to="/story/0"> {/* 임시로 id123를 사용하고 있습니다. 적절한 id로 대체해야 합니다. */}
-            <Menuicon src={storyicon}/>
+          <Menubox as={Link} to="/story/0">
+            {" "}
+            {/* 임시로 id123를 사용하고 있습니다. 적절한 id로 대체해야 합니다. */}
+            <Menuicon src={storyicon} />
             <Menuname>내 이야기 쓰러가기</Menuname>
           </Menubox>
           <Menubox as={Link} to="/bookshelf">
-            <Menuicon src={bookshelficon} style={{ width: '16rem'}}/>
+            <Menuicon src={bookshelficon} style={{ width: "16rem" }} />
             <Menuname>내 책장으로 가기</Menuname>
-          </Menubox> 
+          </Menubox>
           <Menubox as={Link} to="/library">
-            <Menuicon src={libraryicon}/>
+            <Menuicon src={libraryicon} />
             <Menuname>도서관으로 가기</Menuname>
           </Menubox>
-        </Menu> 
+        </Menu>
       </Container>
     </Background>
   );
