@@ -4,5 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class LearningRequest {
+
+    private Long storyId;
     private Long memberId;
 }

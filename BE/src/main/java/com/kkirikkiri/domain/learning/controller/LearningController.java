@@ -44,9 +44,9 @@ public class LearningController {
     
     
     // 초기 학습 데이터 생성
-    @PostMapping("/{storyId}")
+    @PostMapping
     public ResponseEntity<?> createLearningData(
-            @PathVariable Long storyId, @RequestBody LearningRequest learningRequest) {
-        return ResponseEntity.ok(learningService.createLearningData(storyId, learningRequest));
+            @RequestBody LearningRequest learningRequest) {
+        return ResponseEntity.ok(learningService.createLearningData(learningRequest));
     }
 }

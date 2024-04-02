@@ -96,8 +96,8 @@ public class LearningService {
     }
 
     // 스토리id와 멤버id를 클라이언트에서 받아 데이터 save해주기
-    public Long createLearningData(Long storyId, LearningRequest learningRequest) {
-        Story story = storyRepository.findById(storyId)
+    public Long createLearningData(LearningRequest learningRequest) {
+        Story story = storyRepository.findById(learningRequest.getStoryId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 동화책이 없습니다."));
         Member member = memberRepository.findById(learningRequest.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
