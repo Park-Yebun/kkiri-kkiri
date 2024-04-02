@@ -100,7 +100,7 @@ const ToggleSwitch = styled.label`
   display: flex;
   width: 60px;
   height: 34px;
-  top: 68%;
+  top: 69%;
   left: 70%;
   z-index: 2;
 
