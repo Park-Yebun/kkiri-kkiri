@@ -1,5 +1,5 @@
 import Background from "../components/common/Background";
-import background from "../assets/library/librarybackimg.png"
+import background from "../assets/library/librarybackimg.jpg"
 import styled from "styled-components";
 import crown from '../assets/library/crown.png'
 import { useState, useEffect } from "react";

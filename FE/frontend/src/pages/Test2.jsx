@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import FlipPage from 'react-pageflip';
 import styled from 'styled-components';
 import Background from '../components/common/Background';
-import background from '../assets/book/backimg.png';
+import background from '../assets/book/backimg.jpg';
 import bookcover from '../assets/book/bookcover.png'
 import bookcover2 from '../assets/book/bookcover2.png'
 import bookData from '../../public/dummydata/book.json';

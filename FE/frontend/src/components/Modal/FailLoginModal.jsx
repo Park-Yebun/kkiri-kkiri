@@ -5,24 +5,26 @@ const Modal = styled.div`
   display : flex;
   flex-direction : column;
   align-items : center;
-  position : fixed;
-  top : 50%;
-  left : 50%;
-  transform : translate(-50%, -50%);
+  justify-content: center;
+  position : absolute;
+  margin-top: 10rem;
   z-index : 1000;
-  background-color : #8C6E6E;
+  background-color : #ff7f7f;
   border-radius : 2rem;
   width: 40rem;
-  height: 10rem;
+  height: 15rem;
   color : white; 
-  font-size : 0.8rem;
+  font-size : 1rem;
 `
 const Btn = styled.div`
   display : flex;
   justify-content : center;
   align-items : center;
-  width : 5rem;
-  height : 3rem;
+  width : 7rem;
+  height : 3.5rem;
+  font-size: 1.8rem;
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
   background-color : green;
   border-radius : 1rem;
 `
@@ -32,7 +34,7 @@ const FailLoginModal = ({ isOpen, onClose, children }) => {
 
     return (
        <Modal>
-           <h1>로그인이 실패하였습니다. 다시 시도해주세요</h1>
+           <h1>로그인이 실패했어요. 다시 시도해주세요.</h1>
            <Btn onClick={onClose}>닫기 </Btn>
        </Modal>
     );

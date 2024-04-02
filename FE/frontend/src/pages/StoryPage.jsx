@@ -2,7 +2,7 @@ import OpenAI from 'openai';
 import styled from 'styled-components';
 import Background from '../components/common/Background';
 import Sentence from '../components/story/Sentence';
-import background from '../assets/story/backimgstory.png';
+import background from '../assets/story/backimgstory.jpg';
 import quill from '../assets/story/quill.png';
 import { useState, useRef, useEffect } from 'react';
 // import  dummyjson  from '../pages/storydummy.json';
@@ -10,13 +10,28 @@ import gptimg from '../assets/main/simplebookshelf.png';
 // import userimg from '../assets/user/profile_cat.png';
 import StoryNameModal from '../components/Modal/StoryNameModal';
 import useUserStore from "../components/Counter/UserStore";
+import { useParams } from 'react-router-dom';
+import { color } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import closeBtn from '../assets/library/clear.png'
+
+
+const CloseBtn = styled.img`
+	position: fixed;
+    width : 2.9vw;
+    height : 3.9vh;
+    /* margin-top : 1vh;
+    margin-left : 55vw; */
+	top: 0.5rem;
+	right: 0.5rem;
+`
 
 const StoryContainer = styled.div`
 	max-width: 125rem;
-	width: 80%;
-	height: 75%;
+	width: 70rem;
+	height: 40rem;
 	position: absolute;
-	top: 15%;
+	top: 7rem;
 	/* left: 17.5rem; */
 	/* border-radius: 3.75rem; */
 	border-radius: 2rem;
@@ -51,6 +66,7 @@ const StoryTitleText = styled.div`
 	font-size: 2rem;
 	font-family: "Ttangsbudaejjigae OTF";
 	color: #000;
+	margin-top: 0.4rem;
 	line-height: normal;
 `
 
@@ -108,9 +124,9 @@ const StoryInputBox = styled.div`
 `
 
 const Sentence2 = styled(Sentence)`
-	padding: 1.5rem;
-	min-height: 90%;
-	width: 95%;
+	padding: 1.5rem 1.1rem 1.1rem 1.1rem;
+	height: 9rem;
+	width: 55rem;
 	margin: 0;
 	padding-bottom: 0;
 	&.writingstyle {
@@ -125,9 +141,7 @@ const Sentence2 = styled(Sentence)`
 	}
 `
 const UserInput = styled.textarea`
-	width: 100%;
-	/* Height: 10rem; */
-	/* Height: 10rem; */
+	width: 60rem;
 	background-color: transparent;
 	overflow: visible;
 	font-size: 1.5rem;
@@ -163,7 +177,7 @@ width: 9rem;
 right: 4rem;
 bottom: 0;
 
-font-size: 1.5rem;
+font-size: 1.3rem;
 font-family: "Ttangsbudaejjigae OTF";
 font-weight: 300;
 &::after {
@@ -172,39 +186,30 @@ font-weight: 300;
 }
 `
 const MiniBox = styled.div`
-width: 8rem;
+width: 10rem;
 height: 100%;
 /* background-color: blue; */
-margin-left: auto;
 display: flex;
 flex-direction: column;
 justify-content: space-between;
 `
 
 const Quill = styled.div`
-height: 30%;
-/* width: 50%; */
-/* margin-top:1rem; */
-/* background-color: green; */
+height: 10rem;
+width: 8rem;
 display: flex;
 flex-direction: row;
 font-size: 2.5rem;
-font-family: "Ttangsbudaejjigae OTF";
 font-weight: 300;
-/* padding-right: 1rem; */
 padding-left: 0.5rem;
-/* &::before {
-	content: "x ";
-} */
+/* background-color: aqua; */
 `
 const QuillImg = styled.img`
+height: 3.5rem;
 /* background-color: pink; */
 `
 const QuillNum = styled.div`
-/* margin-left: auto; */
-/* width: 50%; */
-/* background-color: lavender; */
-/* top: 50%; */
+
 padding-top: 10px;
 &::before {
 	content: "× ";
@@ -212,27 +217,21 @@ padding-top: 10px;
 }`
 
 const WriteBtn = styled.div`
-height: 50%;
-width: 100%;
+position: relative;
+display: flex;
+height: 10rem;
+width: 9rem;
+justify-content: center;
+align-items: center;
+padding-top: 0.7rem;
 margin-bottom: 1rem;
-/* background-color: magenta; */
 border-radius: 1rem;
 background: #29C325;
 box-shadow: 0px 0.5rem 0.5rem 0px rgba(0, 0, 0, 0.25);
-
 color: #000;
-
-text-align: center;
-/* display: inline-block; */
-/* vertical-align: baseline; */
-/* padding-top */
-/* height: 120px; */
-line-height: 6rem;
-font-family: "Ttangsbudaejjigae OTF";
-font-size: 2.5rem;
+font-size: 2.8rem;
 font-style: normal;
 font-weight: 300;
-/* line-height: normal; */
 &:active {
 	box-shadow: none;
 	filter: brightness(0.8);
@@ -251,18 +250,16 @@ font-weight: 300;
 
 const SendBtn = styled.div`
 	position: absolute;
-	top: 90%;
+	bottom:1.8rem;
 	margin-top: 0.5rem;
 	width: 20rem;
 	height: 4rem;
 	border-radius: 1rem;
 	/* background-color: grey; */
 	text-align: center;
-	line-height: 4rem;
+	line-height: 4.4rem;
 	background-color: #29C325;
-	font-family: "Ttangsbudaejjigae OTF";
 	font-size: 2rem;
-	font-style: normal;
 	font-weight: 300;
 	filter: brightness(0.6);
 	box-shadow: 0px 0.5rem 0.5rem 0px rgba(0, 0, 0, 0.25);
@@ -338,22 +335,27 @@ const ModalTitle = styled.div`
 const ModalTextBox = styled.div`
 	width: 28rem;
 	height: 4rem;
-	border-radius: 0.5rem;
+	border-radius: 1rem;
 	background-color: #F1CDCD;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 `
 const ModalCloseButton = styled.div`
-	font-size: 1.5rem;
+/* position: absolute; */
 	margin-top: 1rem;
-	width: 5.5rem;
-	height: 2.5rem;
+	font-size: 1.5rem;
+	top:41rem;
+	left: 60rem;
+	/* margin-top: 1rem; */
+	width: 7rem;
+	height: 3rem;
 	border-radius: 1rem;
 	background-color: #8C6D6D;
 	box-shadow: 0px 0.5rem 0.5rem 0px rgba(0, 0, 0, 0.25);
-	text-align: center;
-	line-height: 2.5rem;
+	align-items: center;
+	justify-content: center;
+	display: flex;
 &:active {
 	box-shadow: none;
 	filter: brightness(0.8);
@@ -362,22 +364,34 @@ const ModalCloseButton = styled.div`
 const StoryTitle = styled.textarea`
 	width: 100%;
 	height: 100%;
+	border-radius: 1rem;
+	vertical-align: middle;
+	line-height: 4.5rem;
+	/* line-height: 1rem; */
+	/* transform: translateY(-2rem); */
 	/* background-color: transparent; */
-	background-color: red;
-	font-size: 1.5rem;
+	/* background-color: red; */
+	background-color: transparent;
+	overflow: visible;
+	white-space: nowrap;
+	font-size: 2rem;
 	font-family: "Ttangsbudaejjigae OTF";
 	font-weight: 300;
 	border: none;
 	&:focus {
 		outline: none;
-		background-color: blue;
+		/* background-color: blue; */
+		background-color: transparent;
+	}
+	&::-webkit-scrollbar {
+		display: none;
 	}
 `
 
 let convUser = [
 	{
 		"role": "system",
-		"content": "나는 10살 한국 아이로, 동화를 좋아해. 그리고 너는 아이들을 좋아하고 동화를 만드는 창의적이고 동화작가야"
+		"content": `나는 한국의 10살 아이로, 동화를 좋아해. 그리고 너는 아이들을 좋아하고 동화를 만드는 창의적이고 동화작가야`
 	},
 	{
 		"role": "system",
@@ -391,6 +405,12 @@ let convUser = [
 
 
 const StoryPage = () => {
+	const navigate = useNavigate();
+	const storyIdRef = useRef(0);
+	const quillNum = useRef(5);
+	const [ql, setql] = useState(5);
+	const params = useParams();
+	console.log(params.story_id);
 	const userInfo = useUserStore(state => state.userInfo);
 	// const userimg = `../assets/user/${userInfo.profileImage}`; 
 	const userimg = `../assets/user/profile_cat.png`; 
@@ -404,13 +424,56 @@ const StoryPage = () => {
 	const [messages, setMessages] = useState([
 		
 	]);
+	useEffect(() => {console.log("유즈이펙트")}, [quillNum.current]);
+	useEffect(() => {setstoryId(storyIdRef.current)}, [storyIdRef]);
+	useEffect(() => {
+		const fetchData = async () => {
+			if (parseInt(params.story_id)) {
+				try{
+					storyIdRef.current = params.story_id;
+					const response = await fetch(`https://kkirikkiri.shop/api/books/${params.story_id}`, {
+						method: 'GET',
+						headers: {
+						'Content-Type': 'application/json',
+						},
+					});
+					setstoryId(params.story_id);  
+					// storyIdRef.current = params.story_id;                                               
+					const data = await response.json();
+					// console.log(data.contents.length)
+					setql(5 - parseInt(data.contents.length / 2));
+					// quillNum.current = 5 - parseInt(data.contents.length / 2);
+					// console.log("작성가능횟수",quillNum.current);
+					// console.log(data.contents);
+									setMessages(data.contents.map((msg) => {return {
+										"storyId": msg.storyId,
+										"lineId": msg.lineId,
+										"koreanSentence": msg.koreanSentence,
+										"translatedsentence": msg.translatedSentence,
+					 }}))
+				} catch (error) {
+					console.log('데이터로드실패', error);
+				}
+			}
+		};
+		fetchData();
+		console.log("이어 작성하기.");
+	}, []);
 
 	const translateChat = async (input) => {
 		const translation = await openaiUser.chat.completions.create({
 			messages: [
 				{
 					role: "system",
-					content: "Translate the following input into English"
+					content: "you have to translate it into a sentence that has a vocabulary level appropriate for my age. Below are examples of English sentences by age.",
+				},
+				{
+					role: "system",
+					content: "Concept: 'The cat is hiding because it is scared of the dog.' Age 7: 'The kitty is playing hide and seek because it's afraid of the doggy.' Age 10: 'The cat is hiding because it's scared of the dog.' Age 13: 'The cat has concealed itself due to its fear of the canine.'"
+				},
+				{
+					role: "system",
+					content: "Translate the following input into English.",
 				},
 				{
 					role: "user",	
@@ -459,7 +522,7 @@ const StoryPage = () => {
 				role: "assistant", 
 				content: "동화를 150글자 이내로 짧게 요약해줘"
 			}, ... arrMsg]
-		console.log("스토리2:", story2)
+		// console.log("스토리2:", story2)
 		const completionUser = await openaiUser.chat.completions.create({
 			messages: arrMsg,
 			model: "gpt-3.5-turbo",
@@ -467,7 +530,7 @@ const StoryPage = () => {
 			temperature: 0.7
 		});
 		const responseUser = completionUser.choices[0].message.content;
-		console.log("요약된 스토리:", responseUser + "...")
+		// console.log("요약된 스토리:", responseUser + "...")
 		return responseUser;
 		}
 
@@ -489,7 +552,7 @@ const StoryPage = () => {
 		
 		return responseUser;
 		}
-	const quillNum = useRef(5);
+	
 
 	const writeGptStory = async (input) => {
 		console.log("배고파")
@@ -511,7 +574,8 @@ const StoryPage = () => {
 					body: JSON.stringify(
 						[{ 
 							// "writer": "끼리코", 
-							"storyId": storyId,
+							// "storyId": storyId,
+							"storyId": storyIdRef.current,
 							"lineId": lineId,
 							// "koreanSentence": gptResponse, 
 							"koreanSentence": gptResponse, 
@@ -535,7 +599,8 @@ const StoryPage = () => {
 					body: JSON.stringify(
 						[{ 
 							// "writer": "끼리코", 
-							"storyId": storyId,
+							// "storyId": storyId,
+							"storyId": storyIdRef.current,
 							"lineId": lineId,
 							// "koreanSentence": gptResponse, 
 							"koreanSentence": gptResponse, 
@@ -553,7 +618,8 @@ const StoryPage = () => {
 		setMessages(messages => [...messages, 
 									{ 
 									// "writer": "끼리코", 
-									"storyId": storyId,
+									// "storyId": storyId,
+									"storyId": storyIdRef.current,
 									"lineId": lineId,
 									// "koreanSentence": gptResponse, 
 									"koreanSentence": gptResponse, 
@@ -567,7 +633,7 @@ const StoryPage = () => {
 	}
 	
 
-	const writeStory = async () => {
+	const writeStory = async () => {		
 		if (!isWriting.current && quillNum.current) {
 		userInputRef.current.disabled = true;
 		isWriting.current = true;
@@ -589,7 +655,8 @@ const StoryPage = () => {
 					body: JSON.stringify(
 						[{ 
 							// "writer": "끼리코", 
-							"storyId": storyId,
+							// "storyId": storyId,
+							"storyId": storyIdRef.current,
 							"lineId": lineId,
 							// "koreanSentence": gptResponse, 
 							"koreanSentence": inputUser, 
@@ -613,7 +680,8 @@ const StoryPage = () => {
 					body: JSON.stringify(
 						[{ 
 							// "writer": "끼리코", 
-							"storyId": storyId,
+							// "storyId": storyId,
+							"storyId": storyIdRef.current,
 							"lineId": lineId,
 							// "koreanSentence": gptResponse, 
 							"koreanSentence": inputUser, 
@@ -635,7 +703,8 @@ const StoryPage = () => {
 		setMessages(messages => [...messages, 
 									{ 
 									// "writer": userName, 
-									"storyId": storyId,
+									// "storyId": storyId,
+									"storyId": storyIdRef.current,
 									"lineId": lineId,
 									"koreanSentence": inputUser, 
 									"translatedSentence":translatedSentence,
@@ -652,6 +721,7 @@ const StoryPage = () => {
 		if (quillNum.current > 0) {
 			// setQuillNum(quillNum - 1);
 			quillNum.current--;
+			setql(ql - 1);
 			console.log("현재 퀼넘:", quillNum.current);
 		}
 		else {
@@ -665,6 +735,82 @@ const StoryPage = () => {
 		
 		
 	}
+
+	
+
+	const beforeWriteStory = async () => {
+		const getStoryId = async (paramsStoryId) => {
+			if (paramsStoryId) {	// 이어서 작성할 때
+				const fetchData = async () => {
+					try{
+						storyIdRef.current = paramsStoryId;
+						const response = await fetch(`https://kkirikkiri.shop/api/books/${params.story_id}`, {
+							method: 'GET',
+							headers: {
+							'Content-Type': 'application/json',
+							},
+						});
+						setstoryId(paramsStoryId);  
+						// storyIdRef.current = params.story_id;                                               
+						const data = await response.json();
+						// console.log(data.contents.length)
+						setql(5 - parseInt(data.contents.length / 2));
+						// quillNum.current = 5 - parseInt(data.contents.length / 2);
+						// console.log("작성가능횟수",quillNum.current);
+						// console.log(data.contents);
+										setMessages(data.contents.map((msg) => {return {
+											"storyId": msg.storyId,
+											"lineId": msg.lineId,
+											"koreanSentence": msg.koreanSentence,
+											"translatedsentence": msg.translatedSentence,
+						 }}))
+					} catch (error) {
+						console.log('데이터로드실패', error);
+					}
+				};
+				fetchData();
+				console.log("이어 작성하기.");
+			} else {	// 처음 작성할 때
+				// console.log("아마여기서문제가발생할것")
+				const fetchStoryData = async () => {
+					try{
+						const response = await fetch(`https://kkirikkiri.shop/api/books`, {
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+								},
+							body: JSON.stringify(
+								{ 
+								"loginId": userInfo.loginId,
+								"title": "427제목",
+								"openState": "PUBLIC",
+								"summary": "427요약"
+								}
+							)		
+						})
+						const localStoryId = await response.json()
+						console.log("로컬스토리ID:", localStoryId)
+						storyIdRef.current = localStoryId
+						// setstoryId(localStoryId)
+						console.log("바뀐값", localStoryId)
+						// storyIdRef.current = localStoryId
+					} catch (error) {
+				console.error('에러발생', error);
+				}
+			}
+			fetchStoryData();
+			}
+		}
+		if (quillNum.current === 5 ) {
+			const promiseStoryId = await getStoryId(parseInt(params.story_id))
+			// console.log("858", promiseStoryId)
+			// promiseStoryId.then(()=> writeStory())
+			await writeStory();
+		} else {
+			await writeStory();
+		}
+	}
+
 
 	
 
@@ -689,20 +835,59 @@ const StoryPage = () => {
 	const handleOnKeyDown = (e) => {
 		if (e.keyCode === 13) {
 			e.preventDefault();
-			writeStory();
+			beforeWriteStory();
 		}
 	}
-
-	const sendStory = () => {
-		// const fs = require('fs');
-		// fs.writeFile('story.json', JSON.stringify(messages), (err) => {
-		// 	if (err) {
-		// 		console.log(err);
-		// 	}
+	const handleOnKeyDown2 = async (e) => {
+		if (e.keyCode === 13) {
+			e.preventDefault();
+			// console.log("대퍼팀파이팅")
+			await finale();
+			// navigate(`/bookshelf`)
 			
-		// });
-		console.log(JSON.stringify(messages));
+		}
 	}
+	const finale = async () => {
+		const finale2 = async () => {
+			const xxx = await summaryStory(messages);
+			console.log("xxx", xxx);
+			console.log("새제목:",storyTitleRef.current.value);
+			console.log("아이디:", storyIdRef.current);
+			const titleSummary = async () => { 
+				try { 
+					const response = await fetch(`https://kkirikkiri.shop/api/books/modify/${storyIdRef.current}`, {
+						method: "PATCH",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(
+							{ 
+							"title": storyTitleRef.current.value,
+							// "summary": xxx + "..."
+							"summary": xxx
+							}
+						)	
+					})	
+				} catch (error) {
+					console.log("에러발생", error);
+				}
+			}	
+			await titleSummary();
+		}
+		await finale2();
+		navigate(`/bookshelf`);
+	};
+
+	// const sendStory = () => {
+	// 	// const fs = require('fs');
+	// 	// fs.writeFile('story.json', JSON.stringify(messages), (err) => {
+	// 	// 	if (err) {
+	// 	// 		console.log(err);
+	// 	// 	}
+			
+	// 	// });
+	// 	console.log(JSON.stringify(messages));
+	// }
 	// const {isModalOpen, setIsModalOpen} = useState(true);
 
 	// const openModal = () => {
@@ -727,7 +912,7 @@ const StoryPage = () => {
 								<WriterDiv>
 									{/* <WriterName>{message.lineId}</WriterName> */}
 									<WriterName>{(message.lineId % 2) ? userInfo.nickname: gptName}</WriterName>
-									<WriterImg src={(message.lineId % 2) ? userimg: gptimg}></WriterImg>
+									<WriterImg src={(message.lineId % 2) ? userInfo.thumbnail: gptimg}></WriterImg>
 									{/* <WriterImg src={(message.lineId % 2) ?  userimg : gptimg}></WriterImg> */}
 								</WriterDiv>
 								<WriterText>{message.koreanSentence}</WriterText>
@@ -753,34 +938,30 @@ const StoryPage = () => {
 					<MiniBox>
 						<Quill>
 							<QuillImg src={quill}></QuillImg>
-							<QuillNum>{quillNum.current}</QuillNum>
+							{/* <QuillNum>{quillNum.current}</QuillNum> */}
+							<QuillNum>{ql}</QuillNum>
 						</Quill>
 						{/* <WriteBtn onClick={writeStory} ref={buttonRef} className={`${ isWriting.current ? "writingstyle":""}`}>작성</WriteBtn> */}
-						<WriteBtn className={`${ isWriting.current? "writingstyle":"", quillNum.current?"":"stopwrite"}`} ref={buttonRef} onClick={writeStory}>작성</WriteBtn>
-						<ModalCloseButton onClick={() => setTestModal(true)}>모달열기</ModalCloseButton>
+						<WriteBtn className={`${ isWriting.current? "writingstyle":"", quillNum.current?"":"stopwrite"}`} ref={buttonRef} onClick={beforeWriteStory}>작성</WriteBtn>
 					</MiniBox>
+					{/* <ModalCloseButton onClick={() => setTestModal(true)}>모달열기</ModalCloseButton> */}
 				</StoryInputBox>
 			</StoryContainer>
-			{/* <SendBtn className={`${ quillNum.current?"":"writingstyle"}`} onClick={console.log(messages)}>{quillNum.current?"이야기 계속하기":"이야기 작성하기"}</SendBtn> */}
-			
-
-			{/* <StoryNameModal isOpen={isModalOpen} onClose={closeModal}>
-				{<>
-				<ModalCloseButton onclick={closeModal}></ModalCloseButton>
-				</>
-				}
-			</StoryNameModal> */}
+			{/* <StoryNameModal isOpen={testModal} onClose={(e) => {setTestModal(false); e.stopPropagation()}}> */}
 			<StoryNameModal isOpen={testModal} onClose={(e) => {setTestModal(false); e.stopPropagation()}}>
 			{/* <StoryNameModal isOpen={testModal} onClose={() => setTestModal(false)}> */}
 				<ModalTitle>동화의 제목을 지어줄래??</ModalTitle>
+				{/* <div src={{closeBtn}} style={{height: '4rem', width: "4rem", backgroundColor: "blue"}} ></div> */}
+				<CloseBtn src={closeBtn} onClick={()=>{console.log("모달끈다"); setTestModal(false)}}></CloseBtn>
 				<ModalTextBox>
-					<StoryTitle ref={storyTitleRef} onKeyDown></StoryTitle>
+					<StoryTitle ref={storyTitleRef} onKeyDown={handleOnKeyDown2}></StoryTitle>
 				</ModalTextBox>
 				{/* <ModalCloseButton onClick={() => setTestModal(false)}>작성</ModalCloseButton> */}
 				{/* <ModalCloseButton onClick={(e) => {console.log("사용자정보:",userInfo); e.stopPropagation()}}>작성</ModalCloseButton> */}
-				<ModalCloseButton onClick={(e) => {console.log(summaryStory(messages)); const xxx = summaryStory(summaryStr); console.log(xxx); e.stopPropagation()}}>작성</ModalCloseButton>
+				<ModalCloseButton onClick={(e) =>{finale() ;{e.stopPropagation()}}}>완료</ModalCloseButton>
 			</StoryNameModal>
-			<SendBtn className={`${ quillNum.current?"":"writingstyle"}`} onClick={sendStory}>{quillNum.current?"이야기 계속하기":"이야기 작성하기"}</SendBtn>
+			{/* <SendBtn className={`${ quillNum.current?"":"writingstyle"}`} onClick={sendStory}>{quillNum.current?"이야기 계속하기":"이야기 작성하기"}</SendBtn> */}
+			<SendBtn className={`${ quillNum.current?"":"writingstyle"}`} onClick={() => setTestModal(true)}>{quillNum.current?"이야기 계속하기":"이야기 작성하기"}</SendBtn>
 		</Background>
   );
 };
