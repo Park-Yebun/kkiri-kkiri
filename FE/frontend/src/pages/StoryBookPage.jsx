@@ -6,8 +6,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import bookcover from '../assets/book/bookcover.png'
 import bookcover2 from '../assets/book/bookcover2.png'
-
-
+import MaleImg from '../assets/book/boy.png'
+import FemaleImg from '../assets/book/girl.png'
 
 
 
@@ -34,11 +34,27 @@ const Writer = styled.span`
 `;
 const StoryText = styled.div`
   display : flex;
-  
-`;
+  height: 58%;
+  margin: 2rem;
+  font-size: 1.3rem; 
+  overflow: auto; 
+   &::-webkit-scrollbar {
+        width: 1rem; 
+    }
+
+    &::-webkit-scrollbar-track {
+    background:  rgba(79, 79, 79, 0.9);
+    border-radius: 10px; 
+    }
+
+    &::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 1rem;
+    }
+`
 const StoryImg = styled.img`
-  width : 23rem;
-  height : 23rem;
+  width : 20rem;
+  height : 17rem;
   
 `
 
@@ -61,20 +77,96 @@ const PageCoverStyle = styled.div`
 `;
 const ContentArea = styled.div`
   display : flex;
+  margin-left : 1.5rem;
   flex-direction : column;
-  justify-items : center;
+  justify-content : center;
   align-items : center;
-  margin-top : 3rem;
+
   /* background-color : pink; */
   width : 90%;
-  height : 85%;
-  justify-content : space-between;
+  height : 90%;
+  justify-content : space-evenly;
 `
 const ImgArea = styled.div`
 
 `
 const TextArea = styled.div`
+  max-height : 24%;
  
+  
+`
+const ToggleSwitch = styled.label`
+  position: absolute;
+  display: flex;
+  width: 60px;
+  height: 34px;
+  top: 68%;
+  left: 70%;
+  z-index: 2;
+
+  & input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  & .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+  }
+
+  & input:checked + .slider {
+    background-color: #2196F3;
+  }
+
+  & .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+
+  & input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+`;
+
+const Voice = styled.div`
+  margin-left : 7.5rem;
+  margin-top : 1rem;
+  display : flex;
+  width : 13rem;
+  height : 4.2rem;
+  background-color : lightcoral;
+  opacity : 75%;
+  border-radius : 1.5rem;
+  display : flex;
+  justify-content : space-evenly;
+  align-items : center;
+
+`
+const MaleVoice = styled.img`
+    width : 3.5rem;
+    height : 3.5rem;
+    cursor: pointer;
+  
+`
+const FemaleVoice= styled.img`
+   width : 3.5rem;
+  height :  3.5rem;
+  cursor: pointer;
   
 `
 
@@ -82,8 +174,11 @@ const TextArea = styled.div`
 const StoryBookPage = () => {
   const flipBookRef = useRef(null);
   const { 'story-id': storyId } = useParams();
-  console.log(storyId)
   const [bookInfo, setBookInfo] = useState(null);
+  const [languages, setLanguages] = useState([]);
+  const [selectedVoice, setSelectedVoice] = useState(null);
+  const audioRef = useRef(new Audio());
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -96,6 +191,7 @@ const StoryBookPage = () => {
         });
         const data = await response.json();
         setBookInfo(data);
+        setLanguages(data.contents.map(() => 'kr')); 
       } catch (error) {
         console.log('데이터로드실패', error);
       }
@@ -105,9 +201,28 @@ const StoryBookPage = () => {
 
   const handlePageClick = (e) => {};
 
+  const toggleLanguage = (index) => {
+    setLanguages((prevLanguages) => {
+      const newLanguages = [...prevLanguages];
+      newLanguages[index] = newLanguages[index] === 'kr' ? 'en' : 'kr';
+      return newLanguages;
+    });
+  };
+
+  const turnOnVoice = (voiceUrl) => {
+    if (selectedVoice === voiceUrl) {
+      setSelectedVoice(null);
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    } else {
+      setSelectedVoice(voiceUrl);
+      audioRef.current.src = voiceUrl;
+      audioRef.current.play();
+    }
+  };
+
   return (
     <Background backgroundimage={background}>
-   
       {bookInfo && (
         <FlipPage
           width={450}
@@ -122,6 +237,8 @@ const StoryBookPage = () => {
           onPageClick={handlePageClick}
           ref={flipBookRef}
           showCover={true}
+          onClick={(event) => {event.stopPropagation()}} 
+          disableFlipByClick
         >
           <div data-density='hard'>
             <PageCoverStyle>
@@ -129,17 +246,30 @@ const StoryBookPage = () => {
                 <Writer>{bookInfo.memberNickname} 작가님</Writer>
             </PageCoverStyle>
           </div>
+       
           {bookInfo.contents.map((content, index) => (
             <PageContent key={index}>
+               <Voice>
+                  <MaleVoice onClick={() => turnOnVoice(content.maleVoiceUrl)} src={MaleImg}/>
+                  {selectedVoice === content.maleVoiceUrl && <audio src={content.maleVoiceUrl} autoPlay />}
+                  <FemaleVoice onClick={() => turnOnVoice(content.femaleVoiceUrl)} src={FemaleImg} />
+                  {selectedVoice === content.femaleVoiceUrl && <audio src={content.femaleVoiceUrl} autoPlay/>}
+                </Voice>
               <ContentArea>
                 <ImgArea>
                   <StoryImg src={content.imageUrl}></StoryImg>
                 </ImgArea>
                 <TextArea>
-                  <StoryText>{content.koreanSentence}</StoryText>
-
+                  <StoryText>{languages[index] === 'kr' ? content.koreanSentence : content.translatedSentence}</StoryText>
                 </TextArea>
-             
+                <ToggleSwitch>
+                  <input
+                    type="checkbox"
+                    checked={languages[index] === 'en'}
+                    onChange={() => toggleLanguage(index)} 
+                  />
+                  <span className="slider"></span>
+                </ToggleSwitch>
               </ContentArea>
             </PageContent>
           ))}
@@ -148,7 +278,6 @@ const StoryBookPage = () => {
           </div>
         </FlipPage>
       )}
-  
     </Background>
   );
 };
