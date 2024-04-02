@@ -70,11 +70,11 @@ const MainPage = () => {
    const userInfo = useUserStore(state => state.userInfo);
    console.log(userInfo)
 
-  useEffect(() => {
-    if (userInfo === null) {
-      navigate('/login');
-    }
-  }, [userInfo]); // userInfo가 변경될 때마다 useEffect 실행
+  // useEffect(() => {
+  //   if (userInfo === null) {
+  //     navigate('/login');
+  //   }
+  // }, [userInfo]); // userInfo가 변경될 때마다 useEffect 실행
 
   return (
     <Background backgroundimage={background}>
