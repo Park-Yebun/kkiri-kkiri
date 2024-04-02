@@ -10,7 +10,7 @@ const StoryNameM = styled.div`
 	transform : translate(-50%, -50%);
 	z-index: 1000;
 	width: 40rem;
-	height: 16rem;
+	height: 20rem;
 	background-color: #BD8080;
 	font-size: 2rem;
 	font-weight: 300;
