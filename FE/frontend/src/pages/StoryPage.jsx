@@ -387,7 +387,7 @@ const StoryTitle = styled.textarea`
 		display: none;
 	}
 `
-
+// 130자 정도로 글자수를 넘겨버리는 경우를 고려해서 프롬프트는 70자로 정해주었음
 let convUser = [
 	{
 		"role": "system",
@@ -395,11 +395,15 @@ let convUser = [
 	},
 	{
 		"role": "system",
-		"content": "너는 120글자를 넘지 않도록 한국어로 대답해야 해."
+		"content": "지금부터 나와 함께 동화를 만들어보자.내가 먼저 한 문장 길이의 동화를 입력하면, 너는 그 동화를 이어서 대답하는거야."
 	},
 	{
 		"role": "system",
-		"content": "지금부터 나와 함께 동화를 만들어보자.내가 먼저 한 문장 길이의 동화를 입력하면, 너는 그 동화를 이어서 대답하는거야."
+		"content": "너는 공백포함 70자를 넘지 않도록 한국어로 문장을 끝내야 해. "
+	},
+	{
+		"role": "system",
+		"content": "내가 동화와 관련없는 말을 하더라도, 너는 끝까지 이야기를 완성해야만 해."
 	},
 	];
 
@@ -481,7 +485,7 @@ const StoryPage = () => {
 				},
 			],
 			model: "gpt-3.5-turbo",
-			// max_tokens: 200,
+			// max_tokens: 280,
 			temperature: 0.7
 		});
 		return translation.choices[0].message.content;
@@ -520,13 +524,13 @@ const StoryPage = () => {
 			// },
 			{
 				role: "assistant", 
-				content: "동화를 150글자 이내로 짧게 요약해줘"
+				content: "동화를 공백포함 70자 이내로 짧게 요약해줘"
 			}, ... arrMsg]
 		// console.log("스토리2:", story2)
 		const completionUser = await openaiUser.chat.completions.create({
 			messages: arrMsg,
 			model: "gpt-3.5-turbo",
-			max_tokens: 100,
+			// max_tokens: 100,
 			temperature: 0.7
 		});
 		const responseUser = completionUser.choices[0].message.content;
@@ -539,13 +543,13 @@ const StoryPage = () => {
 		// console.log(quillNum)
 		// if (quillNum === 0) { 
 		if (quillNum.current === 0) { 
-			convUser = [{role: "assistant", content: "이 동화를 80글자 이내로 마무리 해줘 "}, ... convUser]
+			convUser = [{role: "assistant", content: "이 동화를 공백포함 80자 이내로 마무리 해줘 "}, ... convUser]
 		}
 		const completionUser = await openaiUser.chat.completions.create({
 			messages: convUser,
 			model: "gpt-3.5-turbo",
-			max_tokens: 120,
-			temperature: 0.7
+			temperature: 0.7,
+			seed: 429
 		});
 		const responseUser = completionUser.choices[0].message.content;
 		convUser.push({role: "assistant", content: responseUser})
@@ -555,7 +559,6 @@ const StoryPage = () => {
 	
 
 	const writeGptStory = async (input) => {
-		console.log("배고파")
 		const gptResponse = await chatWithGpt(input);
 		console.log("gpt의 대답:", gptResponse)
 		const translatedSentence = await translateChat(gptResponse);
@@ -782,9 +785,9 @@ const StoryPage = () => {
 							body: JSON.stringify(
 								{ 
 								"loginId": userInfo.loginId,
-								"title": "427제목",
+								"title": "",
 								"openState": "PUBLIC",
-								"summary": "427요약"
+								"summary": ""
 								}
 							)		
 						})
