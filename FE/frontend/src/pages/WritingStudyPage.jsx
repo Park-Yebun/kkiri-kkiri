@@ -276,6 +276,8 @@ const StudyPage = () => {
   const editorRef = useRef(null);
   const resultRef = useRef();
   const clearRef = useRef();
+  const clearRefL = useRef();
+  const clearRefR = useRef();
   const undoRef = useRef();
   const redoRef = useRef();
   const [studyData, setStudyData] = useState({});
@@ -286,7 +288,7 @@ const StudyPage = () => {
   const audioRef = useRef(null);
   const { "story-id": storyId } = useParams();
   const [contents, setContents] = useState([]);
-  const [writeWord, setWriteWord] = useState();
+  const [writeWord, setWriteWord] = useState(); // 없에도 될것같지만 없에면 즉각 랜더링 안됨.
 
   const visibilityImg = useRef([]);
   const randomCopyWordsREF = useRef([]);
@@ -377,6 +379,8 @@ const StudyPage = () => {
       undoRef.disabled = !event.detail.canUndo;
       redoRef.disabled = !event.detail.canRedo;
       clearRef.disabled = !event.detail.canClear;
+      clearRefL.disabled = !event.detail.canClear;
+      clearRefR.disabled = !event.detail.canClear;
     });
     editor.events.addEventListener("exported", (event) => {
       resultRef.current.innerHTML =
@@ -398,6 +402,12 @@ const StudyPage = () => {
     clearRef.current.addEventListener("click", async () => {
       await editor.clear();
     });
+    clearRefL.current.addEventListener("click", async () => {
+      await editor.clear();
+    });
+    clearRefR.current.addEventListener("click", async () => {
+      await editor.clear();
+    });
     undoRef.current.addEventListener("click", async () => {
       await editor.undo();
     });
@@ -406,7 +416,7 @@ const StudyPage = () => {
     });
 
     return () => {
-      // editor.close();
+      editor.close();
     };
   }, []);
 
@@ -496,8 +506,8 @@ const StudyPage = () => {
           )}
         </RightPage>
         <BtnContainer>
-          <PrevBtn src={arrowLeftImg} onClick={goPrev} />
-          <NextBtn src={arrowRightImg} onClick={goNext} />
+          <PrevBtn src={arrowLeftImg} onClick={goPrev} ref={clearRefL} />
+          <NextBtn src={arrowRightImg} onClick={goNext} ref={clearRefR} />
         </BtnContainer>
       </StudyContainer>
     </Background>
