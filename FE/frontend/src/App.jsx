@@ -45,8 +45,8 @@ function App() {
             <Route path="/study-write" element={<WritingStudyPage />} />
             <Route path="/study-speak" element={<SpeakingStudyPage />} />
           </Route>
-        {/* <Route path="*" element={<ErrorPage />} />
-        <Route path="/stttest" element={<STT/>} /> */}
+        <Route path="*" element={<ErrorPage />} />
+        {/* <Route path="/stttest" element={<STT/>} /> */}
       </Routes>
     </BrowserRouter>
   );
