@@ -194,7 +194,7 @@ const StudyInfo = styled.div`
   position: absolute;
   color: #fe3838;
   font-size: 1.3rem;
-  bottom: 30%;
+  bottom: 28%;
   right: 22%;
   /* margin-bottom: 13vh; */
 `;
