@@ -276,6 +276,13 @@ const LoginPage = () => {
 
   }
 
+  const handleOnKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      gotoLogin();
+    }
+  }
+
   return (
     <Background backgroundimage={background}>
         <SketchBookImg src={sketchbook}></SketchBookImg>
@@ -293,7 +300,8 @@ const LoginPage = () => {
         </IDBox>
         <PWBox>
           <PWText>비밀번호</PWText>
-          <PWInput onChange={handlePassword} type="password"></PWInput>
+          {/* <PWInput onChange={handlePassword} type="password"></PWInput> */}
+          <PWInput onChange={handlePassword} type="password" onKeyDown={handleOnKeyDown}></PWInput>
         </PWBox>
         <LoginBtn onClick={gotoLogin}>
           <BtnText>로그인</BtnText>
