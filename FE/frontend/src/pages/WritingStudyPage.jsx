@@ -151,7 +151,7 @@ const BookImage = styled.img`
   width: 21rem;
   height: 19rem;
   visibility: ${(props) => {
-    if (props.disabled) {
+    if (props.abled) {
       return "visible";
     } else {
       return "hidden";
@@ -462,7 +462,7 @@ const StudyPage = () => {
               <BookImage
                 src={studyData.contents[pageNumber].imageUrl}
                 alt="Book Image"
-                disabled={visibilityImg.current[pageNumber]}
+                abled={visibilityImg.current[pageNumber]}
               ></BookImage>
               <BookContent>{studyData.contents[pageNumber].koreanSentence}</BookContent>
             </Page>
@@ -483,7 +483,12 @@ const StudyPage = () => {
           {contents && contents.length > pageNumber && (
             <QuizSentence>
               {contents[pageNumber].orgWords.map((item, index) => (
-                <OrgWords key={index} valid={index == contents[pageNumber].RandomNum}>
+                <OrgWords
+                  key={index}
+                  valid={
+                    index == contents[pageNumber].RandomNum && !visibilityImg.current[pageNumber]
+                  }
+                >
                   {item}
                 </OrgWords>
               ))}
