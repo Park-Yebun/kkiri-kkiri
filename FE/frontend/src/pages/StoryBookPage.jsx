@@ -219,7 +219,8 @@ const StoryBookPage = () => {
     } else {
       setSelectedVoice(voiceUrl);
       audioRef.current.src = voiceUrl;
-      audioRef.current.play();
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
     }
   };
 

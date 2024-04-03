@@ -329,7 +329,7 @@ const ModalCloseButton = styled.div`
 	filter: brightness(0.8);
 }
 `
-const StoryTitle = styled.textarea`
+const StoryTitle = styled.input`
 	width: 100%;
 	height: 100%;
 	border-radius: 1rem;
@@ -1100,7 +1100,7 @@ const StoryPage = () => {
 				{/* <div src={{closeBtn}} style={{height: '4rem', width: "4rem", backgroundColor: "blue"}} ></div> */}
 				<CloseBtn src={closeBtn} onClick={()=>{console.log("모달끈다"); setTestModal(false)}}></CloseBtn>
 				<ModalTextBox>
-					<StoryTitle ref={storyTitleRef} onKeyDown={handleOnKeyDown2}></StoryTitle>
+					<StoryTitle ref={storyTitleRef} onKeyDown={handleOnKeyDown2} maxLength= '15' />
 				</ModalTextBox>
 				<StateBox>
 					<OptionContainer>
