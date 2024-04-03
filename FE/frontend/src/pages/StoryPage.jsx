@@ -116,6 +116,7 @@ const UserInput = styled.textarea`
 	font-weight: 300;
 	border: none;
 	resize: none;
+	/* background-color: aqua; */
 	&:focus {
 		outline: none;
 		/* background-color: pink; */
@@ -634,6 +635,17 @@ const StoryPage = () => {
 		const imageDescription = await descriptChat(inputUser);
 		console.log(translatedSentence)
 		
+		const newUserMessage = { // 형찬 추가 코드
+			storyId: storyIdRef.current,
+			lineId: (6 - quillNum.current) * 2 - 1, // 사용자 메시지의 lineId 계산
+			koreanSentence: inputUser,
+			translatedSentence: "", // 번역된 문장은 이후에 업데이트
+			imageDescription: "" // 이미지 설명은 이후에 업데이트
+		};
+		
+		// Messages 상태 업데이트
+		setMessages(messages => [...messages, newUserMessage]);
+
 		//
 		const fetchStoryData = async () => {
 			try{
@@ -659,7 +671,7 @@ const StoryPage = () => {
 				console.error('에러발생', error);
 			}
 		};
-		await fetchStoryData();
+		// await fetchStoryData();
 		const fetchTtsData = async () => {
 			try{
 				const response = await fetch(`https://kkirikkiri.shop/api/books/contents/voice`, {
@@ -684,21 +696,22 @@ const StoryPage = () => {
 				console.error('에러발생', error);
 			}
 		};
-		await fetchTtsData();
+		// await fetchTtsData();
+		await Promise.all([fetchStoryData(), fetchTtsData()]);
 
-
-		setMessages(messages => [...messages, 
-									{ 
-									// "writer": userName, 
-									// "storyId": storyId,
-									"storyId": storyIdRef.current,
-									"lineId": lineId,
-									"koreanSentence": inputUser, 
-									"translatedSentence":translatedSentence,
-									"imageDescription": imageDescription
-									}
-								]
-					);
+		// 형찬 삭제 코드
+		// setMessages(messages => [...messages, 
+		// 							{ 
+		// 							// "writer": userName, 
+		// 							// "storyId": storyId,
+		// 							"storyId": storyIdRef.current,
+		// 							"lineId": lineId,
+		// 							"koreanSentence": inputUser, 
+		// 							"translatedSentence":translatedSentence,
+		// 							"imageDescription": imageDescription
+		// 							}
+		// 						]
+		// 			);
 		// console.log("메세지: ", messages);
 		userInputRef.current.value = "";
 		setInputLength(0);
