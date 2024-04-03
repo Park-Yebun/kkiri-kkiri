@@ -310,15 +310,15 @@ const ModalTextBox = styled.div`
 `
 const ModalCloseButton = styled.div`
 /* position: absolute; */
-	margin-top: 1.5rem;
-	font-size: 1.5rem;
+	margin-top: 1rem;
+	font-size: 1.8rem;
 	top:41rem;
 	left: 60rem;
 	/* margin-top: 1rem; */
-	width: 7rem;
-	height: 3rem;
+	width: 8rem;
+	height: 4rem;
 	border-radius: 1rem;
-	background-color: #85f989;
+	background-color: #49d84e;
 	box-shadow: 0px 0.5rem 0.5rem 0px rgba(0, 0, 0, 0.25);
 	align-items: center;
 	justify-content: center;
@@ -357,24 +357,87 @@ const StoryTitle = styled.textarea`
 `
 
 const StateBox = styled.div`
-	margin-top: 30px;
-	display: flex;
-	gap: 10px;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 `
+const CheckboxContainer = styled.label`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`;
 
+const Checkmark = styled.span`
+  height: 2rem;
+  width: 2rem;
+  background-color: #eee;
+  border-radius: 0.5rem;
+  display: inline-block;
+  position: relative; // 포지션을 relative로 설정하여 ::after의 위치 기준점을 만듭니다.
+
+  &:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 0.4rem;
+    bottom: 0.4rem;
+    width: 1rem;
+    height: 1.5rem;
+    border: solid #ffffff; // 체크 색상을 지정합니다.
+    border-width: 0 0.4rem 0.4rem 0;
+    transform: rotate(45deg);
+  }
+`;
+
+const Checkbox = styled.input.attrs({ type: 'checkbox' })`
+  display: none; // 실제 체크박스는 숨깁니다.
+  &:checked + ${Checkmark} {
+    background-color: #00b909;
+    &:after {
+      display: block; // 체크박스가 체크될 때 ::after 콘텐츠를 표시합니다.
+    }
+  }
+`;
+
+const LabelText = styled.span`
+  font-size: 1.5rem;
+	margin-left: 1rem;
+	margin-top: 0.3rem;
+`;
+
+// 공개 및 비공개 영역 스타일 조정을 위한 컴포넌트
+const OptionContainer = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: ${props => props.backgroundColor || "transparent"};
+  padding: 0.5rem;
+  border-radius: 10px;
+`;
 const Check = styled.input`
-	display: flex;
-	align-items: center;
-	gap: 5px;
+	width: 1;
+
 
 	input[type="checkbox"] {
-	accent-color: blue;
+	accent-color: #00c421;
 	}
 `
 
-const Public = styled.div``
+const Public = styled.div`
+	/* width: 40%; */
+	background-color:beige;
+	position: relative;
+	display:flex;
+	align-items: center;
+`
 
-const Private = styled.div``
+const Private = styled.div`
+	/* width: 60%; */
+	position: relative;
+	display:flex;
+	align-items: center;
+	background-color: blueviolet;
+	`
 
 // 130자 정도로 글자수를 넘겨버리는 경우를 고려해서 프롬프트는 70자로 정해주었음
 let convUser = [
@@ -972,12 +1035,20 @@ const StoryPage = () => {
 					<StoryTitle ref={storyTitleRef} onKeyDown={handleOnKeyDown2}></StoryTitle>
 				</ModalTextBox>
 				<StateBox>
-					<Public>공개</Public>
-					<Check type="checkbox" checked={isPublic} onChange={handlePublicChange}>
-					</Check>
-					<Private>비공개</Private>
-					<Check type="checkbox" checked={isPrivate} onChange={handlePrivateChange}>
-					</Check>
+					<OptionContainer>
+						<CheckboxContainer>
+							<Checkbox checked={isPublic} onChange={handlePublicChange} />
+							<Checkmark />
+							<LabelText>공개</LabelText>
+						</CheckboxContainer>
+					</OptionContainer>
+					<OptionContainer>
+						<CheckboxContainer>
+							<Checkbox checked={isPrivate} onChange={handlePrivateChange} />
+							<Checkmark />
+							<LabelText>비공개</LabelText>
+						</CheckboxContainer>
+					</OptionContainer>
 				</StateBox>
 				{/* <ModalCloseButton onClick={() => setTestModal(false)}>작성</ModalCloseButton> */}
 				{/* <ModalCloseButton onClick={(e) => {console.log("사용자정보:",userInfo); e.stopPropagation()}}>작성</ModalCloseButton> */}
