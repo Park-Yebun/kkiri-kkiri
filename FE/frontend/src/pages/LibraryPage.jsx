@@ -157,7 +157,7 @@ const DownLoad = styled.div`
     align-items : center;
     font-size: 1.5rem;
     font-weight: 300;
-    padding-bottom: 0.6rem;
+    padding-bottom: 0.5rem;
 `
 const Title = styled.div`
     font-size: 2.1rem;
@@ -173,10 +173,11 @@ const Info = styled.div`
     display : flex;
 `
 const Summary = styled.div`
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     margin-bottom : 3.96rem;
     font-weight: 300;
 `
+
 const TotalText = styled.div`
     width : ${(props) => props.width ||'20%'};
     overflow : hidden;
@@ -361,6 +362,10 @@ const LibraryPage = () => {
         setCurrentIndex(prevIndex => (prevIndex - 1 + topBooks.length) %  topBooks.length)
     };
 
+    const SummaryText = ({ text, maxLength = 100 }) => {
+        const formattedText = text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+        return <div>{formattedText}</div>;
+      };
 
     useEffect(() => {
     const fetchData = async () => {
@@ -521,6 +526,7 @@ const LibraryPage = () => {
     }
 
 
+    
     return (
         <Background backgroundimage={background}>
             <Container>
@@ -546,7 +552,9 @@ const LibraryPage = () => {
                                         <Title>{topBooks[currentIndex].title}</Title>
                                         <Writer>{topBooks[currentIndex].author} 작가님</Writer>
                                     </Info>
-                                    <Summary>{topBooks[currentIndex].summary}</Summary>
+                                    <Summary>
+                                        <SummaryText text={topBooks[currentIndex].summary} maxLength={135} />
+                                    </Summary>
                                 </TextBox>
                             )}
                         </TextSector>
@@ -614,7 +622,9 @@ const LibraryPage = () => {
                     <PrevText marginBottom="1.4rem">소장수 {selectedBook.download}</PrevText>
                     <PrevText height="18%" fontSize="1.9rem">{selectedBook.title}</PrevText>
                     <PrevText height="8%" fontSize="1.7rem" marginBottom="1.8rem">{selectedBook.author} 작가님</PrevText>
-                    <PrevText height="40%" fontSize="1.4rem">{selectedBook.summary}</PrevText>
+                    <PrevText height="40%" fontSize="1.4rem">
+                        <SummaryText text={selectedBook.summary} maxLength={132} />
+                    </PrevText>
                 </PrevTextSector>
             </PreviewContent>
             <ButtonContent>
