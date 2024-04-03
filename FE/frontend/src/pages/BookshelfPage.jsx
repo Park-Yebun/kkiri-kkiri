@@ -147,7 +147,7 @@ const PrevTextSector = styled.div`
 const PrevText = styled.div`
   /* overflow : hidden; */
   margin-bottom: ${(props) => props.marginBottom || "0"};
-  margin-top: 1%;
+  margin-top: %;
   font-weight: 300;
   font-size: ${(props) => props.fontSize || "1.19vw"};
 `;
@@ -194,7 +194,7 @@ const StudyInfo = styled.div`
   position: absolute;
   color: #fe3838;
   font-size: 1.3rem;
-  bottom: 30%;
+  bottom: 28%;
   right: 22%;
   /* margin-bottom: 13vh; */
 `;
@@ -369,6 +369,11 @@ const BookshelfPage = () => {
     setShowRemoveIcon(!showRemoveIcon);
   };
 
+  const SummaryText = ({ text, maxLength = 100 }) => {
+    const formattedText = text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+    return <span>{formattedText}</span>;
+  };
+
   const removeBookshelf = (event, storyId, author) => {
     event.stopPropagation();
 
@@ -488,10 +493,12 @@ const BookshelfPage = () => {
                 <PrevText fontSize="2.5rem" marginBottom="rem">
                   {selectedBook.title}
                 </PrevText>
-                <PrevText fontSize="1.7rem" marginBottom="1.1rem">
+                <PrevText fontSize="1.7rem" marginBottom="0.8rem">
                   {selectedBook.author} 작가님
                 </PrevText>
-                <PrevText fontSize="1.3rem">{selectedBook.summary}</PrevText>
+                <PrevText fontSize="1.3rem">
+                  <SummaryText text={selectedBook.summary} maxLength={170} />
+                </PrevText>
               </PrevTextSector>
             </PreviewContent>
             <ButtonContent>
