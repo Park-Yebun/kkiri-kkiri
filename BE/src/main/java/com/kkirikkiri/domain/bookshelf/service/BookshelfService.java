@@ -47,14 +47,10 @@ public class BookshelfService {
 
         List<BookshelfResponse> otherBooks = books.stream()
                 .map(bookshelf -> {
-                    Optional<Learning> learningOptional = learningRepository.findByMemberIdAndStoryIdOptional(bookshelf.getId(), member.getId());
-                    boolean isLearned = false;
-                    if (learningOptional.isPresent()) {
-                        if (learningOptional.get().getSpeakingCpltNo() != 0 || learningOptional.get().getWritingCpltNo() != 0) {
-                            isLearned = true;
-                        }
-                    }
+                    Learning learning = learningRepository.findByMemberIdAndStoryIdOptional(bookshelf.getId(), member.getId())
+                    .orElseThrow(() -> new IllegalArgumentException("해당 학습 데이터가 존재하지 않습니다."));
 
+                    boolean isLearned = true;
                     Content content1 = contentRepository.findByStoryIdAndLineId(bookshelf.getId(), 1);
                     String imageUrl = content1 != null ? content1.getImageUrl() : null;
 
