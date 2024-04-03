@@ -79,22 +79,15 @@ const BookCover = styled.div`
 
 const BookTitle = styled.div`
   font-size: 2vw;
-  top: -2.6vw;
   left: 2.5vw;
   font-size: 1.4vw;
   overflow: hidden;
   max-height: 5vh;
   word-wrap: break-word;
   width: 11vw;
-  height: 8vh;
   position: relative;
 `;
 const BookAuthor = styled.div`
-  top: 2.9vw;
-  overflow: hidden;
-  font-size: 1.1vw;
-  word-wrap: break-word;
-  position: relative;
 `;
 const PlusImage = styled.img`
   height: 5rem;
@@ -201,7 +194,9 @@ const StudyInfo = styled.div`
   position: absolute;
   color: #fe3838;
   font-size: 1.3rem;
-  margin-bottom: 13vh;
+  bottom: 30%;
+  right: 22%;
+  /* margin-bottom: 13vh; */
 `;
 const CheckMessage = styled.div`
   font-size: 1.5rem;
@@ -465,7 +460,7 @@ const BookshelfPage = () => {
                   /> 
                 )}
                 <BookTitle>{book.title}</BookTitle>
-                <BookAuthor>{book.author}</BookAuthor>
+                <BookAuthor>{book.author} 작가님</BookAuthor>
               </CompletedStory>
             ) : (
               <NotCompletedStory>
