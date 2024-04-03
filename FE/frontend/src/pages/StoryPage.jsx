@@ -461,12 +461,13 @@ let convUser = [
 
 
 const StoryPage = () => {
+	const regex = /^[ㄱ-ㅎ가-힣0-9.,?'"!~|{\}/\n\t\"\']+$/;
 	const navigate = useNavigate();
 	const storyIdRef = useRef(0);
 	const quillNum = useRef(5);
 	const [ql, setql] = useState(5);
 	const params = useParams();
-	console.log(params.story_id);
+	// console.log(params.story_id);
 	const userInfo = useUserStore(state => state.userInfo);
 	// const userimg = `../assets/user/${userInfo.profileImage}`; 
 	const userimg = `../assets/user/profile_cat.png`; 
@@ -480,7 +481,7 @@ const StoryPage = () => {
 	const [messages, setMessages] = useState([
 		
 	]);
-	useEffect(() => {console.log("유즈이펙트")}, [quillNum.current]);
+	// useEffect(() => {console.log("유즈이펙트")}, [quillNum.current]);
 	useEffect(() => {setstoryId(storyIdRef.current)}, [storyIdRef]);
 	useEffect(() => {
 		const fetchData = async () => {
@@ -508,12 +509,12 @@ const StoryPage = () => {
 										"translatedsentence": msg.translatedSentence,
 					 }}))
 				} catch (error) {
-					console.log('데이터로드실패', error);
+					// console.log('데이터로드실패', error);
 				}
 			}
 		};
 		fetchData();
-		console.log("이어 작성하기.");
+		// console.log("이어 작성하기.");
 	}, []);
 
 	const translateChat = async (input) => {
@@ -594,7 +595,7 @@ const StoryPage = () => {
 		convUser.push({role: "user", content: input})
 		// console.log(quillNum)
 		// if (quillNum === 0) { 
-		if (quillNum.current === 0) { 
+		if (quillNum.current === 0 || ql === 0) { 
 			convUser = [{role: "assistant", content: "이 동화를 공백포함 80자 이내로 마무리 해줘 "}, ... convUser]
 		}
 		const completionUser = await openaiUser.chat.completions.create({
@@ -612,7 +613,7 @@ const StoryPage = () => {
 
 	const writeGptStory = async (input) => {
 		const gptResponse = await chatWithGpt(input);
-		console.log("gpt의 대답:", gptResponse)
+		// console.log("gpt의 대답:", gptResponse)
 		const translatedSentence = await translateChat(gptResponse);
 		const imageDescription = await descriptChat(gptResponse);
 		const lineId = (6 - quillNum.current) * 2 - 2;
@@ -683,21 +684,21 @@ const StoryPage = () => {
 									}
 								]
 					);
-		console.log("메세지: ", messages);	
+		// console.log("메세지: ", messages);	
 	userInputRef.current.focus();
 	}
 	
 
 	const writeStory = async () => {		
-		if (!isWriting.current && quillNum.current) {
+		if (!isWriting.current && quillNum.current > 0 && ql > 0) {
 		userInputRef.current.disabled = true;
 		isWriting.current = true;
 		buttonRef.current = true;
 		const lineId = (6 - quillNum.current) * 2 - 1;
-		console.log("입력메세지: ", inputUser)
+		// console.log("입력메세지: ", inputUser)
 		const translatedSentence = await translateChat(inputUser);
 		const imageDescription = await descriptChat(inputUser);
-		console.log(translatedSentence)
+		// console.log(translatedSentence)
 		
 		const newUserMessage = { // 형찬 추가 코드
 			storyId: storyIdRef.current,
@@ -782,14 +783,14 @@ const StoryPage = () => {
 		userInputRef.current.focus();
 		setInputUser("");
 		// if (quillNum > 0) {
-		if (quillNum.current > 0) {
+		if (quillNum.current > 0 && ql > 0) {
 			// setQuillNum(quillNum - 1);
 			quillNum.current--;
 			setql(ql - 1);
-			console.log("현재 퀼넘:", quillNum.current);
+			// console.log("현재 퀼넘:", quillNum.current);
 		}
 		else {
-			console.log(messages);
+			// console.log(messages);
 		}
 
 		await writeGptStory(inputUser);
@@ -941,17 +942,18 @@ const StoryPage = () => {
 
 
 	
-
+	
 	const [inputUser, setInputUser] = useState("");
 	const [inputLength, setInputLength] = useState(0);
 	const userInputRef = useRef();
 	const buttonRef = useRef(false);
+	const [isWitten, setIsWritten] = useState(false);
 	useEffect(() => {scrollBoxRef.current.scrollTop = scrollBoxRef.current.scrollHeight;
 					userInputRef.current.focus();}, [messages]);
 	// useEffect(() => {setConvUser([...convUser,{role: "user", content: input}])}, [inputUser]);
 	// useEffect(() => console.log("정열맨"), [inputUser]);
 	const CheckLength = (e) => {
-		if (inputLength > 100) {
+		if (inputLength >= 100) {
 			e.target.value = e.target.value.slice(0, 100);
 			setInputUser(e.target.value)
 			setInputLength(e.target.value.length);
@@ -963,7 +965,12 @@ const StoryPage = () => {
 	const handleOnKeyDown = (e) => {
 		if (e.keyCode === 13) {
 			e.preventDefault();
-			beforeWriteStory();
+			if (userInputRef.current.value.length) {
+				beforeWriteStory();
+			} else {
+				setTestModal2(()=>true)
+				// console.log("입력의 길이:",userInputRef.current.value.length)
+			}			
 		}
 	}
 	const handleOnKeyDown2 = async (e) => {
@@ -978,9 +985,9 @@ const StoryPage = () => {
 	const finale = async () => {
 		const finale2 = async () => {
 			const xxx = await summaryStory(messages);
-			console.log("xxx", xxx);
-			console.log("새제목:",storyTitleRef.current.value);
-			console.log("아이디:", storyIdRef.current);
+			// console.log("xxx", xxx);
+			// console.log("새제목:",storyTitleRef.current.value);
+			// console.log("아이디:", storyIdRef.current);
 			const titleSummary = async () => { 
 				try { 
 					const openStateValue = isPrivate ? "PRIVATE" : (isPublic ? "PUBLIC" : "PRIVATE");
@@ -1027,6 +1034,7 @@ const StoryPage = () => {
 	// 	setIsModalOpen(false);
 	// };
 	const [testModal, setTestModal] = useState(false);
+	const [testModal2, setTestModal2] = useState(false);
 	const storyTitleRef = useRef();
 	const [isPrivate, setIsPrivate] = useState(true);
 	const [isPublic, setIsPublic] = useState(false);
@@ -1075,8 +1083,8 @@ const StoryPage = () => {
 					<StoryInput>
 						{/* <Sentence2 className={`${ userInputRef.current.disabled ? "writingstyle":""}`}> */}
 						{/* <Sentence2 className={`${ isWriting.current ? "writingstyle":"", quillNum.current?"":"stopwrite" }`}> */}
-						<Sentence2 className={`${ isWriting.current ? "writingstyle":""} ${quillNum.current?"":"stopwrite"}`}>
-							<UserInput className={`${quillNum.current?"":"stopwrite"}`} onChange={CheckLength} ref={userInputRef} onKeyDown={handleOnKeyDown}></UserInput>
+						<Sentence2 className={`${ isWriting.current ? "writingstyle":""} ${quillNum.current > 0 && ql > 0?"":"stopwrite"}`}>
+							<UserInput className={`${quillNum.current > 0 && ql > 0?"":"stopwrite"}`} onChange={CheckLength} ref={userInputRef} onKeyDown={handleOnKeyDown}></UserInput>
 						</Sentence2>
 						{/* <Capa style={{color: inputLength > 100 ? "red" : "black"}} ref={capaRef}>{inputLength}</Capa> */}
 						<Capa>{inputLength}</Capa>
@@ -1088,7 +1096,7 @@ const StoryPage = () => {
 							<QuillNum>{ql}</QuillNum>
 						</Quill>
 						{/* <WriteBtn onClick={writeStory} ref={buttonRef} className={`${ isWriting.current ? "writingstyle":""}`}>작성</WriteBtn> */}
-						<WriteBtn className={`${ isWriting.current? "writingstyle":"", quillNum.current?"":"stopwrite"}`} ref={buttonRef} onClick={beforeWriteStory}>작성</WriteBtn>
+						<WriteBtn className={`${ isWriting.current? "writingstyle":"", quillNum.current > 0 && ql > 0?"":"stopwrite"}`} ref={buttonRef} onClick={()=>{userInputRef.current.value.length ? beforeWriteStory() : setTestModal2(()=>true)}}>작성</WriteBtn>
 					</MiniBox>
 					{/* <ModalCloseButton onClick={() => setTestModal(true)}>모달열기</ModalCloseButton> */}
 				</StoryInputBox>
@@ -1098,7 +1106,8 @@ const StoryPage = () => {
 			{/* <StoryNameModal isOpen={testModal} onClose={() => setTestModal(false)}> */}
 				<ModalTitle>동화의 제목을 지어줄래??</ModalTitle>
 				{/* <div src={{closeBtn}} style={{height: '4rem', width: "4rem", backgroundColor: "blue"}} ></div> */}
-				<CloseBtn src={closeBtn} onClick={()=>{console.log("모달끈다"); setTestModal(false)}}></CloseBtn>
+				{/* <CloseBtn src={closeBtn} onClick={()=>{console.log("모달끈다"); setTestModal(false)}}></CloseBtn> */}
+				<CloseBtn src={closeBtn} onClick={()=>{setTestModal(false)}}></CloseBtn>
 				<ModalTextBox>
 					<StoryTitle ref={storyTitleRef} onKeyDown={handleOnKeyDown2} maxLength= '15' />
 				</ModalTextBox>
@@ -1122,8 +1131,15 @@ const StoryPage = () => {
 				{/* <ModalCloseButton onClick={(e) => {console.log("사용자정보:",userInfo); e.stopPropagation()}}>작성</ModalCloseButton> */}
 				<ModalCloseButton onClick={(e) =>{finale() ;{e.stopPropagation()}}}>완료</ModalCloseButton>
 			</StoryNameModal>
+			<StoryNameModal isOpen={testModal2} onClose={(e) => {setTestModal(false); e.stopPropagation()}}>
+			<ModalTitle>끼리코는 너의 이야기를 듣고싶어..</ModalTitle>
+				{/* <div src={{closeBtn}} style={{height: '4rem', width: "4rem", backgroundColor: "blue"}} ></div> */}
+				{/* <CloseBtn src={closeBtn} onClick={()=>{console.log("모달끈다"); setTestModal(false)}}></CloseBtn> */}
+				<CloseBtn src={closeBtn} onClick={()=>{setTestModal2(false)}}></CloseBtn>
+				<img src={gptimg} style={{width: "10rem", height: "10rem"}}></img>
+			</StoryNameModal>
 			{/* <SendBtn className={`${ quillNum.current?"":"writingstyle"}`} onClick={sendStory}>{quillNum.current?"이야기 계속하기":"이야기 작성하기"}</SendBtn> */}
-			<SendBtn className={`${ quillNum.current?"":"writingstyle"}`} onClick={() => setTestModal(true)}>{quillNum.current?"이야기 계속하기":"이야기 작성하기"}</SendBtn>
+			<SendBtn className={`${ quillNum.current > 0 && ql > 0?"":"writingstyle"}`} onClick={() => setTestModal(true)}>{quillNum.current > 0 && ql > 0?"이야기 계속하기":"책으로 만들기"}</SendBtn>
 		</Background>
   );
 };
