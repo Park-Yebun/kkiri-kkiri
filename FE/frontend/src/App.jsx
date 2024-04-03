@@ -42,7 +42,7 @@ function App() {
             <Route path="/Storybook/:story-id" element={<StorybookPage/>} />
             <Route path="/bookshelf" element={<BookshelfPage />} />
             <Route path="/test" element={<Test />} />
-            <Route path="/study-write" element={<WritingStudyPage />} />
+            <Route path="/study-write/:story-id" element={<WritingStudyPage />} />
             <Route path="/study-speak" element={<SpeakingStudyPage />} />
           </Route>
         <Route path="*" element={<ErrorPage />} />

@@ -1,8 +1,17 @@
 import styled from 'styled-components';
 import Background from '../components/common/Background';
 import background from '../assets/study/backimgstudy.jpg';
+import backgroundBook from '../assets/study/backimagestudybook.png';
 import { useState, useRef, useEffect } from 'react';
 import * as iink from 'iink-ts';
+import MaleImg from '../assets/book/boy.png'
+import FemaleImg from '../assets/book/girl.png'
+import arrowLeftImg from '../assets/book/arrow_left1.png'
+import arrowRightImg from '../assets/book/arrow_right.png'
+import useUserStore from "../components/Counter/UserStore";
+import { useParams } from 'react-router-dom';
+
+
 // import x from "openai";
 const StudyContainer = styled.div`
     width: 80%;
@@ -10,21 +19,33 @@ const StudyContainer = styled.div`
     position: absolute;
     top: 15%;
     border-radius: 2rem;
-    background-color: #FFF7E7;
+    // background-color: #FFF7E7;
+    background-image: url(${backgroundBook});
+    background-size: cover;
     box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
 `
 
 const WriteTest = styled.div`
+    position : relative;
+
+    right : 3.1rem;
+    top : 3rem;
+
+    z-index: 1;
 `
 const Result = styled.div`
-    min-height: 100px;
-    max-height: 100px;
+    border  : 1px solid darkgray;
+    border-radius : 1rem;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: auto;
     width: 100%;
     text-align: center;
+    background-color : #ffffff;
 `
 
 const Nav = styled.nav`
@@ -101,43 +122,196 @@ const NavButton = styled.button`
 `
 const SketchBook = styled.div`
     background-color: pink;
-    width: 600px;
-    height: 300px;
+    width: 430px;
+    height: 265px;
 `
-const Study = styled.div`
-  width : 100px;
-  height : 50px;
-  background-color : blue;
+
+const LeftPage = styled.div`
+    width: 50%;
 `
-const Btn = styled.div`
-  width : 5rem;
-  height : 5rem;
-  background-color : blue;
+
+const RightPage = styled.div``
+
+const Page = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.3rem;
+    padding: 20px;
+    margin-top: 30px;
 `
+
+const BookTitle = styled.div`
+    margin-top : 1rem;
+    margin-right : 1rem;
+    font-size: 2rem;
+
+`
+
+const BookImage = styled.img`
+  margin-top : 1rem;
+  width: 21rem;
+  height: 19rem;
+  visibility: ${(props) => {if(props.disabled) {return "visible"} else {return "hidden"}}};
+`
+
+const BookContent = styled.div`
+  position : relative;
+  top : 2rem;
+  /* left : 0.9rem; */
+  font-size : 1.4rem;
+  width : 27rem;
+  height : 7rem;
+  /* background-color : yellow; */
+  overflow: auto; 
+  line-height: 1.3;
+   &::-webkit-scrollbar {
+        width: 1rem; 
+    }
+    &::-webkit-scrollbar-track {
+    background:  rgba(79, 79, 79, 0.9);
+    border-radius: 10px; 
+    }
+
+    &::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 1rem;
+    }
+`
+
+const BtnContainer = styled.div`
+    display: flex;
+    position: absolute;
+    justify-content: space-between;
+    top: 50%;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    z-index: 2;
+`
+
+const PrevBtn = styled.img`
+    width: 3rem;
+    height: 3rem;
+    /* border: 1px solid black; */
+    // position: relative;
+    left: 20px;
+    pointer-events: auto;
+`
+
+const NextBtn = styled.img`
+    width: 3rem;
+    height: 3rem;
+    /* border: 1px solid black; */
+    // position: relative;
+    right: 20px;
+    pointer-events: auto;
+`
+
+const QuizSentence = styled.div`
+  position : relative;
+  top : 6rem;
+  right : 2.7rem;
+  font-size : 1.4rem;
+  width : 27rem;
+  height : 16%;
+  overflow: auto; 
+  line-height: 1.2;
+  overflow-wrap: break-word;
+   &::-webkit-scrollbar {
+        width: 1rem; 
+    }
+
+    &::-webkit-scrollbar-track {
+    background:  rgba(79, 79, 79, 0.9);
+    border-radius: 10px; 
+    }
+
+    &::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 1rem;
+    }
+  
+`
+const Header = styled.div`
+  display : flex;
+  justify-content : space-between;
+
+`
+const Voice = styled.div`
+  display : flex;
+  width : 10rem;
+  height : 4.2rem;
+  background-color : lightcoral;
+  opacity : 75%;
+  border-radius : 1.5rem;
+  display : flex;
+  justify-content : space-evenly;
+  align-items : center;
+
+`
+const MaleVoice = styled.img`
+    width : 3.5rem;
+    height : 3.5rem;
+    cursor: pointer;
+  
+`
+const FemaleVoice= styled.img`
+   width : 3.5rem;
+  height :  3.5rem;
+  cursor: pointer;
+`
+
+const OrgWords = styled.span`
+  margin-right: 15px;
+  display: inline-block;
+  background-color: ${(props) => {
+    if (props.valid) {
+      return "black";
+    }
+  }};
+`
+
 
 const StudyPage = () => {
-	const editorRef = useRef(null);
-	const resultRef = useRef();
-	const clearRef = useRef();
-	const undoRef = useRef();
-	const redoRef = useRef();
-  const [studyData, setStudyData] = useState({})
-  const memberId = 2
-  const storyId = 2
-  const [isopen,setIsOpen] = useState(false);
+  const editorRef = useRef(null);
+  const resultRef = useRef();
+  const clearRef = useRef();
+  const undoRef = useRef();
+  const redoRef = useRef();
+  const [studyData, setStudyData] = useState({});
+  const [pageNumber, setPageNumber] = useState(0);
+  const pageNumberRef = useRef(0);
+  const [selectedVoice, setSelectedVoice] = useState(null);
+  const userInfo = useUserStore((state) => state.userInfo);
+  // const memberId = 37
+  // const storyId = 235
+  const audioRef = useRef(null);
+  const { 'story-id': storyId } = useParams();
+  const [contents, setContents] = useState([]);
+  const [writeWord, setWriteWord] = useState();
+
+  const visibilityImg = useRef([]);
+  const randomWordsREF = useRef([])
+
 
   useEffect(() => {
+    console.log(storyId)
+    console.log(userInfo.id)
     const fetchData = async () => {
         try {
-            const response = await fetch(`https://kkirikkiri.shop/api/learn/${memberId}/${storyId}`, {
+            const response = await fetch(`https://kkirikkiri.shop/api/learn/${userInfo.id}/${storyId}`, {
                 method: 'GET',
                 headers: {
                 'Content-Type': 'application/json',
                 },
             });
             const data = await response.json();
+
             setStudyData(data);
             console.log("데이터 로드 성공!!"); 
+            console.log(data); 
         } catch (error) {
             console.error('데이터로드실패', error);
         }
@@ -145,85 +319,155 @@ const StudyPage = () => {
     fetchData();
 }, []);
 
-	useEffect(() => {
+    useEffect(() => {
+      console.log(studyData)
+      if (Object.keys(studyData).length !== 0) {
+        console.log("나누자!!");
+        let copyStudyData = studyData
+        console.log(copyStudyData.contents[0].orgWords);
+        console.log(copyStudyData);
+        let randomWords = [];
+        for (let i=0; i<10; i++) {
+          copyStudyData.contents[i].orgWords = studyData.contents[i].translatedSentence.split(" ");
+          copyStudyData.contents[i].copyWords = copyStudyData.contents[i].orgWords.map(word => word.replace(".", "").replace(",","")).filter(word => word !== "");
+          copyStudyData.contents[i].RandomNum=Math.floor(Math.random() * copyStudyData.contents[i].copyWords.length);
+          randomWords = [...randomWords, copyStudyData.contents[i].copyWords[copyStudyData.contents[i].RandomNum]];
+        }
+        randomWordsREF.current = randomWords
+        console.log(copyStudyData);
+        setStudyData(copyStudyData);
+        setContents(copyStudyData.contents);
+      }
+    }, [studyData])
 
-		const options = {
-			configuration: {
-				server: {
-					protocol: "WEBSOCKET",
+
+    useEffect(() => {
+        const options = {
+            configuration: {
+                server: {
+                    protocol: "WEBSOCKET",
           scheme: "https",
           host: "cloud.myscript.com",
-					applicationKey: '1a013050-732e-402c-ac76-22fa6453c22f',
-					hmacKey: 'ddf8d6e0-9758-40c3-a518-fe111fe1d606',
-				},
-				recognition: {
-					type: "TEXT",
-					text: {
-						guides: {
-							// enable: false,
-							enable: true,
-						},
-					},
-				},
-			}
-		};
+                    applicationKey: '1a013050-732e-402c-ac76-22fa6453c22f',
+                    hmacKey: 'ddf8d6e0-9758-40c3-a518-fe111fe1d606',
+                },
+                recognition: {
+                    type: "TEXT",
+                    text: {
+                        guides: {
+                            // enable: false,
+                            enable: true,
+                        },
+                    },
+                },
+            }
+        };
+        const editor = new iink.Editor(editorRef.current, options);
+        editor.initialize()
 
-		const editor = new iink.Editor(editorRef.current, options);
-		editor.initialize();
+        editor.events.addEventListener("changed", (event) => {
+            undoRef.disabled = !event.detail.canUndo;
+            redoRef.disabled = !event.detail.canRedo;
+            clearRef.disabled = !event.detail.canClear;
+        });
+        editor.events.addEventListener("exported", (event) => {
+            resultRef.current.innerHTML =
+                event.detail && event.detail["application/vnd.myscript.jiix"]
+                    ? event.detail["application/vnd.myscript.jiix"].label
+                    : "";
+        if (event.detail && event.detail["application/vnd.myscript.jiix"]) {
+            if(randomWordsREF.current[pageNumberRef.current]===event.detail["application/vnd.myscript.jiix"].label) {
+              visibilityImg.current[pageNumberRef.current] = true;
+            }
+            setWriteWord(event.detail["application/vnd.myscript.jiix"].label);
+        }
+        });
+        clearRef.current.addEventListener("click", async () => {
+            await editor.clear();
+        });
+        undoRef.current.addEventListener("click", async () => {
+            await editor.undo();
+        });
+        redoRef.current.addEventListener("click", async () => {
+            await editor.redo();
+        });
 
-		editor.events.addEventListener("changed", (event) => {
-			undoRef.disabled = !event.detail.canUndo;
-			redoRef.disabled = !event.detail.canRedo;
-			clearRef.disabled = !event.detail.canClear;
-		});
-		editor.events.addEventListener("exported", (event) => {
-			resultRef.current.innerHTML =
-				event.detail && event.detail["application/vnd.myscript.jiix"]
-					? event.detail["application/vnd.myscript.jiix"].label
-					: "";
-		if (event.detail && event.detail["application/vnd.myscript.jiix"]) {
-			console.log(event.detail["application/vnd.myscript.jiix"].label);
-		}
-		});
-		clearRef.current.addEventListener("click", async () => {
-			await editor.clear();
-		});
-		undoRef.current.addEventListener("click", async () => {
-			await editor.undo();
-		});
-		redoRef.current.addEventListener("click", async () => {
-			await editor.redo();
-		});
+
+        return () => {
+            // editor.close();
+        };
+    }, []);
+  
+    
+  const turnOnVoice = (voiceUrl) => {
+      console.log('click');
+      console.log('Selected voice URL:', voiceUrl);
+    if (selectedVoice === voiceUrl) {
+      setSelectedVoice(null);
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    } else {
+      setSelectedVoice(voiceUrl);
+      audioRef.current.src = voiceUrl;
+      audioRef.current.play();
+    }
+  };
 
 
-		return () => {
-			// editor.close();
-		};
-	}, []);
-
-  const openAPI = () => {
-    console.log('click')
-     setIsOpen(true);
+  const goPrev = () => {
+    pageNumberRef.current = Math.max(0, pageNumberRef.current - 1);
+    setPageNumber(pageNumberRef.current);
   }
-    //
+
+  const goNext = () => {
+    pageNumberRef.current = Math.min(9, pageNumberRef.current + 1);
+    setPageNumber(pageNumberRef.current);
+  }
+
+
   return (
     <Background backgroundimage={background}>
-      {isopen && (
-        <WriteTest>
-          <Result ref={resultRef}>
-          </Result>
-          <Nav>
-            <NavDiv>
-              <NavButton id='clear' ref={clearRef}></NavButton>
-              <NavButton id='undo' ref={undoRef}></NavButton>
-              <NavButton id='redo' ref={redoRef}></NavButton>
-            </NavDiv>
-          </Nav>
-          <SketchBook ref={editorRef} touch-action={"none"}></SketchBook>
-        </WriteTest>
-      )}
       <StudyContainer>
-        <Btn onClick={openAPI}></Btn>
+        <LeftPage>
+        {studyData.contents && studyData.contents.length > pageNumber && (
+            <Page>
+              <Header>
+                 <BookTitle>{studyData.title}</BookTitle>
+                  <Voice>
+                    <MaleVoice onClick={() => turnOnVoice(studyData.contents[pageNumber].maleVoiceUrl)} src={MaleImg} />
+                    {selectedVoice === studyData.contents[pageNumber].maleVoiceUrl && <audio src={studyData.contents[pageNumber].maleVoiceUrl} autoPlay />}
+                    <FemaleVoice onClick={() => turnOnVoice(studyData.contents[pageNumber].femaleVoiceUrl)}src={FemaleImg} />
+                    {selectedVoice === studyData.contents[pageNumber].femaleVoiceUrl && <audio src={studyData.contents[pageNumber].femaleVoiceUrl} autoPlay />}
+                  </Voice>
+              </Header>
+              <BookImage src={studyData.contents[pageNumber].imageUrl} alt='Book Image' disabled={visibilityImg.current[pageNumber]}></BookImage>
+              <BookContent>{studyData.contents[pageNumber].koreanSentence}</BookContent>
+            </Page>
+        )}
+        </LeftPage>
+        <RightPage>
+          <WriteTest>
+            <Result ref={resultRef}/>
+            <Nav>
+              <NavDiv>
+                <NavButton id='clear' ref={clearRef}></NavButton>
+                <NavButton id='undo' ref={undoRef}></NavButton>
+                <NavButton id='redo' ref={redoRef}></NavButton>
+              </NavDiv>
+            </Nav>
+            <SketchBook ref={editorRef} touch-action={"none"}></SketchBook>
+          </WriteTest>
+          {contents && contents.length > pageNumber && (
+            <QuizSentence>{contents[pageNumber].orgWords.map((item, index) => (
+              <OrgWords key={index} valid={index==contents[pageNumber].RandomNum}>{item}</OrgWords>
+            ))}
+            </QuizSentence>
+          )}
+        </RightPage>
+        <BtnContainer>
+          <PrevBtn src={arrowLeftImg} onClick={goPrev} />
+          <NextBtn src={arrowRightImg} onClick={goNext} />
+        </BtnContainer>
       </StudyContainer>
     </Background>
   );
