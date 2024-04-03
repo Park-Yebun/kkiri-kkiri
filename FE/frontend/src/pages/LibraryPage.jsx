@@ -274,6 +274,7 @@ const PreviewContent = styled.div`
     margin-bottom : 1rem;    
 `
 const ButtonContent = styled.div`
+    flex-direction : column;
     display : flex;
     justify-content : space-between;
     width : 34.693vw;
@@ -335,7 +336,15 @@ const Modal = styled.div`
   color : white; 
 
 `
+const DownloadInfo = styled.div`
+    color : #f26464;
+    
+`
+const BtnArea = styled.div`
+    display : flex;
+    justify-content : space-between;
 
+`
 
 const LibraryPage = () => {
     const [books, setBooks] = useState([]);
@@ -480,6 +489,7 @@ const LibraryPage = () => {
    };
 
    const handleBookClick = (book) => {
+    console.log('선택된 책 ', book)
     setSelectedBook(book);
     openModal();
    };
@@ -628,9 +638,16 @@ const LibraryPage = () => {
                 </PrevTextSector>
             </PreviewContent>
             <ButtonContent>
-                <PrevBtn disabled={selectedBook.mine} onClick={() => collectStory(selectedBook.storyId, userInfo.loginId)}>소장하기</PrevBtn>
-              
-                <PrevBtn onClick={() => goDetail(selectedBook.storyId)}>그림책 보기</PrevBtn>
+                {selectedBook.author === userInfo.nickname ? (
+                    <DownloadInfo>작가님의 책입니다</DownloadInfo>
+                ) : selectedBook.downloaded ? (
+                    <DownloadInfo>이미 소장한 책입니다</DownloadInfo>
+                ) : null}
+                <BtnArea>
+                    <PrevBtn disabled={selectedBook.downloaded || selectedBook.author === userInfo.nickname } onClick={() => collectStory(selectedBook.storyId, userInfo.loginId)}>소장하기</PrevBtn>
+                    <PrevBtn onClick={() => goDetail(selectedBook.storyId)}>그림책 보기</PrevBtn>
+
+                </BtnArea>
             </ButtonContent>
         </>
     )}
