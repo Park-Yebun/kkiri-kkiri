@@ -147,7 +147,7 @@ const PrevTextSector = styled.div`
 const PrevText = styled.div`
   /* overflow : hidden; */
   margin-bottom: ${(props) => props.marginBottom || "0"};
-  margin-top: %;
+  /* margin-top: %; */
   font-weight: 300;
   font-size: ${(props) => props.fontSize || "1.19vw"};
 `;
