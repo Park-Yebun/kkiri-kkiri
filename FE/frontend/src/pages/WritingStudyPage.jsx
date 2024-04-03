@@ -289,7 +289,8 @@ const StudyPage = () => {
   const [writeWord, setWriteWord] = useState();
 
   const visibilityImg = useRef([]);
-  const randomWordsREF = useRef([]);
+  const randomCopyWordsREF = useRef([]);
+  const randomOrgWordsREF = useRef([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -322,22 +323,27 @@ const StudyPage = () => {
       let copyStudyData = studyData;
       console.log(copyStudyData.contents[0].orgWords);
       console.log(copyStudyData);
-      let randomWords = [];
+      let randomCopyWords = [];
+      let randomOrgWords = [];
       for (let i = 0; i < 10; i++) {
         copyStudyData.contents[i].orgWords = studyData.contents[i].translatedSentence.split(" ");
         copyStudyData.contents[i].copyWords = copyStudyData.contents[i].orgWords
-          .map((word) => word.replace(".", "").replace(",", ""))
+          .map((word) => word.replace(/[.,!?`'"]/g, ""))
           .filter((word) => word !== "");
         copyStudyData.contents[i].RandomNum = Math.floor(
           Math.random() * copyStudyData.contents[i].copyWords.length
         );
-        randomWords = [
-          ...randomWords,
+        randomCopyWords = [
+          ...randomCopyWords,
           copyStudyData.contents[i].copyWords[copyStudyData.contents[i].RandomNum],
         ];
+        randomOrgWords = [
+          ...randomOrgWords,
+          copyStudyData.contents[i].orgWords[copyStudyData.contents[i].RandomNum],
+        ];
       }
-      randomWordsREF.current = randomWords;
-      console.log(copyStudyData);
+      randomCopyWordsREF.current = randomCopyWords;
+      randomOrgWordsREF.current = randomOrgWords;
       setStudyData(copyStudyData);
       setContents(copyStudyData.contents);
     }
@@ -379,8 +385,10 @@ const StudyPage = () => {
           : "";
       if (event.detail && event.detail["application/vnd.myscript.jiix"]) {
         if (
-          randomWordsREF.current[pageNumberRef.current].toLowerCase() ===
-          event.detail["application/vnd.myscript.jiix"].label.toLowerCase()
+          randomCopyWordsREF.current[pageNumberRef.current].toLowerCase() ===
+            event.detail["application/vnd.myscript.jiix"].label.toLowerCase().replace(" ", "") ||
+          randomOrgWordsREF.current[pageNumberRef.current].toLowerCase() ===
+            event.detail["application/vnd.myscript.jiix"].label.toLowerCase().replace(" ", "")
         ) {
           visibilityImg.current[pageNumberRef.current] = true;
         }
