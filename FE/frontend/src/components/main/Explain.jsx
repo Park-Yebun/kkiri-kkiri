@@ -13,6 +13,9 @@ import librarybg from '../../assets/main/librarybg.png';
 import storybg2 from '../../assets/main/storybg2.png';
 import bookshelfbg2 from '../../assets/main/bookshelfbg2.png';
 import librarybg2 from '../../assets/main/librarybg2.png';
+import storysound from '../../assets/main/storysound.mp3';
+import bookshelfsound from '../../assets/main/bookshelfsound.mp3';
+import librarysound from '../../assets/main/librarysound.mp3';
 
 const Container = styled.div`
   width: 100%;
@@ -122,6 +125,7 @@ const Thumbnail = styled.div`
 
 const Description = () => {
   const [slideIndex, setSlideIndex] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const slides = [
     { id: 1, 
@@ -135,8 +139,10 @@ const Description = () => {
       animate1: 'animate__animated animate__shakeX animate__infinite animate__slower animate__delay-1s',
       animate2: 'animate__animated animate__shakeX animate__infinite animate__slower',
       backgroundColor :'rgba(255, 242, 216, 0.80)', 
-      explain: '“AI 친구인 끼리코와 함께 한문장씩 번갈아가며\n나만의 이야기를 쓸 수 있어!“'},
-    { id: 2, name:'책장',
+      explain: '“나랑 이야기를 한문장씩 번갈아가면서\n너만의 동화책을 만들 수 있어!“',
+      sound: storysound,
+    },
+      { id: 2, name:'책장',
       img: simplebookshelf, 
       img2: bookshelf, 
       img3: bookshelfbg, 
@@ -146,8 +152,10 @@ const Description = () => {
       animate1: 'animate__animated animate__shakeY animate__infinite animate__slower animate__delay-1s',
       animate2: 'animate__animated animate__shakeY animate__infinite animate__slower',
       backgroundColor :'rgba(230, 255, 218, 0.80)', 
-      explain: '“책장에 가면 네가 쓴 이야기를 확인할 수 있어!\n네가 쓴 이야기를 영어로 공부하면\n그림을 생성해줄게.\n너만의 그림 동화책을 만들어볼래?”'},
-    { id: 3, 
+      explain: '“책장에서 우리가 만든 이야기를 볼 수 있어!\n이야기로 영어 공부를 하면 그림을 그려줄게.\n너만의 동화책을 만들어볼래?”',
+      sound: bookshelfsound,
+    },
+      { id: 3, 
       name:'도서관',
       img: simplelibrary, 
       img2: library, 
@@ -158,8 +166,10 @@ const Description = () => {
       animate1: 'animate__animated animate__heartBeat animate__infinite animate__delay-1s', 
       animate2: 'animate__animated animate__heartBeat animate__infinite',
       backgroundColor :'rgba(223, 228, 255, 0.80)', 
-      explain: '“도서관에 가면 다른 친구들의 동화책을\n읽어볼 수 있고, 친구들이 만든 동화로도\n공부해볼 수 있어!”'},
-  ];
+      explain: '“도서관에 가면 다른 친구들의 동화책을\n읽어볼 수 있고, 친구들이 만든 동화로도\n공부해볼 수 있어!”',
+      sound: librarysound,
+      },
+    ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -175,23 +185,40 @@ const Description = () => {
     setSlideIndex(index);
   };
 
+  const playSound = (sound) => {
+    if (!isPlaying) {
+      const audio = new Audio(sound);
+      audio.play();
+      setIsPlaying(true);
+      audio.onended = () => {
+        setIsPlaying(false);
+      };
+    }
+  };
+
+  const handleSlideBoxClick = (sound) => {
+    if (!isPlaying) {
+      playSound(sound);
+    }
+  };
+
   return (
     <Container>
       <ThumbnailBox>
         {slides.map((slide) => (
           <Thumbnail
-            key={slide.id}
-            className={slide.id === slideIndex ? 'active' : ''}
-            onClick={() => moveDot(slide.id)}>
-            {slide.id === slideIndex ? (
-              <Name>{slide.name}</Name>
-            ) : (  
-              <Photo src={slide.img} alt={`Thumbnail for ${slide.explain}`} />
-            )}
-          </Thumbnail>
+          key={slide.id}
+          className={slide.id === slideIndex ? 'active' : ''}
+          onClick={() => moveDot(slide.id)}>
+          {slide.id === slideIndex ? (
+            <Name>{slide.name}</Name>
+          ) : (  
+            <Photo src={slide.img} alt={`Thumbnail for ${slide.explain}`} />
+          )}
+        </Thumbnail>
         ))}
       </ThumbnailBox>
-      <SlideBox>
+      <SlideBox onClick={() => handleSlideBoxClick(slides[slideIndex - 1].sound)}>
         {slides.map((slide) => (
           <Slide
             key={slide.id}
