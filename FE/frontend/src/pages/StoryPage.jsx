@@ -14,7 +14,7 @@ import { useParams } from 'react-router-dom';
 import { color } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import closeBtn from '../assets/library/clear.png'
-
+import LoadingModal from '../components/Modal/StoryLoadingModal.jsx'
 
 const CloseBtn = styled.img`
 	position: fixed;
@@ -476,6 +476,7 @@ const StoryPage = () => {
 	const openaiUser = new OpenAI({apiKey: "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", dangerouslyAllowBrowser: true});
 	const isWriting = useRef(false);
 	const scrollBoxRef = useRef();
+	const [isLoading, setIsLoading] = useState(false);
 	const [messages, setMessages] = useState([
 		
 	]);
@@ -799,80 +800,144 @@ const StoryPage = () => {
 		
 	}
 
-	
-
 	const beforeWriteStory = async () => {
-		const getStoryId = async (paramsStoryId) => {
-			if (paramsStoryId) {	// 이어서 작성할 때
-				const fetchData = async () => {
-					try{
-						storyIdRef.current = paramsStoryId;
-						const response = await fetch(`https://kkirikkiri.shop/api/books/${params.story_id}`, {
-							method: 'GET',
-							headers: {
-							'Content-Type': 'application/json',
-							},
-						});
-						setstoryId(paramsStoryId);  
-						// storyIdRef.current = params.story_id;                                               
-						const data = await response.json();
-						// console.log(data.contents.length)
-						setql(5 - parseInt(data.contents.length / 2));
-						// quillNum.current = 5 - parseInt(data.contents.length / 2);
-						// console.log("작성가능횟수",quillNum.current);
-						// console.log(data.contents);
-										setMessages(data.contents.map((msg) => {return {
-											"storyId": msg.storyId,
-											"lineId": msg.lineId,
-											"koreanSentence": msg.koreanSentence,
-											"translatedsentence": msg.translatedSentence,
-						 }}))
-					} catch (error) {
-						console.log('데이터로드실패', error);
-					}
-				};
-				fetchData();
-				console.log("이어 작성하기.");
-			} else {	// 처음 작성할 때
-				// console.log("아마여기서문제가발생할것")
-				const fetchStoryData = async () => {
-					try{
-						const response = await fetch(`https://kkirikkiri.shop/api/books`, {
-							method: "POST",
-							headers: {
-								"Content-Type": "application/json",
+		setIsLoading(true); // 로딩 시작
+		try {
+			const getStoryId = async (paramsStoryId) => {
+				if (paramsStoryId) { // 이어서 작성할 때
+					const fetchData = async () => {
+						try {
+							storyIdRef.current = paramsStoryId;
+							const response = await fetch(`https://kkirikkiri.shop/api/books/${params.story_id}`, {
+								method: 'GET',
+								headers: {
+									'Content-Type': 'application/json',
 								},
-							body: JSON.stringify(
-								{ 
-								"loginId": userInfo.loginId,
-								"title": "",
-								"openState": "PUBLIC",
-								"summary": ""
+							});
+							const data = await response.json();
+							setstoryId(paramsStoryId);  
+							setql(5 - parseInt(data.contents.length / 2));
+							setMessages(data.contents.map((msg) => {
+								return {
+									"storyId": msg.storyId,
+									"lineId": msg.lineId,
+									"koreanSentence": msg.koreanSentence,
+									"translatedsentence": msg.translatedSentence,
 								}
-							)		
-						})
-						const localStoryId = await response.json()
-						console.log("로컬스토리ID:", localStoryId)
-						storyIdRef.current = localStoryId
-						// setstoryId(localStoryId)
-						console.log("바뀐값", localStoryId)
-						// storyIdRef.current = localStoryId
-					} catch (error) {
-				console.error('에러발생', error);
+							}));
+						} catch (error) {
+							console.error('데이터로드실패', error);
+						}
+					};
+					fetchData();
+				} else { // 처음 작성할 때
+					const fetchStoryData = async () => {
+						try {
+							const response = await fetch(`https://kkirikkiri.shop/api/books`, {
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json",
+								},
+								body: JSON.stringify({
+									"loginId": userInfo.loginId,
+									"title": "",
+									"openState": "PUBLIC",
+									"summary": ""
+								})    
+							});
+							const localStoryId = await response.json();
+							storyIdRef.current = localStoryId;
+						} catch (error) {
+							console.error('에러발생', error);
+						}
+					};
+					fetchStoryData();
 				}
+			};
+	
+			if (quillNum.current === 5) {
+				await getStoryId(parseInt(params.story_id));
 			}
-			fetchStoryData();
-			}
-		}
-		if (quillNum.current === 5 ) {
-			const promiseStoryId = await getStoryId(parseInt(params.story_id))
-			// console.log("858", promiseStoryId)
-			// promiseStoryId.then(()=> writeStory())
 			await writeStory();
-		} else {
-			await writeStory();
+		} catch (error) {
+			console.error("beforeWriteStory error:", error);
+		} finally {
+			setIsLoading(false); // 로딩 종료
 		}
-	}
+	};
+
+	// const beforeWriteStory = async () => {
+	// 	const getStoryId = async (paramsStoryId) => {
+	// 		if (paramsStoryId) {	// 이어서 작성할 때
+	// 			const fetchData = async () => {
+	// 				try{
+	// 					storyIdRef.current = paramsStoryId;
+	// 					const response = await fetch(`https://kkirikkiri.shop/api/books/${params.story_id}`, {
+	// 						method: 'GET',
+	// 						headers: {
+	// 						'Content-Type': 'application/json',
+	// 						},
+	// 					});
+	// 					setstoryId(paramsStoryId);  
+	// 					// storyIdRef.current = params.story_id;                                               
+	// 					const data = await response.json();
+	// 					// console.log(data.contents.length)
+	// 					setql(5 - parseInt(data.contents.length / 2));
+	// 					// quillNum.current = 5 - parseInt(data.contents.length / 2);
+	// 					// console.log("작성가능횟수",quillNum.current);
+	// 					// console.log(data.contents);
+	// 									setMessages(data.contents.map((msg) => {return {
+	// 										"storyId": msg.storyId,
+	// 										"lineId": msg.lineId,
+	// 										"koreanSentence": msg.koreanSentence,
+	// 										"translatedsentence": msg.translatedSentence,
+	// 					 }}))
+	// 				} catch (error) {
+	// 					console.log('데이터로드실패', error);
+	// 				}
+	// 			};
+	// 			fetchData();
+	// 			console.log("이어 작성하기.");
+	// 		} else {	// 처음 작성할 때
+	// 			// console.log("아마여기서문제가발생할것")
+	// 			const fetchStoryData = async () => {
+	// 				try{
+	// 					const response = await fetch(`https://kkirikkiri.shop/api/books`, {
+	// 						method: "POST",
+	// 						headers: {
+	// 							"Content-Type": "application/json",
+	// 							},
+	// 						body: JSON.stringify(
+	// 							{ 
+	// 							"loginId": userInfo.loginId,
+	// 							"title": "",
+	// 							"openState": "PUBLIC",
+	// 							"summary": ""
+	// 							}
+	// 						)		
+	// 					})
+	// 					const localStoryId = await response.json()
+	// 					console.log("로컬스토리ID:", localStoryId)
+	// 					storyIdRef.current = localStoryId
+	// 					// setstoryId(localStoryId)
+	// 					console.log("바뀐값", localStoryId)
+	// 					// storyIdRef.current = localStoryId
+	// 				} catch (error) {
+	// 			console.error('에러발생', error);
+	// 			}
+	// 		}
+	// 		fetchStoryData();
+	// 		}
+	// 	}
+	// 	if (quillNum.current === 5 ) {
+	// 		const promiseStoryId = await getStoryId(parseInt(params.story_id))
+	// 		// console.log("858", promiseStoryId)
+	// 		// promiseStoryId.then(()=> writeStory())
+	// 		await writeStory();
+	// 	} else {
+	// 		await writeStory();
+	// 	}
+	// }
 
 
 	
@@ -980,6 +1045,9 @@ const StoryPage = () => {
 
   return (
 		<Background backgroundimage={background}>
+			{isLoading && (
+					<LoadingModal isOpen={isLoading} />
+				)}
 			<StoryContainer>
 				<StoryTitlebox>
 					<StoryTitleText>{userInfo.nickname} & 끼리코가 만드는 이야기</StoryTitleText>
