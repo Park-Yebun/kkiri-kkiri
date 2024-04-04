@@ -36,13 +36,13 @@
 
 ## 🚀 기능
 1. 회원가입 및 로그인 <br>
-![끼리끼리](./readme_resources/login.gif)
+![끼리끼리](./exec/login.gif)
 2. 끼리코의 귀여운 메인 페이지: 스토리 만들기, 내 책장, 도서관 메뉴 <br>
-![끼리끼리](./readme_resources/main.gif)
+![끼리끼리](./exec/main.gif)
 3. 끼리코랑 동화책 만들기 <br>
-![끼리끼리](./readme_resources/create.gif)
+![끼리끼리](./exec/create.gif)
 4. 내가 만든 동화책 보기 & Clova API를 활용한 듣기 학습 기능 <br>
-![끼리끼리](./readme_resources/book.gif)
+![끼리끼리](./exec/book.gif)
 
 5. 내가 생성한 동화를 공유하고, 다른 유저가 생성한 동화를 학습할 수 있는 도서관 서비스 <br>
 
