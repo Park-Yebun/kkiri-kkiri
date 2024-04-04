@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'MyCustomFont';
+  src: url('/fonts/MainFontOTF.otf') format('opentype'); /* OTF 폰트 포맷 */
+}
+
+body {
+  font-family : 'Ttangsbudaejjigae OTF';
+  touch-action: manipulation;
+  overflow: hidden;
+}
