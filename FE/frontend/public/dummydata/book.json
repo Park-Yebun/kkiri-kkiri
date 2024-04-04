@@ -1,0 +1,66 @@
+{
+  "title": "아기 포도의 여행",
+  "author": "왕가",
+  "pages": [
+    {
+      "page": 1,
+      "contentkr": "아기 포도가 태어났어요.",
+      "contenten": "Baby grapes were born",
+      "image": "../book/1.png"
+    },
+    {
+      "page": 2,
+      "contentkr": "아기 포도는 멋진 포도가 되고 싶었어요.",
+      "contenten": "Baby grapes wanted to be nice grapes",
+      "image": "../book/2.png"
+    },
+    {
+      "page": 3,
+      "contentkr": "그래서 여행을 떠나기로 했어요",
+      "contenten": "So he decided to go on a trip",
+      "image": "../book/3.png"
+    },
+    {
+      "page": 4,
+      "contentkr": "물도 맞고",
+      "contenten": "He got wet",
+      "image": "../book/4.png"
+    },
+    {
+      "page": 5,
+      "contentkr": "햇빛도 맞았어요.",
+      "contenten": "He got some sunlight",
+      "image": "../book/5.png"
+    },
+    {
+      "page": 6,
+      "contentkr": "점점 멋진 포도로 자랐어요.",
+      "contenten": "He grew into a wonderful grape",
+      "image": "../book/6.png"
+    },
+    {
+      "page": 7,
+      "contentkr": "새도 만나고",
+      "contenten": "He met birds",
+      "image": "../book/7.png"
+    },
+    {
+      "page": 8,
+      "contentkr": "다른 과일 친구들도 생겼어요.",
+      "contenten": "He made other fruit friends",
+      "image": "../book/8.png"
+    },
+    {
+      "page": 9,
+      "contentkr": "사람을 만나게 되어서",
+      "contenten": "He met people",
+      "image": "../book/9.png"
+    },
+    {
+      "page": 10,
+      "contentkr": "멋진 탕후루가 되었어요.",
+      "contenten": "He became a wonderful Tanghulu",
+      "image": "../book/10.png"
+    }
+  ]
+}
