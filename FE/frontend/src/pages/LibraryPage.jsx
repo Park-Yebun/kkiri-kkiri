@@ -515,6 +515,30 @@ const LibraryPage = () => {
                 });
                 if (response.ok) {
                     console.log('내 책장에 추가되었습니다.');
+
+
+                    const makeLearnedData = async () => {
+                        const makeLearnedData1 = async () => {
+                          try {
+                            const response = await fetch(`https://kkirikkiri.shop/api/learn`, {
+                              method: "POST",
+                              headers: {
+                                "Content-Type": "application/json",
+                              },
+                              body: JSON.stringify({
+                                storyId: storyId,
+                                memberId: userInfo.id,
+                              }),
+                            });
+                          } catch (error) {
+                            console.log("에러발생", error);
+                          }
+                        };
+                        await makeLearnedData1();
+                      };
+                      await makeLearnedData();
+
+
                     navigate('/bookshelf')
                   } else {
                     console.error('요청이 실패했습니다.', error.message);
@@ -523,7 +547,8 @@ const LibraryPage = () => {
                   }
             } catch (error) {
                 console.error(error);
-                }
+            }
+
     } else {
     
     }
