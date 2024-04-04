@@ -286,6 +286,7 @@ const BookshelfPage = () => {
         );
         const data = await response.json();
         data.forEach((book) => {
+          book.isLearned = true;
           setBooks((books) => [...books, book]);
         });
         console.log(data);
@@ -321,7 +322,7 @@ const BookshelfPage = () => {
   }, []);
 
   const handleBookClick = (book) => {
-    if (book.isCompleted) {
+    if (book.isCompleted || book.isLearned) {
       //이야기 완성된 경우
       setSelectedBook(book);
       setInfoModalOpen(true);
@@ -451,12 +452,12 @@ const BookshelfPage = () => {
         </NewBookCover>
         {books.map((book, index) => (
           <BookCover
-            isCompleted={book.isCompleted}
+            isCompleted={book.isCompleted || book.isLearned }
             key={index}
             onClick={() => handleBookClick(book)}
             shouldVibrate={showRemoveIcon}
           >
-            {book.isCompleted ? (
+            {book.isCompleted || book.isLearned ? (
               <CompletedStory>
                 {showRemoveIcon && (
                   <RemoveBookshelf
