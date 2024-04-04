@@ -416,7 +416,7 @@ const StudyPage = () => {
     });
 
     return () => {
-      editor.close();
+      // editor.close();
     };
   }, []);
 
